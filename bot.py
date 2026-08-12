@@ -2,7 +2,7 @@ import os
 import requests
 import random
 import string
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, jsonify
 
 TOKEN = "8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg"
 MY_ADMIN_ID = 5773841673
@@ -26,31 +26,44 @@ def home():
 def web_start():
     hwid = request.args.get('hwid', '')
     if hwid:
-        msg = f"🚨 **Запрос ключа от игрока!**\nHWID: `{hwid}`\n\nСоздатель: `vtmin7`"
+        # Проверяем текущий статус для сообщения администратору
+        if hwid in DATABASE["banned"]:
+            status_text = "🔴 (Забанен)"
+        elif hwid in DATABASE["active_users"]:
+            status_text = f"🟢 (Активен: {DATABASE['active_users'][hwid]} дн.)"
+        else:
+            status_text = "⚪ (Нет подписки)"
+
+        msg = f"🚨 **Запрос ключа от игрока!**\nHWID: `{hwid}`\nСтатус: {status_text}\n\nСоздатель: `vtmin7`"
         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
         requests.post(url, json={"chat_id": MY_ADMIN_ID, "text": msg, "parse_mode": "Markdown"})
     return redirect(f"https://t.me/{BOT_USERNAME}?start={hwid}")
 
-# Проверка ключа из игры
+# Проверка ключа и фоновый пинг из игры
 @app.route('/verify', methods=['GET'])
 def verify_key():
     hwid = request.args.get('hwid', '')
     key = request.args.get('key', '').strip()
     
+    # Если HWID в бане, возвращаем точный статус banned для мгновенного отключения в скрипте
     if hwid in DATABASE["banned"]:
-        return {"status": "error", "message": "Ваш HWID заблокирован!"}
+        return jsonify({"status": "banned", "message": "Ваш HWID заблокирован!"})
 
     if key in DATABASE["keys"]:
         days = DATABASE["keys"][key]
         del DATABASE["keys"][key]  # Ключ сгорает после использования
         DATABASE["active_users"][hwid] = days
-        return {"status": "success", "message": f"Активировано на {days} дней!"}
+        return jsonify({"status": "success", "message": f"Активировано на {days} дней!"})
     
+    # Фоновая проверка пинга (когда скрипт стучится с ключом PING_CHECK)
+    if key == "PING_CHECK" and hwid in DATABASE["active_users"]:
+        return jsonify({"status": "success", "message": "Active"})
+
     # Тестовый/запасной ключ
     if key == "LELYA-3M6UOB":
-        return {"status": "success", "message": "Активировано!"}
+        return jsonify({"status": "success", "message": "Активировано!"})
 
-    return {"status": "error", "message": "Неверный или уже использованный ключ!"}
+    return jsonify({"status": "error", "message": "Неверный или уже использованный ключ!"})
 
 # Обработка команд от тебя в Telegram
 @app.route('/webhook', methods=['POST'])
@@ -90,7 +103,7 @@ def telegram_webhook():
                 DATABASE["banned"].add(hwid)
                 if hwid in DATABASE["active_users"]:
                     del DATABASE["active_users"][hwid]
-                send_telegram_msg(chat_id, f"🔨 HWID `{hwid}` заблокирован.", parse_mode="Markdown")
+                send_telegram_msg(chat_id, f"🔨 HWID `{hwid}` заблокирован. 🔴 Статус обновлен, скрипт игрока отключится автоматически.", parse_mode="Markdown")
             else:
                 send_telegram_msg(chat_id, "Укажи HWID. Пример: `/ban HWID-XXXX`", parse_mode="Markdown")
 
@@ -100,7 +113,7 @@ def telegram_webhook():
                 hwid = parts[1]
                 if hwid in DATABASE["banned"]:
                     DATABASE["banned"].remove(hwid)
-                    send_telegram_msg(chat_id, f"✅ HWID `{hwid}` разбанен.", parse_mode="Markdown")
+                    send_telegram_msg(chat_id, f"✅ HWID `{hwid}` разбанен. 🟢 Статус изменен.", parse_mode="Markdown")
                 else:
                     send_telegram_msg(chat_id, "⚠️ Этот HWID не найден в списке забаненных.")
             else:
@@ -111,19 +124,19 @@ def telegram_webhook():
             if len(parts) > 1:
                 hwid = parts[1]
                 if hwid in DATABASE["banned"]:
-                    status = "🔴 Забанен"
+                    status = "🔴 Статус: Забанен"
                 elif hwid in DATABASE["active_users"]:
                     days_left = DATABASE["active_users"][hwid]
-                    status = f"🟢 Активен (дней: {days_left})"
+                    status = f"🟢 Статус: Активен (осталось дней: {days_left})"
                 else:
-                    status = "⚪ Нет активной подписки"
+                    status = "⚪ Статус: Нет активной подписки"
                 
-                send_telegram_msg(chat_id, f"ℹ️ Статус HWID `{hwid}`:\n{status}", parse_mode="Markdown")
+                send_telegram_msg(chat_id, f"ℹ️ Информация о HWID `{hwid}`:\n{status}", parse_mode="Markdown")
             else:
                 send_telegram_msg(chat_id, "Укажи HWID. Пример: `/check HWID-XXXX`", parse_mode="Markdown")
 
         else:
-            send_telegram_msg(chat_id, "🤖 Бот активен!\nКоманды:\n`/gen 30` — создать ключ\n`/ban [HWID]` — бан\n`/unban [HWID]` — разбан\n`/check [HWID]` — статус", parse_mode="Markdown")
+            send_telegram_msg(chat_id, "🤖 Бот активен!\nКоманды:\n`/gen 30` — создать ключ\n`/ban [HWID]` — бан со статусом\n`/unban [HWID]` — разбан\n`/check [HWID]` — проверить статус", parse_mode="Markdown")
 
     except Exception as e:
         send_telegram_msg(MY_ADMIN_ID, f"⚠️ Ошибка: {str(e)}")
