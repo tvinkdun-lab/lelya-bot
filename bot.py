@@ -1,285 +1,102 @@
-import telebot
-import hashlib
-import sqlite3
 import os
-from datetime import datetime, timedelta
-from threading import Thread
-from flask import Flask
+from flask import Flask, request, redirect
+from telegram import Bot
+from telegram.ext import Updater, CommandHandler
 
-TOKEN = '8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg'
-ADMIN_ID = 5773841673  # Твой Telegram ID прописан автоматически
-
-bot = telebot.TeleBot(TOKEN)
-DB_FILE = "keys.db"
-
-def init_db():
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS licenses (
-            hwid TEXT PRIMARY KEY,
-            key TEXT,
-            user_id TEXT,
-            username TEXT,
-            created_at TEXT,
-            expires_at TEXT,
-            status TEXT DEFAULT 'active'
-        )
-    ''')
-    conn.commit()
-    conn.close()
-
-init_db()
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_handler(call):
-    data = call.data
-    parts = data.split('_')
-    action = parts[0]
-    hwid = parts[1]
-
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-
-    if action == "ban":
-        cursor.execute("UPDATE licenses SET status = 'banned' WHERE hwid = ?", (hwid,))
-        conn.commit()
-        bot.answer_callback_query(call.id, "🔴 Пользователь заблокирован!")
-        bot.edit_message_text("❌ **СТАТУС: ЗАБЛОКИРОВАН**", call.message.chat.id, call.message.message_id, parse_mode="Markdown")
-    
-    elif action == "unban":
-        cursor.execute("UPDATE licenses SET status = 'active' WHERE hwid = ?", (hwid,))
-        conn.commit()
-        bot.answer_callback_query(call.id, "🟢 Пользователь разблокирован!")
-        bot.edit_message_text("✅ **СТАТУС: АКТИВЕН**", call.message.chat.id, call.message.message_id, parse_mode="Markdown")
-
-    elif action == "add30":
-        cursor.execute("SELECT expires_at FROM licenses WHERE hwid = ?", (hwid,))
-        row = cursor.fetchone()
-        if row:
-            current_exp = datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S")
-            new_exp = max(datetime.now(), current_exp) + timedelta(days=30)
-            new_exp_str = new_exp.strftime("%Y-%m-%d %H:%M:%S")
-            cursor.execute("UPDATE licenses SET expires_at = ? WHERE hwid = ?", (new_exp_str, hwid))
-            conn.commit()
-            bot.answer_callback_query(call.id, "➕ Добавлено 30 дней!")
-            bot.send_message(call.message.chat.id, f"✅ Подписка для HWID `{hwid}` продлена до: `{new_exp_str}`", parse_mode="Markdown")
-
-    conn.close()
-
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    args = message.text.split(maxsplit=1)
-    
-    if len(args) > 1:
-        hwid = args[1].strip()
-        
-        if hwid.startswith("HWID-") and len(hwid) >= 10:
-            user_id = str(message.from_user.id)
-            username = message.from_user.username or "Скрыт"
-            
-            conn = sqlite3.connect(DB_FILE)
-            cursor = conn.cursor()
-            cursor.execute("SELECT key, status FROM licenses WHERE hwid = ?", (hwid,))
-            row = cursor.fetchone()
-            
-            if row:
-                key, status = row
-                if status == 'banned':
-                    bot.send_message(message.chat.id, "❌ Ваш HWID заблокирован администратором!")
-                    conn.close()
-                    return
-                
-                bot.send_message(message.chat.id, f"✅ Твой ключ подписки:\n`{key}`", parse_mode="Markdown")
-                conn.close()
-                return
-            else:
-                if ADMIN_ID != 0:
-                    bot.send_message(ADMIN_ID, f"🛒 **ЗАПРОС НА ПОКУПКУ!**\n\n👤 @{username} (ID: `{user_id}`)\n💻 HWID: `{hwid}`\n\n*Игрок перешел по ссылке для оплаты.*", parse_mode="Markdown")
-                
-                bot.send_message(message.chat.id, f"🔒 **Доступ ограничен!**\n\nДля получения ключа нужно оплатить подписку лутом.\nВаш HWID: `{hwid}`\n\n📩 **Напишите администратору в Discord для оплаты:** `vtmin7`", parse_mode="Markdown")
-                conn.close()
-                return
-
-    bot.send_message(message.chat.id, "Привет! Зайди в игру с установленным скриптом и нажми кнопку запроса ключа.")
-
-@bot.message_handler(commands=['gen'])
-def generate_key_command(message):
-    if message.from_user.id != ADMIN_ID and ADMIN_ID != 0:
-        return
-    
-    parts = message.text.split(maxsplit=1)
-    if len(parts) > 1:
-        target_hwid = parts[1].strip()
-        current_time = datetime.now()
-        expires_time = current_time + timedelta(days=30)
-        
-        random_bytes = os.urandom(8)
-        hash_hex = hashlib.sha256(target_hwid.encode() + random_bytes).hexdigest().upper()
-        key = f"LHC-PRO-{hash_hex[0:4]}-{hash_hex[4:8]}-{hash_hex[8:12]}"
-        
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT key FROM licenses WHERE hwid = ?", (target_hwid,))
-        exists = cursor.fetchone()
-        
-        if exists:
-            cursor.execute("UPDATE licenses SET key = ?, status = 'active', expires_at = ? WHERE hwid = ?", 
-                           (key, expires_time.strftime("%Y-%m-%d %H:%M:%S"), target_hwid))
-        else:
-            cursor.execute(
-                "INSERT INTO licenses (hwid, key, user_id, username, created_at, expires_at, status) VALUES (?, ?, ?, ?, ?, ?, ?)", 
-                (target_hwid, key, "manual", "manual_user", current_time.strftime("%Y-%m-%d %H:%M:%S"), expires_time.strftime("%Y-%m-%d %H:%M:%S"), 'active')
-            )
-        
-        conn.commit()
-        conn.close()
-        
-        bot.send_message(message.chat.id, f"✅ Ключ успешно сгенерирован и активирован!\n\n💻 HWID: `{target_hwid}`\n🔑 Ключ: `{key}`", parse_mode="Markdown")
-    else:
-        bot.send_message(message.chat.id, "📌 Использование: `/gen <HWID>`", parse_mode="Markdown")
-
-@bot.message_handler(commands=['adddays'])
-def add_days_command(message):
-    if message.from_user.id != ADMIN_ID and ADMIN_ID != 0:
-        return
-    
-    parts = message.text.split()
-    if len(parts) >= 3:
-        target_hwid = parts[1].strip()
-        try:
-            days_to_add = int(parts[2])
-        except ValueError:
-            bot.send_message(message.chat.id, "❌ Ошибка: количество дней должно быть числом!", parse_mode="Markdown")
-            return
-
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        cursor.execute("SELECT expires_at FROM licenses WHERE hwid = ?", (target_hwid,))
-        row = cursor.fetchone()
-
-        if row:
-            current_exp = datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S")
-            new_exp = max(datetime.now(), current_exp) + timedelta(days=days_to_add)
-            new_exp_str = new_exp.strftime("%Y-%m-%d %H:%M:%S")
-            
-            cursor.execute("UPDATE licenses SET expires_at = ? WHERE hwid = ?", (new_exp_str, target_hwid))
-            conn.commit()
-            conn.close()
-            bot.send_message(message.chat.id, f"✅ К HWID `{target_hwid}` добавлено **{days_to_add} дн.**\n📅 Новый срок: `{new_exp_str}`", parse_mode="Markdown")
-        else:
-            conn.close()
-            bot.send_message(message.chat.id, "❌ Такой HWID не найден в базе данных.")
-    else:
-        bot.send_message(message.chat.id, "📌 Использование: `/adddays <HWID> <дни>`", parse_mode="Markdown")
-
-@bot.message_handler(commands=['ban'])
-def ban_command(message):
-    if message.from_user.id != ADMIN_ID and ADMIN_ID != 0:
-        return
-    
-    parts = message.text.split(maxsplit=1)
-    if len(parts) > 1:
-        target_hwid = parts[1].strip()
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        cursor.execute("UPDATE licenses SET status = 'banned' WHERE hwid = ?", (target_hwid,))
-        conn.commit()
-        conn.close()
-        bot.send_message(message.chat.id, f"🔴 HWID `{target_hwid}` успешно заблокирован!", parse_mode="Markdown")
-    else:
-        bot.send_message(message.chat.id, "📌 Использование: `/ban <HWID>`", parse_mode="Markdown")
-
-@bot.message_handler(commands=['unban'])
-def unban_command(message):
-    if message.from_user.id != ADMIN_ID and ADMIN_ID != 0:
-        return
-    
-    parts = message.text.split(maxsplit=1)
-    if len(parts) > 1:
-        target_hwid = parts[1].strip()
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        cursor.execute("UPDATE licenses SET status = 'active' WHERE hwid = ?", (target_hwid,))
-        conn.commit()
-        conn.close()
-        bot.send_message(message.chat.id, f"🟢 HWID `{target_hwid}` успешно разблокирован!", parse_mode="Markdown")
-    else:
-        bot.send_message(message.chat.id, "📌 Использование: `/unban <HWID>`", parse_mode="Markdown")
-
-@bot.message_handler(commands=['reset'])
-def reset_hwid(message):
-    if message.from_user.id != ADMIN_ID and ADMIN_ID != 0:
-        return
-    
-    args = message.text.split(maxsplit=1)
-    if len(args) > 1:
-        target_hwid = args[1].strip()
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM licenses WHERE hwid = ?", (target_hwid,))
-        conn.commit()
-        conn.close()
-        bot.send_message(message.chat.id, f"🗑 HWID `{target_hwid}` удален из базы.", parse_mode="Markdown")
-    else:
-        bot.send_message(message.chat.id, "📌 Использование: `/reset <HWID>`", parse_mode="Markdown")
-
-@bot.message_handler(func=lambda message: True)
-def handle_admin_check(message):
-    text = message.text.strip()
-    
-    if text.startswith("HWID-") and len(text) >= 10:
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        cursor.execute("SELECT key, user_id, username, created_at, expires_at, status FROM licenses WHERE hwid = ?", (text,))
-        row = cursor.fetchone()
-        conn.close()
-        
-        if row:
-            key, user_id, username, created_at, expires_at, status = row
-            exp_time = datetime.strptime(expires_at, "%Y-%m-%d %H:%M:%S")
-            is_expired = datetime.now() > exp_time
-            status_text = "❌ Заблокирован" if status == 'banned' else ("⏳ Истекла" if is_expired else "🟢 Активна")
-
-            info_msg = (
-                f"🔍 **Информация по HWID:**\n\n"
-                f"💻 HWID: `{text}`\n"
-                f"🔑 Ключ: `{key}`\n"
-                f"🆔 Telegram ID: `{user_id}`\n"
-                f"👤 Username: @{username}\n"
-                f"📅 Активирован: `{created_at}`\n"
-                f"⏳ Годен до: `{expires_at}`\n"
-                f"📌 Статус: **{status_text}**"
-            )
-
-            markup = telebot.types.InlineKeyboardMarkup()
-            if status == 'banned':
-                markup.add(telebot.types.InlineKeyboardButton("🟢 Разблокировать", callback_data=f"unban_{text}"))
-            else:
-                markup.add(telebot.types.InlineKeyboardButton("🔴 Заблокировать", callback_data=f"ban_{text}"))
-            
-            markup.add(telebot.types.InlineKeyboardButton("➕ Добавить 30 дней", callback_data=f"add30_{text}"))
-
-            bot.send_message(message.chat.id, info_msg, parse_mode="Markdown", reply_markup=markup)
-        else:
-            bot.send_message(message.chat.id, f"❌ HWID не найден в базе (игрок не оплатил).\n\n💡 Вы можете создать для него ключ командой:\n`/gen {text}`", parse_mode="Markdown")
-    else:
-        bot.send_message(message.chat.id, "❌ Неверный формат или команда.")
+# Твои данные
+TOKEN = "8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg"
+MY_ADMIN_ID = 5773841673
 
 app = Flask('')
 
+# База данных для хранения состояния игроков (забаненные, ключи и т.д.)
+BANNED_HWIDS = set()
+ACTIVE_KEYS = {}
+
 @app.route('/')
 def home():
-    return "Bot is alive!"
+    return "Lelya Bot is alive!"
+
+# Исправление ошибки Not Found для кнопки из игры
+@app.route('/start')
+def web_start():
+    hwid = request.args.get('hwid', '')
+    telegram_bot_username = "LelyaHackBot" # Замени на точный юзернейм твоего бота без @
+    return redirect(f"https://t.me/{telegram_bot_username}?start={hwid}")
 
 def run_web():
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
-if __name__ == '__main__':
-    web_thread = Thread(target=run_web)
-    web_thread.daemon = True
-    web_thread.start()
+# Команда /start в Telegram (когда игрок переходит из игры)
+def start_command(update, context):
+    user_id = update.effective_user.id
+    args = context.args
+    user_hwid = args[0] if args else "Не указан"
     
-    bot.infinity_polling()
+    if user_id == MY_ADMIN_ID:
+        update.message.reply_text(f"Привет, создатель! Бот запущен.\nПолучен HWID игрока: {user_hwid}")
+        return
+
+    # Проверка, не забанен ли игрок
+    if user_hwid in BANNED_HWIDS:
+        update.message.reply_text("❌ Доступ заблокирован! Твой HWID находится в черном списке.")
+        return
+
+    # Уведомление тебе в ЛС о запросе от игрока
+    context.bot.send_message(
+        chat_id=MY_ADMIN_ID, 
+        text=f"🚨 Запрос ключа от игрока!\nHWID: `{user_hwid}`\n\nДля разбана используй: `/unban {user_hwid}`", 
+        parse_mode="Markdown"
+    )
+    
+    update.message.reply_text(f"Привет! Твой HWID: {user_hwid}\nЗапрос отправлен создателю (vtmin7). Ожидай выдачи ключа!")
+
+# Команда для РАЗБАНА игрока: /unban HWID
+def unban_command(update, context):
+    if update.effective_user.id != MY_ADMIN_ID:
+        return
+    
+    args = context.args
+    if not args:
+        update.message.reply_text("Использование: /unban HWID-XXXXXX")
+        return
+        
+    hwid_to_unban = args[0]
+    if hwid_to_unban in BANNED_HWIDS:
+        BANNED_HWIDS.remove(hwid_to_unban)
+        update.message.reply_text(f"✅ Успешно! HWID {hwid_to_unban} разбанен.")
+    else:
+        update.message.reply_text(f"⚠️ Этот HWID не найден в списке забаненных.")
+
+# Команда для БАНА игрока: /ban HWID
+def ban_command(update, context):
+    if update.effective_user.id != MY_ADMIN_ID:
+        return
+        
+    args = context.args
+    if not args:
+        update.message.reply_text("Использование: /ban HWID-XXXXXX")
+        return
+        
+    hwid_to_ban = args[0]
+    BANNED_HWIDS.add(hwid_to_ban)
+    update.message.reply_text(f"🔨 Игрок с HWID {hwid_to_ban} заблокирован.")
+
+def main():
+    updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
+    
+    dp.add_handler(CommandHandler("start", start_command))
+    dp.add_handler(CommandHandler("unban", unban_command))
+    dp.add_handler(CommandHandler("ban", ban_command))
+    
+    import threading
+    t = threading.Thread(target=run_web)
+    t.start()
+    
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
