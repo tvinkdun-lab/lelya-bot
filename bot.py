@@ -14,7 +14,8 @@ app = Flask('')
 DATABASE = {
     "banned": set(),       # Забаненные HWID
     "keys": {},            # Ключ: количество дней
-    "active_users": {}     # HWID: количество оставшихся дней
+    "active_users": {},    # HWID: количество оставшихся дней
+    "hwid_to_tg": {}       # HWID: Telegram ID / username игрока
 }
 
 @app.route('/')
@@ -26,15 +27,7 @@ def home():
 def web_start():
     hwid = request.args.get('hwid', '')
     if hwid:
-        # Проверяем текущий статус для сообщения администратору
-        if hwid in DATABASE["banned"]:
-            status_text = "🔴 (Забанен)"
-        elif hwid in DATABASE["active_users"]:
-            status_text = f"🟢 (Активен: {DATABASE['active_users'][hwid]} дн.)"
-        else:
-            status_text = "⚪ (Нет подписки)"
-
-        msg = f"🚨 **Запрос ключа от игрока!**\nHWID: `{hwid}`\nСтатус: {status_text}\n\nСоздатель: `vtmin7`"
+        msg = f"🚨 **Запрос ключа от игрока!**\nHWID: `{hwid}`\n\nСоздатель: `vtmin7`"
         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
         requests.post(url, json={"chat_id": MY_ADMIN_ID, "text": msg, "parse_mode": "Markdown"})
     return redirect(f"https://t.me/{BOT_USERNAME}?start={hwid}")
@@ -45,27 +38,24 @@ def verify_key():
     hwid = request.args.get('hwid', '')
     key = request.args.get('key', '').strip()
     
-    # Если HWID в бане, возвращаем точный статус banned для мгновенного отключения в скрипте
     if hwid in DATABASE["banned"]:
         return jsonify({"status": "banned", "message": "Ваш HWID заблокирован!"})
 
     if key in DATABASE["keys"]:
         days = DATABASE["keys"][key]
-        del DATABASE["keys"][key]  # Ключ сгорает после использования
+        del DATABASE["keys"][key]
         DATABASE["active_users"][hwid] = days
         return jsonify({"status": "success", "message": f"Активировано на {days} дней!"})
     
-    # Фоновая проверка пинга (когда скрипт стучится с ключом PING_CHECK)
     if key == "PING_CHECK" and hwid in DATABASE["active_users"]:
         return jsonify({"status": "success", "message": "Active"})
 
-    # Тестовый/запасной ключ
     if key == "LELYA-3M6UOB":
         return jsonify({"status": "success", "message": "Активировано!"})
 
     return jsonify({"status": "error", "message": "Неверный или уже использованный ключ!"})
 
-# Обработка команд от тебя в Telegram
+# Обработка команд от тебя и сообщений от игроков в Telegram
 @app.route('/webhook', methods=['POST'])
 def telegram_webhook():
     try:
@@ -76,8 +66,17 @@ def telegram_webhook():
         message = data['message']
         chat_id = message['chat']['id']
         user_id = message['from']['id']
+        username = message['from'].get('username', 'Нет юзернейма')
         text = message.get('text', '').strip()
 
+        # Если игрок нажал /start [HWID] в боте, сохраняем связку HWID -> Telegram
+        if text.startswith('/start ') and user_id != MY_ADMIN_ID:
+            hwid_arg = text.split()[1]
+            DATABASE["hwid_to_tg"][hwid_arg] = f"@{username} (ID: {user_id})"
+            send_telegram_msg(chat_id, "👋 Привет! Отправь свой ключ администратору или купи его у создателя (`vtmin7`), чтобы получить доступ.", parse_mode="Markdown")
+            return "OK", 200
+
+        # Проверка прав администратора для команд управления
         if user_id != MY_ADMIN_ID:
             send_telegram_msg(chat_id, "❌ У тебя нет доступа к этому боту.")
             return "OK", 200
@@ -85,7 +84,7 @@ def telegram_webhook():
         parts = text.split()
         cmd = parts[0].lower() if parts else ""
 
-        # Генерация ключа: /gen [дни]
+        # 1. gen - Сгенерировать ключ
         if '/gen' in cmd:
             days = 30
             if len(parts) > 1 and parts[1].isdigit():
@@ -93,50 +92,91 @@ def telegram_webhook():
             
             new_key = "LELYA-" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
             DATABASE["keys"][new_key] = days
-            
             send_telegram_msg(chat_id, f"✅ Твой ключ на {days} дней:\n`{new_key}`", parse_mode="Markdown")
 
-        # Бан игрока: /ban HWID-...
+        # 2. adddays - Продлить подписку
+        elif '/adddays' in cmd or '/extend' in cmd:
+            if len(parts) > 2 and parts[2].isdigit():
+                hwid = parts[1]
+                days_add = int(parts[2])
+                if hwid in DATABASE["active_users"]:
+                    DATABASE["active_users"][hwid] += days_add
+                    send_telegram_msg(chat_id, f"⏳ Подписка HWID `{hwid}` продлена на {days_add} дн.", parse_mode="Markdown")
+                else:
+                    send_telegram_msg(chat_id, "⚠️ Этот HWID не найден среди активных игроков.")
+            else:
+                send_telegram_msg(chat_id, "Использование: `/adddays [HWID] [дни]`", parse_mode="Markdown")
+
+        # 3. ban - Бан
         elif '/ban' in cmd:
             if len(parts) > 1:
                 hwid = parts[1]
                 DATABASE["banned"].add(hwid)
                 if hwid in DATABASE["active_users"]:
                     del DATABASE["active_users"][hwid]
-                send_telegram_msg(chat_id, f"🔨 HWID `{hwid}` заблокирован. 🔴 Статус обновлен, скрипт игрока отключится автоматически.", parse_mode="Markdown")
+                send_telegram_msg(chat_id, f"🔨 HWID `{hwid}` заблокирован.", parse_mode="Markdown")
             else:
                 send_telegram_msg(chat_id, "Укажи HWID. Пример: `/ban HWID-XXXX`", parse_mode="Markdown")
 
-        # Разбан игрока: /unban HWID-...
+        # 4. unban - Разбан
         elif '/unban' in cmd:
             if len(parts) > 1:
                 hwid = parts[1]
                 if hwid in DATABASE["banned"]:
                     DATABASE["banned"].remove(hwid)
-                    send_telegram_msg(chat_id, f"✅ HWID `{hwid}` разбанен. 🟢 Статус изменен.", parse_mode="Markdown")
+                    send_telegram_msg(chat_id, f"✅ HWID `{hwid}` разбанен.", parse_mode="Markdown")
                 else:
-                    send_telegram_msg(chat_id, "⚠️ Этот HWID не найден в списке забаненных.")
+                    send_telegram_msg(chat_id, "⚠️ Этот HWID не найден в бан-листе.")
             else:
                 send_telegram_msg(chat_id, "Укажи HWID. Пример: `/unban HWID-XXXX`", parse_mode="Markdown")
 
-        # Проверка статуса игрока: /check HWID-...
-        elif '/check' in cmd:
+        # 5. reset - Сброс
+        elif '/reset' in cmd:
             if len(parts) > 1:
                 hwid = parts[1]
+                if hwid in DATABASE["active_users"]:
+                    del DATABASE["active_users"][hwid]
                 if hwid in DATABASE["banned"]:
-                    status = "🔴 Статус: Забанен"
-                elif hwid in DATABASE["active_users"]:
-                    days_left = DATABASE["active_users"][hwid]
-                    status = f"🟢 Статус: Активен (осталось дней: {days_left})"
-                else:
-                    status = "⚪ Статус: Нет активной подписки"
-                
-                send_telegram_msg(chat_id, f"ℹ️ Информация о HWID `{hwid}`:\n{status}", parse_mode="Markdown")
+                    DATABASE["banned"].remove(hwid)
+                if hwid in DATABASE["hwid_to_tg"]:
+                    del DATABASE["hwid_to_tg"][hwid]
+                send_telegram_msg(chat_id, f"🔄 HWID `{hwid}` полностью сброшен.", parse_mode="Markdown")
             else:
-                send_telegram_msg(chat_id, "Укажи HWID. Пример: `/check HWID-XXXX`", parse_mode="Markdown")
+                send_telegram_msg(chat_id, "Укажи HWID. Пример: `/reset HWID-XXXX`", parse_mode="Markdown")
+
+        # 6. online / users — Показать активных игроков, их HWID и ТГ
+        elif '/online' in cmd or '/users' in cmd:
+            if not DATABASE["active_users"]:
+                send_telegram_msg(chat_id, "⚪ Сейчас нет активных игроков со скриптом.")
+            else:
+                text_msg = "🟢 **Активные устройства и их владельцы:**\n\n"
+                for hwid, days in DATABASE["active_users"].items():
+                    tg_info = DATABASE["hwid_to_tg"].get(hwid, "Telegram не зафиксирован")
+                    text_msg += f"• **Игрок:** {tg_info}\n  💻 HWID: `{hwid}`\n  ⏳ Дней осталось: **{days}**\n\n"
+                send_telegram_msg(chat_id, text_msg, parse_mode="Markdown")
+
+        # 7. all - Статистика
+        elif '/all' in cmd or '/stats' in cmd:
+            stats_msg = (
+                f"📊 **Статистика бота:**\n\n"
+                f"🟢 Активных игроков: **{len(DATABASE['active_users'])}**\n"
+                f"🔑 Свободных ключей: **{len(DATABASE['keys'])}**\n"
+                f"🔴 Забанено: **{len(DATABASE['banned'])}**"
+            )
+            send_telegram_msg(chat_id, stats_msg, parse_mode="Markdown")
 
         else:
-            send_telegram_msg(chat_id, "🤖 Бот активен!\nКоманды:\n`/gen 30` — создать ключ\n`/ban [HWID]` — бан со статусом\n`/unban [HWID]` — разбан\n`/check [HWID]` — проверить статус", parse_mode="Markdown")
+            help_text = (
+                "🤖 **Команды управления:**\n"
+                "• `/gen [дни]` — Создать ключ\n"
+                "• `/online` — Кто играет (HWID + Телеграм)\n"
+                "• `/all` — Статистика\n"
+                "• `/adddays [HWID] [дни]` — Продлить\n"
+                "• `/ban [HWID]` — Бан\n"
+                "• `/unban [HWID]` — Разбан\n"
+                "• `/reset [HWID]` — Сброс"
+            )
+            send_telegram_msg(chat_id, help_text, parse_mode="Markdown")
 
     except Exception as e:
         send_telegram_msg(MY_ADMIN_ID, f"⚠️ Ошибка: {str(e)}")
