@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
 import asyncio
 
-TOKEN = "8790088326:AAGvmIZWF-Zbxkxm4Re2eV4wnLy-aaDh3ps"
+TOKEN = "8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg"
 SECRET_SALT = "LelyaSuperSecretSalt2026_ProtectYourClient"
 ADMIN_ID = 5773841673
 
