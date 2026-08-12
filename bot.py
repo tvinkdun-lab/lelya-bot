@@ -31,7 +31,7 @@ def web_start():
         requests.post(url, json={"chat_id": MY_ADMIN_ID, "text": msg, "parse_mode": "Markdown"})
     return redirect(f"https://t.me/{BOT_USERNAME}?start={hwid}")
 
-# Проверка ключа из игры (теперь работает на 100%)
+# Проверка ключа из игры
 @app.route('/verify', methods=['GET'])
 def verify_key():
     hwid = request.args.get('hwid', '')
@@ -106,8 +106,24 @@ def telegram_webhook():
             else:
                 send_telegram_msg(chat_id, "Укажи HWID. Пример: `/unban HWID-XXXX`", parse_mode="Markdown")
 
+        # Проверка статуса игрока: /check HWID-...
+        elif '/check' in cmd:
+            if len(parts) > 1:
+                hwid = parts[1]
+                if hwid in DATABASE["banned"]:
+                    status = "🔴 Забанен"
+                elif hwid in DATABASE["active_users"]:
+                    days_left = DATABASE["active_users"][hwid]
+                    status = f"🟢 Активен (дней: {days_left})"
+                else:
+                    status = "⚪ Нет активной подписки"
+                
+                send_telegram_msg(chat_id, f"ℹ️ Статус HWID `{hwid}`:\n{status}", parse_mode="Markdown")
+            else:
+                send_telegram_msg(chat_id, "Укажи HWID. Пример: `/check HWID-XXXX`", parse_mode="Markdown")
+
         else:
-            send_telegram_msg(chat_id, "🤖 Бот активен!\nКоманды:\n`/gen 30` — создать ключ\n`/ban [HWID]` — бан\n`/unban [HWID]` — разбан", parse_mode="Markdown")
+            send_telegram_msg(chat_id, "🤖 Бот активен!\nКоманды:\n`/gen 30` — создать ключ\n`/ban [HWID]` — бан\n`/unban [HWID]` — разбан\n`/check [HWID]` — статус", parse_mode="Markdown")
 
     except Exception as e:
         send_telegram_msg(MY_ADMIN_ID, f"⚠️ Ошибка: {str(e)}")
