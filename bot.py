@@ -6,29 +6,28 @@ from telegram.ext import Updater, CommandHandler
 # Твои данные
 TOKEN = "8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg"
 MY_ADMIN_ID = 5773841673
+BOT_USERNAME = "lelyahackbot"
 
 app = Flask('')
 
-# База данных для хранения состояния игроков (забаненные, ключи и т.д.)
+# База данных для банов
 BANNED_HWIDS = set()
-ACTIVE_KEYS = {}
 
 @app.route('/')
 def home():
     return "Lelya Bot is alive!"
 
-# Исправление ошибки Not Found для кнопки из игры
+# Исправление ошибки Not Found и мгновенный редирект в бота с HWID
 @app.route('/start')
 def web_start():
     hwid = request.args.get('hwid', '')
-    telegram_bot_username = "LelyaHackBot" # Замени на точный юзернейм твоего бота без @
-    return redirect(f"https://t.me/{telegram_bot_username}?start={hwid}")
+    return redirect(f"https://t.me/{BOT_USERNAME}?start={hwid}")
 
 def run_web():
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
-# Команда /start в Telegram (когда игрок переходит из игры)
+# Обработка команды /start в самом Telegram
 def start_command(update, context):
     user_id = update.effective_user.id
     args = context.args
@@ -38,30 +37,26 @@ def start_command(update, context):
         update.message.reply_text(f"Привет, создатель! Бот запущен.\nПолучен HWID игрока: {user_hwid}")
         return
 
-    # Проверка, не забанен ли игрок
     if user_hwid in BANNED_HWIDS:
         update.message.reply_text("❌ Доступ заблокирован! Твой HWID находится в черном списке.")
         return
 
-    # Уведомление тебе в ЛС о запросе от игрока
+    # Отправляем уведомление тебе в ЛС
     context.bot.send_message(
         chat_id=MY_ADMIN_ID, 
-        text=f"🚨 Запрос ключа от игрока!\nHWID: `{user_hwid}`\n\nДля разбана используй: `/unban {user_hwid}`", 
+        text=f"🚨 Запрос ключа от игрока!\nHWID: `{user_hwid}`\n\nDiscord: `vtmin7`", 
         parse_mode="Markdown"
     )
     
     update.message.reply_text(f"Привет! Твой HWID: {user_hwid}\nЗапрос отправлен создателю (vtmin7). Ожидай выдачи ключа!")
 
-# Команда для РАЗБАНА игрока: /unban HWID
 def unban_command(update, context):
     if update.effective_user.id != MY_ADMIN_ID:
         return
-    
     args = context.args
     if not args:
         update.message.reply_text("Использование: /unban HWID-XXXXXX")
         return
-        
     hwid_to_unban = args[0]
     if hwid_to_unban in BANNED_HWIDS:
         BANNED_HWIDS.remove(hwid_to_unban)
@@ -69,16 +64,13 @@ def unban_command(update, context):
     else:
         update.message.reply_text(f"⚠️ Этот HWID не найден в списке забаненных.")
 
-# Команда для БАНА игрока: /ban HWID
 def ban_command(update, context):
     if update.effective_user.id != MY_ADMIN_ID:
         return
-        
     args = context.args
     if not args:
         update.message.reply_text("Использование: /ban HWID-XXXXXX")
         return
-        
     hwid_to_ban = args[0]
     BANNED_HWIDS.add(hwid_to_ban)
     update.message.reply_text(f"🔨 Игрок с HWID {hwid_to_ban} заблокирован.")
