@@ -3,6 +3,7 @@ import threading
 import telebot
 import hmac
 import hashlib
+from datetime import datetime
 from telebot import types
 from flask import Flask
 
@@ -10,7 +11,6 @@ TOKEN = "8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg"
 bot = telebot.TeleBot(TOKEN)
 
 ADMIN_ID = 5773841673 
-BLOCKED_USERS = []
 BLOCKED_HWIDS = []
 SECRET_SALT = "LelyaSuperSecretSalt2026_ProtectYourClient"
 
@@ -19,7 +19,6 @@ app = Flask('')
 def home(): return "Lelya Bot is active"
 def run_web(): app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
 
-# Функция генерации точного ключа, как в Tampermonkey
 def generate_key(hwid):
     try:
         key_bytes = SECRET_SALT.encode('utf-8')
@@ -31,7 +30,6 @@ def generate_key(hwid):
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    # Если пользователь перешел из скрипта по кнопке (с передачей HWID)
     args = message.text.split()
     if len(args) > 1:
         hwid = args[1].strip()
@@ -43,31 +41,62 @@ def send_welcome(message):
         bot.reply_to(message, f"🔑 Твой ключ активации для HWID `{hwid}`:\n\n`{key}`", parse_mode="Markdown")
         
         if message.from_user.id != ADMIN_ID:
-            markup = types.InlineKeyboardMarkup()
-            btn_ban = types.InlineKeyboardButton("🚫 Заблокировать этот HWID", callback_data=f"ban_{hwid}")
-            markup.add(btn_ban)
-            bot.send_message(ADMIN_ID, f"👤 **Запрос ключа:**\nНик: @{message.from_user.username}\nID: {message.from_user.id}\nHWID: `{hwid}`\nКлюч: `{key}`", parse_mode="Markdown", reply_markup=markup)
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            markup = types.InlineKeyboardMarkup(row_width=2)
+            btn_ban = types.InlineKeyboardButton("🚫 Забанить", callback_data=f"ban_{hwid}")
+            btn_info = types.InlineKeyboardButton("ℹ️ Статус: Активен", callback_data=f"info_{hwid}")
+            markup.add(btn_ban, btn_info)
+            
+            bot.send_message(
+                ADMIN_ID, 
+                f"🚨 **Успешная активация клиента!**\n👤 Ник: @{message.from_user.username or 'Не указан'}\n🆔 ID: {message.from_user.id}\n💻 HWID: `{hwid}`\n⏰ Время: {now}", 
+                parse_mode="Markdown", 
+                reply_markup=markup
+            )
     else:
-        bot.reply_to(message, "👋 Привет! Отправь мне свой HWID или нажми кнопку в игре «Получить ключ в Telegram».")
+        bot.reply_to(message, "👋 Привет! Нажми кнопку в игре «Получить ключ в Telegram».")
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    if call.data.startswith("ban_"):
-        if call.from_user.id == ADMIN_ID:
-            hwid_to_ban = call.data.replace("ban_", "")
-            if hwid_to_ban not in BLOCKED_HWIDS:
-                BLOCKED_HWIDS.append(hwid_to_ban)
-            bot.answer_callback_query(call.id, f"HWID заблокирован!")
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text=call.message.text + "\n\n❌ **СТАТУС: ЗАБЛОКИРОВАН**", parse_mode="Markdown")
+    data = call.data
+    if call.from_user.id != ADMIN_ID:
+        bot.answer_callback_query(call.id, "⛔ У тебя нет прав администратора!")
+        return
 
-@bot.message_handler(commands=['banhwid'])
-def ban_hwid_cmd(message):
-    if message.from_user.id == ADMIN_ID:
+    if data.startswith("ban_"):
+        hwid = data.replace("ban_", "")
+        if hwid not in BLOCKED_HWIDS:
+            BLOCKED_HWIDS.append(hwid)
+        
+        markup = types.InlineKeyboardMarkup(row_width=2)
+        btn_unban = types.InlineKeyboardButton("✅ Разбанить", callback_data=f"unban_{hwid}")
+        btn_info = types.InlineKeyboardButton("🔴 Статус: Забанен", callback_data=f"info_{hwid}")
+        markup.add(btn_unban, btn_info)
+        
         try:
-            hwid_to_ban = message.text.split(maxsplit=1)[1].strip()
-            BLOCKED_HWIDS.append(hwid_to_ban)
-            bot.reply_to(message, f"🚫 HWID `{hwid_to_ban}` заблокирован.", parse_mode="Markdown")
-        except: bot.reply_to(message, "Используй: /banhwid <HWID>")
+            bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.id, reply_markup=markup)
+        except: pass
+        bot.answer_callback_query(call.id, f"HWID заблокирован!")
+
+    elif data.startswith("unban_"):
+        hwid = data.replace("unban_", "")
+        if hwid in BLOCKED_HWIDS:
+            BLOCKED_HWIDS.remove(hwid)
+        
+        markup = types.InlineKeyboardMarkup(row_width=2)
+        btn_ban = types.InlineKeyboardButton("🚫 Забанить", callback_data=f"ban_{hwid}")
+        btn_info = types.InlineKeyboardButton("🟢 Статус: Активен", callback_data=f"info_{hwid}")
+        markup.add(btn_ban, btn_info)
+        
+        try:
+            bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.id, reply_markup=markup)
+        except: pass
+        bot.answer_callback_query(call.id, f"HWID разблокирован!")
+
+    elif data.startswith("info_"):
+        hwid = data.replace("info_", "")
+        status = "🔴 В бане" if hwid in BLOCKED_HWIDS else "🟢 Активен"
+        bot.answer_callback_query(call.id, f"Статус HWID: {status}", show_alert=True)
 
 @bot.message_handler(func=lambda message: True)
 def handle_hwid(message):
@@ -78,12 +107,6 @@ def handle_hwid(message):
 
     key = generate_key(hwid)
     bot.reply_to(message, f"✅ Ключ успешно сгенерирован:\n`{key}`", parse_mode="Markdown")
-    
-    if message.from_user.id != ADMIN_ID:
-        markup = types.InlineKeyboardMarkup()
-        btn_ban = types.InlineKeyboardButton("🚫 Заблокировать этот HWID", callback_data=f"ban_{hwid}")
-        markup.add(btn_ban)
-        bot.send_message(ADMIN_ID, f"👤 **Запрос ключа:**\nНик: @{message.from_user.username}\nID: {message.from_user.id}\nHWID: `{hwid}`", parse_mode="Markdown", reply_markup=markup)
 
 if __name__ == "__main__":
     t = threading.Thread(target=run_web)
