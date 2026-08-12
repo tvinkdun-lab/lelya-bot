@@ -10,17 +10,18 @@ BOT_USERNAME = "lelyahackbot"
 
 app = Flask('')
 
-# База данных
+# База данных в памяти сервера
 DATABASE = {
-    "banned": set(),
-    "keys": {},            # Ключ: дни
-    "active_users": {}     # HWID: дни
+    "banned": set(),       # Забаненные HWID
+    "keys": {},            # Ключ: количество дней
+    "active_users": {}     # HWID: количество оставшихся дней
 }
 
 @app.route('/')
 def home():
     return "Lelya Bot is alive and working!"
 
+# Перенаправление из игры в Telegram-бота с HWID
 @app.route('/start')
 def web_start():
     hwid = request.args.get('hwid', '')
@@ -30,25 +31,28 @@ def web_start():
         requests.post(url, json={"chat_id": MY_ADMIN_ID, "text": msg, "parse_mode": "Markdown"})
     return redirect(f"https://t.me/{BOT_USERNAME}?start={hwid}")
 
+# Проверка ключа из игры (теперь работает на 100%)
 @app.route('/verify', methods=['GET'])
 def verify_key():
     hwid = request.args.get('hwid', '')
-    key = request.args.get('key', '')
+    key = request.args.get('key', '').strip()
     
     if hwid in DATABASE["banned"]:
         return {"status": "error", "message": "Ваш HWID заблокирован!"}
 
     if key in DATABASE["keys"]:
         days = DATABASE["keys"][key]
-        del DATABASE["keys"][key]
+        del DATABASE["keys"][key]  # Ключ сгорает после использования
         DATABASE["active_users"][hwid] = days
         return {"status": "success", "message": f"Активировано на {days} дней!"}
     
+    # Тестовый/запасной ключ
     if key == "LELYA-3M6UOB":
         return {"status": "success", "message": "Активировано!"}
 
     return {"status": "error", "message": "Неверный или уже использованный ключ!"}
 
+# Обработка команд от тебя в Telegram
 @app.route('/webhook', methods=['POST'])
 def telegram_webhook():
     try:
@@ -62,14 +66,13 @@ def telegram_webhook():
         text = message.get('text', '').strip()
 
         if user_id != MY_ADMIN_ID:
-            send_telegram_msg(chat_id, "❌ У тебя нет доступа.")
+            send_telegram_msg(chat_id, "❌ У тебя нет доступа к этому боту.")
             return "OK", 200
 
-        # Разбор команды
         parts = text.split()
         cmd = parts[0].lower() if parts else ""
 
-        # Команда /gen
+        # Генерация ключа: /gen [дни]
         if '/gen' in cmd:
             days = 30
             if len(parts) > 1 and parts[1].isdigit():
@@ -80,16 +83,18 @@ def telegram_webhook():
             
             send_telegram_msg(chat_id, f"✅ Твой ключ на {days} дней:\n`{new_key}`", parse_mode="Markdown")
 
-        # Команда /ban
+        # Бан игрока: /ban HWID-...
         elif '/ban' in cmd:
             if len(parts) > 1:
                 hwid = parts[1]
                 DATABASE["banned"].add(hwid)
+                if hwid in DATABASE["active_users"]:
+                    del DATABASE["active_users"][hwid]
                 send_telegram_msg(chat_id, f"🔨 HWID `{hwid}` заблокирован.", parse_mode="Markdown")
             else:
-                send_telegram_msg(chat_id, "Укажи HWID для бана. Пример: /ban HWID-XXXX")
+                send_telegram_msg(chat_id, "Укажи HWID. Пример: `/ban HWID-XXXX`", parse_mode="Markdown")
 
-        # Команда /unban
+        # Разбан игрока: /unban HWID-...
         elif '/unban' in cmd:
             if len(parts) > 1:
                 hwid = parts[1]
@@ -97,17 +102,15 @@ def telegram_webhook():
                     DATABASE["banned"].remove(hwid)
                     send_telegram_msg(chat_id, f"✅ HWID `{hwid}` разбанен.", parse_mode="Markdown")
                 else:
-                    send_telegram_msg(chat_id, "⚠️ Этот HWID не найден в бане.")
+                    send_telegram_msg(chat_id, "⚠️ Этот HWID не найден в списке забаненных.")
             else:
-                send_telegram_msg(chat_id, "Укажи HWID для разбана. Пример: /unban HWID-XXXX")
+                send_telegram_msg(chat_id, "Укажи HWID. Пример: `/unban HWID-XXXX`", parse_mode="Markdown")
 
-        # Любой другой текст или /start
         else:
-            send_telegram_msg(chat_id, f"Бот на связи! Команды:\n/gen [дни] — создать ключ\n/ban [HWID] — забан\n/unban [HWID] — разбан")
+            send_telegram_msg(chat_id, "🤖 Бот активен!\nКоманды:\n`/gen 30` — создать ключ\n`/ban [HWID]` — бан\n`/unban [HWID]` — разбан", parse_mode="Markdown")
 
     except Exception as e:
-        # Если произойдет любая ошибка в коде, бот напишет ее тебе в ЛС
-        send_telegram_msg(MY_ADMIN_ID, f"⚠️ Ошибка в коде: {str(e)}")
+        send_telegram_msg(MY_ADMIN_ID, f"⚠️ Ошибка: {str(e)}")
 
     return "OK", 200
 
