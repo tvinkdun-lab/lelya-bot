@@ -3,9 +3,11 @@ import hashlib
 import sqlite3
 import os
 from datetime import datetime, timedelta
+from threading import Thread
+from flask import Flask
 
 TOKEN = '8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg'
-ADMIN_ID = 0  # <--- Обязательно впиши свой Telegram ID цифрами!
+ADMIN_ID = 5773841673  # Твой Telegram ID прописан автоматически
 
 bot = telebot.TeleBot(TOKEN)
 DB_FILE = "keys.db"
@@ -75,45 +77,68 @@ def send_welcome(message):
         if hwid.startswith("HWID-") and len(hwid) >= 10:
             user_id = str(message.from_user.id)
             username = message.from_user.username or "Скрыт"
-            current_time = datetime.now()
-            expires_time = current_time + timedelta(days=30)
             
             conn = sqlite3.connect(DB_FILE)
             cursor = conn.cursor()
-            
-            cursor.execute("SELECT key, status, expires_at FROM licenses WHERE hwid = ?", (hwid,))
+            cursor.execute("SELECT key, status FROM licenses WHERE hwid = ?", (hwid,))
             row = cursor.fetchone()
             
             if row:
-                key, status, expires_at = row
-                
+                key, status = row
                 if status == 'banned':
                     bot.send_message(message.chat.id, "❌ Ваш HWID заблокирован администратором!")
                     conn.close()
                     return
-
-                if ADMIN_ID != 0 and message.from_user.id != ADMIN_ID:
-                    bot.send_message(ADMIN_ID, f"🎮 **Игрок зашел в игру!**\n\n👤 @{username} (ID: `{user_id}`)\n💻 HWID: `{hwid}`", parse_mode="Markdown")
-
-            else:
-                random_bytes = os.urandom(8)
-                hash_hex = hashlib.sha256(hwid.encode() + random_bytes).hexdigest().upper()
-                key = f"LHC-PRO-{hash_hex[0:4]}-{hash_hex[4:8]}-{hash_hex[8:12]}"
                 
-                cursor.execute(
-                    "INSERT INTO licenses (hwid, key, user_id, username, created_at, expires_at, status) VALUES (?, ?, ?, ?, ?, ?, ?)", 
-                    (hwid, key, user_id, username, current_time.strftime("%Y-%m-%d %H:%M:%S"), expires_time.strftime("%Y-%m-%d %H:%M:%S"), 'active')
-                )
-                conn.commit()
+                bot.send_message(message.chat.id, f"✅ Твой ключ подписки:\n`{key}`", parse_mode="Markdown")
+                conn.close()
+                return
+            else:
+                if ADMIN_ID != 0:
+                    bot.send_message(ADMIN_ID, f"🛒 **ЗАПРОС НА ПОКУПКУ!**\n\n👤 @{username} (ID: `{user_id}`)\n💻 HWID: `{hwid}`\n\n*Игрок перешел по ссылке для оплаты.*", parse_mode="Markdown")
+                
+                bot.send_message(message.chat.id, f"🔒 **Доступ ограничен!**\n\nДля получения ключа нужно оплатить подписку лутом.\nВаш HWID: `{hwid}`\n\n📩 **Напишите администратору в Discord для оплаты:** `vtmin7`", parse_mode="Markdown")
+                conn.close()
+                return
 
-                if ADMIN_ID != 0 and message.from_user.id != ADMIN_ID:
-                    bot.send_message(ADMIN_ID, f"🚀 **НОВАЯ АКТИВАЦИЯ!**\n\n👤 @{username}\n🆔 ID: `{user_id}`\n💻 HWID: `{hwid}`\n🔑 Ключ: `{key}`", parse_mode="Markdown")
+    bot.send_message(message.chat.id, "Привет! Зайди в игру с установленным скриптом и нажми кнопку запроса ключа.")
 
-            conn.close()
-            bot.send_message(message.chat.id, f"✅ Твой персональный ключ:\n`{key}`", parse_mode="Markdown")
-            return
-
-    bot.send_message(message.chat.id, "Привет! Перейди по кнопке 'Запросить ключ' в меню скрипта.")
+@bot.message_handler(commands=['gen'])
+def generate_key_command(message):
+    if message.from_user.id != ADMIN_ID and ADMIN_ID != 0:
+        return
+    
+    parts = message.text.split(maxsplit=1)
+    if len(parts) > 1:
+        target_hwid = parts[1].strip()
+        current_time = datetime.now()
+        expires_time = current_time + timedelta(days=30)
+        
+        random_bytes = os.urandom(8)
+        hash_hex = hashlib.sha256(target_hwid.encode() + random_bytes).hexdigest().upper()
+        key = f"LHC-PRO-{hash_hex[0:4]}-{hash_hex[4:8]}-{hash_hex[8:12]}"
+        
+        conn = sqlite3.connect(DB_FILE)
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT key FROM licenses WHERE hwid = ?", (target_hwid,))
+        exists = cursor.fetchone()
+        
+        if exists:
+            cursor.execute("UPDATE licenses SET key = ?, status = 'active', expires_at = ? WHERE hwid = ?", 
+                           (key, expires_time.strftime("%Y-%m-%d %H:%M:%S"), target_hwid))
+        else:
+            cursor.execute(
+                "INSERT INTO licenses (hwid, key, user_id, username, created_at, expires_at, status) VALUES (?, ?, ?, ?, ?, ?, ?)", 
+                (target_hwid, key, "manual", "manual_user", current_time.strftime("%Y-%m-%d %H:%M:%S"), expires_time.strftime("%Y-%m-%d %H:%M:%S"), 'active')
+            )
+        
+        conn.commit()
+        conn.close()
+        
+        bot.send_message(message.chat.id, f"✅ Ключ успешно сгенерирован и активирован!\n\n💻 HWID: `{target_hwid}`\n🔑 Ключ: `{key}`", parse_mode="Markdown")
+    else:
+        bot.send_message(message.chat.id, "📌 Использование: `/gen <HWID>`", parse_mode="Markdown")
 
 @bot.message_handler(commands=['adddays'])
 def add_days_command(message):
@@ -213,7 +238,6 @@ def handle_admin_check(message):
         
         if row:
             key, user_id, username, created_at, expires_at, status = row
-            
             exp_time = datetime.strptime(expires_at, "%Y-%m-%d %H:%M:%S")
             is_expired = datetime.now() > exp_time
             status_text = "❌ Заблокирован" if status == 'banned' else ("⏳ Истекла" if is_expired else "🟢 Активна")
@@ -239,8 +263,23 @@ def handle_admin_check(message):
 
             bot.send_message(message.chat.id, info_msg, parse_mode="Markdown", reply_markup=markup)
         else:
-            bot.send_message(message.chat.id, "❌ Такой HWID не найден в базе данных.")
+            bot.send_message(message.chat.id, f"❌ HWID не найден в базе (игрок не оплатил).\n\n💡 Вы можете создать для него ключ командой:\n`/gen {text}`", parse_mode="Markdown")
     else:
         bot.send_message(message.chat.id, "❌ Неверный формат или команда.")
 
-bot.infinity_polling()
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
+
+if __name__ == '__main__':
+    web_thread = Thread(target=run_web)
+    web_thread.daemon = True
+    web_thread.start()
+    
+    bot.infinity_polling()
