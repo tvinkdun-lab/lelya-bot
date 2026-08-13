@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.BOT_TOKEN || '8790088326:AAHdEeGW4HlDTXOAPGWW1BoxBxAVwNgfv0A';
 const ADMIN_ID = Number(process.env.ADMIN_ID || 5773841673);
 
-// Инициализируем бота безопасно для хостинга
 const bot = new TelegramBot(TOKEN, { polling: true });
 
 let botUsername = '';
@@ -218,20 +217,6 @@ bot.on('message', (msg) => {
         }
     }
 
-    if (cmd === '/online') {
-        if (keysDb.size === 0) return bot.sendMessage(chatId, 'Активных устройств нет.');
-        let msgText = '📋 **Активные ключи и устройства:**\n\n';
-        let i = 1;
-        for (let [k, v] of keysDb.entries()) {
-            if (isKeyValid(v)) {
-                const daysLeft = Math.ceil((v.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
-                msgText += `${i}. HWID: \`${v.hwid}\`\n   Ключ: \`${k}\` (Осталось: ${daysLeft} дн.)\n\n`;
-                i++;
-            }
-        }
-        return bot.sendMessage(chatId, msgText, { parse_mode: 'Markdown' });
-    }
-
     if (cmd === '/all') {
         let bList = Array.from(bannedHwids).join('\n') || 'Нет';
         return bot.sendMessage(chatId, `📊 **Статистика бота:**\n\n- Активных ключей: ${keysDb.size}\n- Забаненных HWID: ${bannedHwids.size}\n\n🛑 **Список банов:**\n${bList}`, { parse_mode: 'Markdown' });
@@ -289,7 +274,6 @@ bot.on('callback_query', (query) => {
     }
 });
 
-// Запускаем Express-сервер в самом конце, гарантируя открытие порта
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
