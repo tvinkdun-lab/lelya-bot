@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const TelegramBot = require('node-telegram-bot-api');
 
 const app = express();
@@ -19,6 +20,7 @@ bot.getMe().then((info) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 const keysDb = new Map();
 const bannedHwids = new Set();
@@ -65,11 +67,9 @@ app.get('/start', (req, res) => {
             <head>
                 <title>Lelya Hack Client - Получение ключа</title>
                 <meta charset="utf-8">
-                <meta http-equiv="refresh" content="2;url=https://t.me/">
                 <style>
                     body { background: #0c0c10; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
                     .card { background: rgba(20,20,25,0.95); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); text-align: center; max-width: 400px; width: 100%; box-shadow: 0 0 30px rgba(0,0,0,0.9); }
-                    .key-box { background: rgba(5,5,5,0.9); padding: 12px; border: 1px dashed rgba(138,109,238,0.5); border-radius: 8px; font-family: monospace; font-size: 16px; color: #8a6dee; margin: 15px 0; user-select: text; }
                     p { font-size: 13px; color: #aaa; }
                 </style>
             </head>
@@ -77,7 +77,6 @@ app.get('/start', (req, res) => {
                 <div class="card">
                     <h2>Перенаправление в Telegram...</h2>
                     <p>Твой HWID: <code>${hwid}</code></p>
-                    <div class="key-box">Открываем бота для выдачи ключа...</div>
                 </div>
             </body>
         </html>
@@ -126,23 +125,13 @@ bot.on('message', (msg) => {
         let days = parseInt(args[2]) || 30;
 
         if (!hwid && msg.reply_to_message && msg.reply_to_message.text) {
-            const replyText = msg.reply_to_message.text;
-            const match = replyText.match(/HWID:\s*`([^`]+)`/);
-            if (match) {
-                hwid = match[1];
-            }
-            if (!isNaN(parseInt(args[1]))) {
-                days = parseInt(args[1]);
-            }
+            const match = msg.reply_to_message.text.match(/HWID:\s*`([^`]+)`/);
+            if (match) hwid = match[1];
+            if (!isNaN(parseInt(args[1]))) days = parseInt(args[1]);
         }
 
-        if (!hwid) {
-            return bot.sendMessage(chatId, '❌ Использование: `/gen [HWID] [дни]` или ответь на сообщение с запросом командой `/gen [дни]`', { parse_mode: 'Markdown' });
-        }
-
-        if (bannedHwids.has(hwid)) {
-            return bot.sendMessage(chatId, `❌ Ошибка: HWID \`${hwid}\` находится в бане!`, { parse_mode: 'Markdown' });
-        }
+        if (!hwid) return bot.sendMessage(chatId, '❌ Использование: `/gen [HWID] [дни]`', { parse_mode: 'Markdown' });
+        if (bannedHwids.has(hwid)) return bot.sendMessage(chatId, `❌ Ошибка: HWID \`${hwid}\` находится в бане!`, { parse_mode: 'Markdown' });
 
         const newKey = 'LELYA-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
         const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
@@ -165,7 +154,7 @@ bot.on('message', (msg) => {
             if (match) hwid = match[1];
         }
 
-        if (!hwid) return bot.sendMessage(chatId, '❌ Использование: `/ban HWID` (или ответь на сообщение)', { parse_mode: 'Markdown' });
+        if (!hwid) return bot.sendMessage(chatId, '❌ Использование: `/ban HWID`', { parse_mode: 'Markdown' });
 
         bannedHwids.add(hwid);
         for (let [k, v] of keysDb.entries()) {
@@ -183,43 +172,9 @@ bot.on('message', (msg) => {
         return bot.sendMessage(chatId, `🟢 HWID \`${hwid}\` разблокирован.`, { parse_mode: 'Markdown' });
     }
 
-    if (cmd === '/reset') {
-        const hwid = args[1];
-        if (!hwid) return bot.sendMessage(chatId, '❌ Использование: `/reset HWID`', { parse_mode: 'Markdown' });
-
-        let count = 0;
-        for (let [k, v] of keysDb.entries()) {
-            if (v.hwid === hwid) {
-                keysDb.delete(k);
-                count++;
-            }
-        }
-        return bot.sendMessage(chatId, `🔄 Сброшено привязок для HWID \`${hwid}\`: ${count}`, { parse_mode: 'Markdown' });
-    }
-
-    if (cmd === '/adddays') {
-        const hwid = args[1];
-        const days = parseInt(args[2]);
-        if (!hwid || isNaN(days)) return bot.sendMessage(chatId, '❌ Использование: `/adddays HWID количество_дней`', { parse_mode: 'Markdown' });
-
-        let found = false;
-        for (let [k, v] of keysDb.entries()) {
-            if (v.hwid === hwid) {
-                v.expiresAt = Math.max(v.expiresAt, Date.now()) + days * 24 * 60 * 60 * 1000;
-                found = true;
-            }
-        }
-
-        if (found) {
-            return bot.sendMessage(chatId, `⏱ К HWID \`${hwid}\` успешно добавлено ${days} дней.`, { parse_mode: 'Markdown' });
-        } else {
-            return bot.sendMessage(chatId, `❌ Активных ключей для HWID \`${hwid}\` не найдено.`);
-        }
-    }
-
     if (cmd === '/all') {
         let bList = Array.from(bannedHwids).join('\n') || 'Нет';
-        return bot.sendMessage(chatId, `📊 **Статистика бота:**\n\n- Активных ключей: ${keysDb.size}\n- Забаненных HWID: ${bannedHwids.size}\n\n🛑 **Список банов:**\n${bList}`, { parse_mode: 'Markdown' });
+        return bot.sendMessage(chatId, `📊 **Статистика:**\n- Активных ключей: ${keysDb.size}\n- Забаненных HWID: ${bannedHwids.size}\n\n🛑 **Баны:**\n${bList}`, { parse_mode: 'Markdown' });
     }
 });
 
@@ -227,8 +182,7 @@ bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id;
     if (chatId !== ADMIN_ID) return;
 
-    const data = query.data;
-    const parts = data.split('_');
+    const parts = query.data.split('_');
     const action = parts[0];
 
     if (action === 'gen') {
@@ -236,7 +190,7 @@ bot.on('callback_query', (query) => {
         const hwid = parts.slice(2).join('_');
 
         if (bannedHwids.has(hwid)) {
-            return bot.answerCallbackQuery(query.id, { text: '❌ Этот HWID заблокирован!', show_alert: true });
+            return bot.answerCallbackQuery(query.id, { text: '❌ HWID заблокирован!', show_alert: true });
         }
 
         const newKey = 'LELYA-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -246,16 +200,12 @@ bot.on('callback_query', (query) => {
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
-            bot.sendMessage(targetTgId, `🎉 **Твой ключ успешно выдан!**\n\nКлюч: \`${newKey}\`\nСрок: ${days} дн.\n\nСкопируй его и вставь в скрипт.`, { parse_mode: 'Markdown' }).catch(()=>{});
+            bot.sendMessage(targetTgId, `🎉 **Ключ выдан!**\n\nКлюч: \`${newKey}\``, { parse_mode: 'Markdown' }).catch(()=>{});
             pendingHwids.delete(hwid);
         }
 
-        bot.editMessageText(`✅ Ключ успешно сгенерирован!\n\nHWID: \`${hwid}\`\nКлюч: \`${newKey}\`\nСрок: ${days} дн.`, {
-            chat_id: chatId,
-            message_id: query.message.message_id,
-            parse_mode: 'Markdown'
-        });
-        bot.answerCallbackQuery(query.id, { text: 'Ключ выдан!' });
+        bot.editMessageText(`✅ Ключ выдан: \`${newKey}\` (HWID: \`${hwid}\`)`, { chat_id: chatId, message_id: query.message.message_id, parse_mode: 'Markdown' });
+        bot.answerCallbackQuery(query.id, { text: 'Готово!' });
     } 
     else if (action === 'ban') {
         const hwid = parts.slice(1).join('_');
@@ -265,15 +215,11 @@ bot.on('callback_query', (query) => {
         }
         pendingHwids.delete(hwid);
 
-        bot.editMessageText(`🚫 HWID \`${hwid}\` успешно заблокирован.`, {
-            chat_id: chatId,
-            message_id: query.message.message_id,
-            parse_mode: 'Markdown'
-        });
-        bot.answerCallbackQuery(query.id, { text: 'HWID заблокирован!' });
+        bot.editMessageText(`🚫 HWID \`${hwid}\` заблокирован.`, { chat_id: chatId, message_id: query.message.message_id, parse_mode: 'Markdown' });
+        bot.answerCallbackQuery(query.id, { text: 'Забанено!' });
     }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
