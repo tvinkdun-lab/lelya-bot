@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.BOT_TOKEN || '8790088326:AAHdEeGW4HlDTXOAPGWW1BoxBxAVwNgfv0A';
 const ADMIN_ID = Number(process.env.ADMIN_ID || 5773841673);
 
+// Инициализируем бота безопасно для хостинга
 const bot = new TelegramBot(TOKEN, { polling: true });
 
 let botUsername = '';
@@ -288,6 +289,7 @@ bot.on('callback_query', (query) => {
     }
 });
 
+// Запускаем Express-сервер в самом конце, гарантируя открытие порта
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
