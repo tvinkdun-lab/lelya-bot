@@ -116,7 +116,7 @@ bot.on('message', (msg) => {
     }
 
     if (chatId !== ADMIN_ID) {
-        return bot.sendMessage(chatId, '⛔ У тебя нет доступа к этому боту. Чтобы запросить ключ, перейди по ссылке из скрипта.');
+        return bot.sendMessage(chatId, 'Чтобы получить ключ заплати лутом создателю, дискорд vtmin7');
     }
 
     const args = text.split(' ');
