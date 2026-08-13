@@ -69,16 +69,25 @@ def telegram_webhook():
         username = message['from'].get('username', 'Нет юзернейма')
         text = message.get('text', '').strip()
 
-        # Если игрок нажал /start [HWID] в боте, сохраняем связку HWID -> Telegram
-        if text.startswith('/start ') and user_id != MY_ADMIN_ID:
-            hwid_arg = text.split()[1]
-            DATABASE["hwid_to_tg"][hwid_arg] = f"@{username} (ID: {user_id})"
-            send_telegram_msg(chat_id, "👋 Привет! Отправь свой ключ администратору или купи его у создателя (`vtmin7`), чтобы получить доступ.", parse_mode="Markdown")
-            return "OK", 200
+        # ------------------- ОБРАБОТКА /start -------------------
+        if text.startswith('/start'):
+            # Если передали HWID (например: /start HWID123), сохраняем связь
+            parts = text.split()
+            if len(parts) > 1:
+                hwid_arg = parts[1]
+                DATABASE["hwid_to_tg"][hwid_arg] = f"@{username} (ID: {user_id})"
 
-        # Проверка прав администратора для команд управления
+            # Отправляем единое сообщение пользователю
+            send_telegram_msg(
+                chat_id, 
+                "Чтобы получить ключ, дайте лут создателю. Discord: vtmin7"
+            )
+            return "OK", 200
+        # --------------------------------------------------------
+
+        # Проверка прав администратора для остальных команд
         if user_id != MY_ADMIN_ID:
-            send_telegram_msg(chat_id, "❌ У тебя нет доступа к этому боту.")
+            send_telegram_msg(chat_id, "Чтобы получить ключ, дайте лут создателю. Discord: vtmin7")
             return "OK", 200
 
         parts = text.split()
