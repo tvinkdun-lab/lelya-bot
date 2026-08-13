@@ -11,6 +11,15 @@ const ADMIN_ID = Number(process.env.ADMIN_ID || 5773841673);
 
 const bot = new TelegramBot(TOKEN, { polling: true });
 
+// Переменная для хранения username бота
+let botUsername = '';
+bot.getMe().then((info) => {
+    botUsername = info.username;
+    console.log(`Telegram Bot @${botUsername} успешно запущен!`);
+}).catch((err) => {
+    console.error('Не удалось получить информацию о боте:', err);
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,7 +39,7 @@ function isKeyValid(data) {
 
 // --- WEB ЭНДПОИНТЫ ДЛЯ СКРИПТА ---
 
-// Страница запроса ключа (/start?hwid=...)
+// Страница запроса ключа (/start?hwid=...) -> Автоматически перекидывает в бота
 app.get('/start', (req, res) => {
     const hwid = req.query.hwid;
     if (!hwid) {
@@ -60,11 +69,18 @@ app.get('/start', (req, res) => {
         }
     }).catch(()=>{});
 
+    // Если имя бота уже получено, редиректим прямо в Telegram-бот с параметром start
+    if (botUsername) {
+        return res.redirect(`https://t.me/${botUsername}?start=auth_${hwid}`);
+    }
+
+    // Запасной вариант, если имя еще не подгрузилось
     res.send(`
         <html>
             <head>
                 <title>Lelya Hack Client - Получение ключа</title>
                 <meta charset="utf-8">
+                <meta http-equiv="refresh" content="2;url=https://t.me/">
                 <style>
                     body { background: #0c0c10; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
                     .card { background: rgba(20,20,25,0.95); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); text-align: center; max-width: 400px; width: 100%; box-shadow: 0 0 30px rgba(0,0,0,0.9); }
@@ -74,10 +90,9 @@ app.get('/start', (req, res) => {
             </head>
             <body>
                 <div class="card">
-                    <h2>Запрос отправлен</h2>
+                    <h2>Перенаправление в Telegram...</h2>
                     <p>Твой HWID: <code>${hwid}</code></p>
-                    <div class="key-box">Ожидай одобрения администратора в Telegram-боте.</div>
-                    <p>После выдачи ключа обнови страницу или введи его в игре.</p>
+                    <div class="key-box">Открываем бота для выдачи ключа...</div>
                 </div>
             </body>
         </html>
@@ -106,58 +121,22 @@ app.get('/verify', (req, res) => {
 });
 
 
-// --- TELEGRAM БОТ АДМИН-ПАНЕЛЬ ---
+// --- TELEGRAM БОТ АДМИН-ПАНЕЛЬ И СТАРТ ПОЛЬЗОВАТЕЛЕЙ ---
 
-// Обработка нажатий на инлайн-кнопки
-bot.on('callback_query', (query) => {
-    const chatId = query.message.chat.id;
-    if (chatId !== ADMIN_ID) return;
-
-    const data = query.data;
-    const parts = data.split('_');
-    const action = parts[0];
-
-    if (action === 'gen') {
-        const days = parseInt(parts[1]) || 30;
-        const hwid = parts.slice(2).join('_');
-
-        if (bannedHwids.has(hwid)) {
-            return bot.answerCallbackQuery(query.id, { text: '❌ Этот HWID заблокирован!', show_alert: true });
-        }
-
-        const newKey = 'LELYA-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
-        const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
-
-        keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
-        
-        bot.editMessageText(`✅ Ключ успешно сгенерирован!\n\nHWID: \`${hwid}\`\nКлюч: \`${newKey}\`\nСрок: ${days} дн.`, {
-            chat_id: chatId,
-            message_id: query.message.message_id,
-            parse_mode: 'Markdown'
-        });
-        bot.answerCallbackQuery(query.id, { text: 'Ключ выдан!' });
-    } 
-    else if (action === 'ban') {
-        const hwid = parts.slice(1).join('_');
-        bannedHwids.add(hwid);
-        for (let [k, v] of keysDb.entries()) {
-            if (v.hwid === hwid) keysDb.delete(k);
-        }
-        bot.editMessageText(`🚫 HWID \`${hwid}\` успешно заблокирован.`, {
-            chat_id: chatId,
-            message_id: query.message.message_id,
-            parse_mode: 'Markdown'
-        });
-        bot.answerCallbackQuery(query.id, { text: 'HWID заблокирован!' });
-    }
-});
-
+// Обработка команды /start в самом боте (когда пользователя перекинуло туда)
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text ? msg.text.trim() : '';
 
+    // Обработка параметров авто-авторизации из ссылки (например, /start auth_HWID123)
+    if (text.startsWith('/start auth_')) {
+        const hwid = text.replace('/start auth_', '');
+        pendingHwids.set(hwid, chatId);
+        return bot.sendMessage(chatId, `✅ **Твой HWID успешно зафиксирован!**\n\nHWID: \`${hwid}\`\n\nОжидай, пока администратор проверит запрос и выдаст тебе ключ.`, { parse_mode: 'Markdown' });
+    }
+
     if (chatId !== ADMIN_ID) {
-        return bot.sendMessage(chatId, '⛔ У тебя нет доступа к этому боту.');
+        return bot.sendMessage(chatId, '⛔ У тебя нет доступа к этому боту. Чтобы запросить ключ, перейди по ссылке из скрипта.');
     }
 
     const args = text.split(' ');
@@ -171,12 +150,10 @@ bot.on('message', (msg) => {
         // Если команда отправлена реплаем на сообщение бота с запросом
         if (!hwid && msg.reply_to_message && msg.reply_to_message.text) {
             const replyText = msg.reply_to_message.text;
-            // Пытаемся вытащить HWID из текста сообщения
             const match = replyText.match(/HWID:\s*`([^`]+)`/);
             if (match) {
                 hwid = match[1];
             }
-            // Если после /gen указано число (например, /gen 7 в ответ на сообщение)
             if (!isNaN(parseInt(args[1]))) {
                 days = parseInt(args[1]);
             }
@@ -194,6 +171,14 @@ bot.on('message', (msg) => {
         const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
 
         keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
+        
+        // Если пользователь запускал бота по кнопке, отправляем ключ ему в ЛС
+        const targetTgId = pendingHwids.get(hwid);
+        if (targetTgId) {
+            bot.sendMessage(targetTgId, `🎉 **Твой ключ успешно выдан!**\n\nКлюч: \`${newKey}\`\nСрок: ${days} дн.\n\nСкопируй его и вставь в скрипт.`, { parse_mode: 'Markdown' }).catch(()=>{});
+            pendingHwids.delete(hwid);
+        }
+
         return bot.sendMessage(chatId, `✅ Ключ успешно сгенерирован!\n\nHWID: \`${hwid}\`\nКлюч: \`${newKey}\`\nСрок: ${days} дн.`, { parse_mode: 'Markdown' });
     }
 
@@ -211,6 +196,7 @@ bot.on('message', (msg) => {
         for (let [k, v] of keysDb.entries()) {
             if (v.hwid === hwid) keysDb.delete(k);
         }
+        pendingHwids.delete(hwid);
         return bot.sendMessage(chatId, `🚫 HWID \`${hwid}\` успешно заблокирован.`, { parse_mode: 'Markdown' });
     }
 
@@ -278,6 +264,59 @@ bot.on('message', (msg) => {
     if (cmd === '/all') {
         let bList = Array.from(bannedHwids).join('\n') || 'Нет';
         return bot.sendMessage(chatId, `📊 **Статистика бота:**\n\n- Активных ключей: ${keysDb.size}\n- Забаненных HWID: ${bannedHwids.size}\n\n🛑 **Список банов:**\n${bList}`, { parse_mode: 'Markdown' });
+    }
+});
+
+// Обработка нажатий на инлайн-кнопки
+bot.on('callback_query', (query) => {
+    const chatId = query.message.chat.id;
+    if (chatId !== ADMIN_ID) return;
+
+    const data = query.data;
+    const parts = data.split('_');
+    const action = parts[0];
+
+    if (action === 'gen') {
+        const days = parseInt(parts[1]) || 30;
+        const hwid = parts.slice(2).join('_');
+
+        if (bannedHwids.has(hwid)) {
+            return bot.answerCallbackQuery(query.id, { text: '❌ Этот HWID заблокирован!', show_alert: true });
+        }
+
+        const newKey = 'LELYA-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+        const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
+
+        keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
+        
+        // Отправляем ключ пользователю в ЛС, если он заходил в бота
+        const targetTgId = pendingHwids.get(hwid);
+        if (targetTgId) {
+            bot.sendMessage(targetTgId, `🎉 **Твой ключ успешно выдан!**\n\nКлюч: \`${newKey}\`\nСрок: ${days} дн.\n\nСкопируй его и вставь в скрипт.`, { parse_mode: 'Markdown' }).catch(()=>{});
+            pendingHwids.delete(hwid);
+        }
+
+        bot.editMessageText(`✅ Ключ успешно сгенерирован!\n\nHWID: \`${hwid}\`\nКлюч: \`${newKey}\`\nСрок: ${days} дн.`, {
+            chat_id: chatId,
+            message_id: query.message.message_id,
+            parse_mode: 'Markdown'
+        });
+        bot.answerCallbackQuery(query.id, { text: 'Ключ выдан!' });
+    } 
+    else if (action === 'ban') {
+        const hwid = parts.slice(1).join('_');
+        bannedHwids.add(hwid);
+        for (let [k, v] of keysDb.entries()) {
+            if (v.hwid === hwid) keysDb.delete(k);
+        }
+        pendingHwids.delete(hwid);
+
+        bot.editMessageText(`🚫 HWID \`${hwid}\` успешно заблокирован.`, {
+            chat_id: chatId,
+            message_id: query.message.message_id,
+            parse_mode: 'Markdown'
+        });
+        bot.answerCallbackQuery(query.id, { text: 'HWID заблокирован!' });
     }
 });
 
