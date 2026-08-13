@@ -198,7 +198,7 @@ def send_telegram_msg(chat_id, text, parse_mode=None):
     if parse_mode:
         payload["parse_mode"] = parse_mode
     requests.post(url, json=payload)
-# --- Выдача заобфусцированного ядра скрипта ---
+# --- Выдача заобфусцированного ядра чита ---
 @app.route('/get-core-script', methods=['GET'])
 def get_core_script():
     hwid = request.args.get('hwid', '')
@@ -208,14 +208,21 @@ def get_core_script():
     if hwid in DATABASE["banned"]:
         return jsonify({"status": "error", "message": "Вы забанены!"}), 403
 
+    # Функция подшивки HWID к коду
+    def send_bound_script():
+        try:
+            with open('core_obfuscated.js', 'r', encoding='utf-8') as f:
+                code = f.read()
+            # Вшиваем HWID прямо перед кодом чита
+            bound_code = f"window.__ALLOWED_HWID__ = '{hwid}';\n" + code
+            return jsonify({"status": "success", "script": bound_code})
+        except Exception as e:
+            return jsonify({"status": "error", "message": "Файл скрипта не найден!"}), 500
+
     # Авто-вход по уже сохраненному HWID
     if key == 'AUTO_PING' or key == 'PING_CHECK':
         if hwid in DATABASE["active_users"] and DATABASE["active_users"][hwid] > 0:
-            try:
-                with open('core_obfuscated.js', 'r', encoding='utf-8') as f:
-                    return jsonify({"status": "success", "script": f.read()})
-            except Exception as e:
-                return jsonify({"status": "error", "message": "Файл скрипта не найден!"}), 500
+            return send_bound_script()
         else:
             return jsonify({"status": "error", "message": "Подписка не активна!"}), 403
 
@@ -223,12 +230,7 @@ def get_core_script():
     if key in DATABASE["keys"]:
         days = DATABASE["keys"].pop(key)
         DATABASE["active_users"][hwid] = days
-        
-        try:
-            with open('core_obfuscated.js', 'r', encoding='utf-8') as f:
-                return jsonify({"status": "success", "script": f.read()})
-        except Exception as e:
-            return jsonify({"status": "error", "message": "Файл скрипта не найден!"}), 500
+        return send_bound_script()
 
     return jsonify({"status": "error", "message": "Неверный ключ!"}), 403
 if __name__ == '__main__':
