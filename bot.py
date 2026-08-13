@@ -198,7 +198,39 @@ def send_telegram_msg(chat_id, text, parse_mode=None):
     if parse_mode:
         payload["parse_mode"] = parse_mode
     requests.post(url, json=payload)
+# --- Выдача заобфусцированного ядра скрипта ---
+@app.route('/get-core-script', methods=['GET'])
+def get_core_script():
+    hwid = request.args.get('hwid', '')
+    key = request.args.get('key', '').strip()
 
+    # Проверка на бан
+    if hwid in DATABASE["banned"]:
+        return jsonify({"status": "error", "message": "Вы забанены!"}), 403
+
+    # Авто-вход по уже сохраненному HWID
+    if key == 'AUTO_PING' or key == 'PING_CHECK':
+        if hwid in DATABASE["active_users"] and DATABASE["active_users"][hwid] > 0:
+            try:
+                with open('core_obfuscated.js', 'r', encoding='utf-8') as f:
+                    return jsonify({"status": "success", "script": f.read()})
+            except Exception as e:
+                return jsonify({"status": "error", "message": "Файл скрипта не найден!"}), 500
+        else:
+            return jsonify({"status": "error", "message": "Подписка не активна!"}), 403
+
+    # Активация по новому ключу
+    if key in DATABASE["keys"]:
+        days = DATABASE["keys"].pop(key)
+        DATABASE["active_users"][hwid] = days
+        
+        try:
+            with open('core_obfuscated.js', 'r', encoding='utf-8') as f:
+                return jsonify({"status": "success", "script": f.read()})
+        except Exception as e:
+            return jsonify({"status": "error", "message": "Файл скрипта не найден!"}), 500
+
+    return jsonify({"status": "error", "message": "Неверный ключ!"}), 403
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
