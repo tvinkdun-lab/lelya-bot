@@ -5,9 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Укажи свой Telegram Token (лучше вынести в переменные среды Render: BOT_TOKEN)
-const TOKEN = process.env.BOT_TOKEN || '8790088326:AAHdEeGW4HlDTXOAPGWW1BoxBxAVwNgfv0A;
+const TOKEN = process.env.BOT_TOKEN || '8790088326:AAHdEeGW4HlDTXOAPGWW1BoxBxAVwNgfv0A';
 // Укажи свой Telegram ID (чтобы только ты мог использовать админ-команды)
-const ADMIN_ID = Number(process.env.ADMIN_ID) || 5773841673; 
+const ADMIN_ID = Number(process.env.ADMIN_ID || 5773841673);
 
 const bot = new TelegramBot(TOKEN, { polling: true });
 
