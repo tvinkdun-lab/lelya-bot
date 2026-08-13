@@ -4,7 +4,7 @@ import string
 import requests
 from flask import Flask, request, redirect, jsonify
 
-# Считываем чувствительные данные из переменных окружения
+# Данные берутся из переменных или ставятся по умолчанию
 TOKEN = os.environ.get("BOT_TOKEN", "8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg")
 MY_ADMIN_ID = int(os.environ.get("ADMIN_ID", 5773841673))
 BOT_USERNAME = os.environ.get("BOT_USERNAME", "lelyahackbot")
@@ -54,10 +54,8 @@ def verify_key():
         return jsonify({"status": "banned", "message": "Ваш HWID заблокирован!"})
 
     # Проверка фонового пинга
-    if key == "PING_CHECK":
-        if hwid in DATABASE["active_users"]:
-            return jsonify({"status": "success", "message": "Active"})
-        return jsonify({"status": "error", "message": "Подписка не найдена"})
+    if key == "PING_CHECK" and hwid in DATABASE["active_users"]:
+        return jsonify({"status": "success", "message": "Active"})
 
     # Активация ключа
     if key in DATABASE["keys"]:
@@ -70,7 +68,6 @@ def verify_key():
 
 @app.route('/webhook', methods=['POST'])
 def telegram_webhook():
-    # Проверка секретного заголовка для защиты от поддельных запросов
     secret_header = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
     if WEBHOOK_SECRET and secret_header != WEBHOOK_SECRET:
         return "Unauthorized", 403
@@ -86,7 +83,7 @@ def telegram_webhook():
         username = message['from'].get('username', 'Нет юзернейма')
         text = message.get('text', '').strip()
 
-        # Обработка /start для всех пользователей
+        # Старт для игроков
         if text.startswith('/start'):
             parts = text.split(maxsplit=1)
             if len(parts) > 1:
@@ -97,7 +94,7 @@ def telegram_webhook():
             send_telegram_msg(chat_id, welcome_msg, parse_mode="Markdown")
             return "OK", 200
 
-        # Проверка прав администратора для остальных команд
+        # Доступ к админке только для тебя
         if user_id != MY_ADMIN_ID:
             send_telegram_msg(chat_id, "❌ У тебя нет доступа к командам управления.")
             return "OK", 200
@@ -105,6 +102,7 @@ def telegram_webhook():
         parts = text.split()
         cmd = parts[0].lower() if parts else ""
 
+        # 1. Генерация ключа
         if cmd in ['/gen', 'gen']:
             days = 30
             if len(parts) > 1 and parts[1].isdigit():
@@ -114,6 +112,50 @@ def telegram_webhook():
             DATABASE["keys"][new_key] = days
             send_telegram_msg(chat_id, f"✅ Твой ключ на {days} дней:\n`{new_key}`", parse_mode="Markdown")
 
+        # 2. Продление подписки
+        elif cmd in ['/adddays', '/extend']:
+            if len(parts) > 2 and parts[2].isdigit():
+                hwid = parts[1]
+                days_add = int(parts[2])
+                if hwid in DATABASE["active_users"]:
+                    DATABASE["active_users"][hwid] += days_add
+                    send_telegram_msg(chat_id, f"⏳ Подписка HWID `{hwid}` продлена на {days_add} дн.", parse_mode="Markdown")
+                else:
+                    send_telegram_msg(chat_id, "⚠️ Этот HWID не найден среди активных игроков.")
+            else:
+                send_telegram_msg(chat_id, "Использование: `/adddays [HWID] [дни]`", parse_mode="Markdown")
+
+        # 3. Бан
+        elif cmd in ['/ban']:
+            if len(parts) > 1:
+                hwid = parts[1]
+                DATABASE["banned"].add(hwid)
+                DATABASE["active_users"].pop(hwid, None)
+                send_telegram_msg(chat_id, f"🔨 HWID `{hwid}` заблокирован.", parse_mode="Markdown")
+            else:
+                send_telegram_msg(chat_id, "Пример: `/ban HWID-XXXX`", parse_mode="Markdown")
+
+        # 4. Разбан
+        elif cmd in ['/unban']:
+            if len(parts) > 1:
+                hwid = parts[1]
+                DATABASE["banned"].discard(hwid)
+                send_telegram_msg(chat_id, f"✅ HWID `{hwid}` разбанен.", parse_mode="Markdown")
+            else:
+                send_telegram_msg(chat_id, "Пример: `/unban HWID-XXXX`", parse_mode="Markdown")
+
+        # 5. Сброс HWID
+        elif cmd in ['/reset']:
+            if len(parts) > 1:
+                hwid = parts[1]
+                DATABASE["active_users"].pop(hwid, None)
+                DATABASE["banned"].discard(hwid)
+                DATABASE["hwid_to_tg"].pop(hwid, None)
+                send_telegram_msg(chat_id, f"🔄 HWID `{hwid}` полностью сброшен.", parse_mode="Markdown")
+            else:
+                send_telegram_msg(chat_id, "Пример: `/reset HWID-XXXX`", parse_mode="Markdown")
+
+        # 6. Список игроков
         elif cmd in ['/online', '/users']:
             if not DATABASE["active_users"]:
                 send_telegram_msg(chat_id, "⚪ Сейчас нет активных игроков.")
@@ -124,30 +166,27 @@ def telegram_webhook():
                     text_msg += f"• **Игрок:** {tg_info}\n  💻 HWID: `{hwid}`\n  ⏳ Дней: **{days}**\n\n"
                 send_telegram_msg(chat_id, text_msg, parse_mode="Markdown")
 
-        elif cmd in ['/ban']:
-            if len(parts) > 1:
-                hwid = parts[1]
-                DATABASE["banned"].add(hwid)
-                DATABASE["active_users"].pop(hwid, None)
-                send_telegram_msg(chat_id, f"🔨 HWID `{hwid}` заблокирован.", parse_mode="Markdown")
-            else:
-                send_telegram_msg(chat_id, "Пример: `/ban HWID-XXXX`", parse_mode="Markdown")
+        # 7. Общая статистика
+        elif cmd in ['/all', '/stats']:
+            stats_msg = (
+                f"📊 **Статистика бота:**\n\n"
+                f"🟢 Активных игроков: **{len(DATABASE['active_users'])}**\n"
+                f"🔑 Свободных ключей: **{len(DATABASE['keys'])}**\n"
+                f"🔴 Забанено: **{len(DATABASE['banned'])}**"
+            )
+            send_telegram_msg(chat_id, stats_msg, parse_mode="Markdown")
 
-        elif cmd in ['/unban']:
-            if len(parts) > 1:
-                hwid = parts[1]
-                DATABASE["banned"].discard(hwid)
-                send_telegram_msg(chat_id, f"✅ HWID `{hwid}` разбанен.", parse_mode="Markdown")
-            else:
-                send_telegram_msg(chat_id, "Пример: `/unban HWID-XXXX`", parse_mode="Markdown")
-
+        # Помощь по командам
         else:
             help_text = (
                 "🤖 **Команды управления:**\n"
                 "• `/gen [дни]` — Создать ключ\n"
                 "• `/online` — Активные игроки\n"
+                "• `/all` — Статистика\n"
+                "• `/adddays [HWID] [дни]` — Продлить\n"
                 "• `/ban [HWID]` — Забанить\n"
-                "• `/unban [HWID]` — Разбанить"
+                "• `/unban [HWID]` — Разбанить\n"
+                "• `/reset [HWID]` — Сбросить HWID"
             )
             send_telegram_msg(chat_id, help_text, parse_mode="Markdown")
 
