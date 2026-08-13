@@ -200,7 +200,7 @@ bot.on('message', (msg) => {
 
     // /online (активные устройства)
     if (cmd === '/online') {
-        if (keysDb.size === 0) return.sendMessage(chatId, '📭 Активных устройств нет.');
+    if (keysDb.size === 0) return bot.sendMessage(chatId, 'Активных устройств нет.');
         let msgText = '📋 **Активные ключи и устройства:**\n\n';
         let i = 1;
         for (let [k, v] of keysDb.entries()) {
