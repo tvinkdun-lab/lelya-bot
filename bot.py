@@ -4,7 +4,7 @@ import random
 import string
 from flask import Flask, request, redirect, jsonify
 
-TOKEN = "8790088326:AAHKaigWjGSbwr11seLukJXeyWXO2eAtNNg"
+TOKEN = "8790088326:AAHdEeGW4HlDTXOAPGWW1BoxBxAVwNgfv0A"
 MY_ADMIN_ID = 5773841673
 BOT_USERNAME = "lelyahackbot"
 
