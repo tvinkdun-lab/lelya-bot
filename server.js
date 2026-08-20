@@ -7,7 +7,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const TOKEN = process.env.BOT_TOKEN || '8790088326:AAHdEeGW4HlDTXOAPGWW1BoxBxAVwNgfv0A';
+const TOKEN = process.env.BOT_TOKEN || '8790088326:AAH1h0kbxX5p832XGL9R0JPDlf3-hQH63ww';
 const ADMIN_ID = Number(process.env.ADMIN_ID || 5773841673);
 
 const DB_FILE = path.join(__dirname, 'db.json');
