@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const TelegramBot = require('node-telegram-bot-api');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,6 +10,40 @@ const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.BOT_TOKEN || '8790088326:AAHdEeGW4HlDTXOAPGWW1BoxBxAVwNgfv0A';
 const ADMIN_ID = Number(process.env.ADMIN_ID || 5773841673);
 
+const DB_FILE = path.join(__dirname, 'db.json');
+
+// --- ЗАГРУЗКА И СОХРАНЕНИЕ ДАННЫХ В ФАЙЛ ---
+function loadData() {
+    if (!fs.existsSync(DB_FILE)) {
+        return { keys: [], bans: [] };
+    }
+    try {
+        const fileData = fs.readFileSync(DB_FILE, 'utf8');
+        return JSON.parse(fileData);
+    } catch (e) {
+        console.error('Ошибка при чтении db.json:', e);
+        return { keys: [], bans: [] };
+    }
+}
+
+const initialData = loadData();
+const keysDb = new Map(initialData.keys || []);
+const bannedHwids = new Set(initialData.bans || []);
+const pendingHwids = new Map();
+
+function saveData() {
+    try {
+        const dataToSave = {
+            keys: Array.from(keysDb.entries()),
+            bans: Array.from(bannedHwids)
+        };
+        fs.writeFileSync(DB_FILE, JSON.stringify(dataToSave, null, 2), 'utf8');
+    } catch (e) {
+        console.error('Ошибка при сохранении в db.json:', e);
+    }
+}
+
+// --- TELEGRAM BOT ---
 const bot = new TelegramBot(TOKEN, { polling: true });
 
 let botUsername = '';
@@ -22,15 +58,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const keysDb = new Map();
-const bannedHwids = new Set();
-const pendingHwids = new Map();
-
 function isKeyValid(data) {
     if (!data) return false;
     return Date.now() < data.expiresAt;
 }
 
+// --- ROUTE /start ---
 app.get('/start', (req, res) => {
     const hwid = req.query.hwid;
     if (!hwid) {
@@ -83,7 +116,7 @@ app.get('/start', (req, res) => {
     `);
 });
 
-// ИСПРАВЛЕННЫЙ МАРШРУТ VERIFY
+// --- ROUTE /verify ---
 app.get('/verify', (req, res) => {
     const { hwid, key } = req.query;
 
@@ -91,7 +124,6 @@ app.get('/verify', (req, res) => {
         return res.json({ status: 'invalid', message: 'Не указан HWID!' });
     }
 
-    // 1. ПЕРВООЧЕРЕДНАЯ ПРОВЕРКА НА БАН
     if (bannedHwids.has(hwid)) {
         return res.json({ status: 'banned', message: 'Устройство заблокировано!' });
     }
@@ -102,7 +134,6 @@ app.get('/verify', (req, res) => {
 
     const keyData = keysDb.get(key);
 
-    // 2. ПРОВЕРКА КЛЮЧА
     if (keyData && keyData.hwid === hwid) {
         if (!isKeyValid(keyData)) {
             return res.json({ status: 'expired', message: 'Срок действия ключа истек!' });
@@ -113,6 +144,7 @@ app.get('/verify', (req, res) => {
     }
 });
 
+// --- TELEGRAM COMMANDS ---
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text ? msg.text.trim() : '';
@@ -147,6 +179,7 @@ bot.on('message', (msg) => {
         const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
 
         keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
+        saveData(); // <--- Сохраняем изменение
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
@@ -171,6 +204,8 @@ bot.on('message', (msg) => {
             if (v.hwid === hwid) keysDb.delete(k);
         }
         pendingHwids.delete(hwid);
+        saveData(); // <--- Сохраняем изменение
+
         return bot.sendMessage(chatId, `🚫 HWID \`${hwid}\` успешно заблокирован.`, { parse_mode: 'Markdown' });
     }
 
@@ -179,6 +214,8 @@ bot.on('message', (msg) => {
         if (!hwid) return bot.sendMessage(chatId, '❌ Использование: `/unban HWID`', { parse_mode: 'Markdown' });
 
         bannedHwids.delete(hwid);
+        saveData(); // <--- Сохраняем изменение
+
         return bot.sendMessage(chatId, `🟢 HWID \`${hwid}\` разблокирован.`, { parse_mode: 'Markdown' });
     }
 
@@ -188,6 +225,7 @@ bot.on('message', (msg) => {
     }
 });
 
+// --- CALLBACK BUTTONS ---
 bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id;
     if (chatId !== ADMIN_ID) return;
@@ -207,6 +245,7 @@ bot.on('callback_query', (query) => {
         const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
 
         keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
+        saveData(); // <--- Сохраняем изменение
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
@@ -224,6 +263,7 @@ bot.on('callback_query', (query) => {
             if (v.hwid === hwid) keysDb.delete(k);
         }
         pendingHwids.delete(hwid);
+        saveData(); // <--- Сохраняем изменение
 
         bot.editMessageText(`🚫 HWID \`${hwid}\` заблокирован.`, { chat_id: chatId, message_id: query.message.message_id, parse_mode: 'Markdown' });
         bot.answerCallbackQuery(query.id, { text: 'Забанено!' });
