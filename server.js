@@ -56,7 +56,7 @@ app.get('/start', (req, res) => {
                 [{ text: '🚫 Забанить HWID', callback_data: `ban_${hwid}` }]
             ]
         }
-    }).catch(()=>{});
+    }).catch(() => {});
 
     if (botUsername) {
         return res.redirect(`https://t.me/${botUsername}?start=auth_${hwid}`);
@@ -83,23 +83,33 @@ app.get('/start', (req, res) => {
     `);
 });
 
+// ИСПРАВЛЕННЫЙ МАРШРУТ VERIFY
 app.get('/verify', (req, res) => {
     const { hwid, key } = req.query;
 
-    if (!hwid || !key) {
-        return res.json({ status: 'error', message: 'Неверные параметры!' });
+    if (!hwid) {
+        return res.json({ status: 'invalid', message: 'Не указан HWID!' });
     }
 
+    // 1. ПЕРВООЧЕРЕДНАЯ ПРОВЕРКА НА БАН
     if (bannedHwids.has(hwid)) {
-        return res.json({ status: 'error', message: 'Устройство заблокировано!' });
+        return res.json({ status: 'banned', message: 'Устройство заблокировано!' });
+    }
+
+    if (!key) {
+        return res.json({ status: 'invalid', message: 'Не указан ключ!' });
     }
 
     const keyData = keysDb.get(key);
 
-    if (keyData && keyData.hwid === hwid && isKeyValid(keyData)) {
+    // 2. ПРОВЕРКА КЛЮЧА
+    if (keyData && keyData.hwid === hwid) {
+        if (!isKeyValid(keyData)) {
+            return res.json({ status: 'expired', message: 'Срок действия ключа истек!' });
+        }
         return res.json({ status: 'success' });
     } else {
-        return res.json({ status: 'error', message: 'Ключ недействителен, истек или привязан к другому устройству!' });
+        return res.json({ status: 'invalid', message: 'Ключ недействителен или привязан к другому устройству!' });
     }
 });
 
@@ -140,7 +150,7 @@ bot.on('message', (msg) => {
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
-            bot.sendMessage(targetTgId, `🎉 **Твой ключ успешно выдан!**\n\nКлюч: \`${newKey}\`\nСрок: ${days} дн.\n\nСкопируй его и вставь в скрипт.`, { parse_mode: 'Markdown' }).catch(()=>{});
+            bot.sendMessage(targetTgId, `🎉 **Твой ключ успешно выдан!**\n\nКлюч: \`${newKey}\`\nСрок: ${days} дн.\n\nСкопируй его и вставь в скрипт.`, { parse_mode: 'Markdown' }).catch(() => {});
             pendingHwids.delete(hwid);
         }
 
@@ -200,7 +210,7 @@ bot.on('callback_query', (query) => {
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
-            bot.sendMessage(targetTgId, `🎉 **Ключ выдан!**\n\nКлюч: \`${newKey}\``, { parse_mode: 'Markdown' }).catch(()=>{});
+            bot.sendMessage(targetTgId, `🎉 **Ключ выдан!**\n\nКлюч: \`${newKey}\``, { parse_mode: 'Markdown' }).catch(() => {});
             pendingHwids.delete(hwid);
         }
 
