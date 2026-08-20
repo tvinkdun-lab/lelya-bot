@@ -27,15 +27,19 @@ function loadData() {
 }
 
 const initialData = loadData();
-const keysDb = new Map(initialData.keys || []);
+
+// Корректное восстановление Map из массива пар
+const keysDb = new Map(
+    Array.isArray(initialData.keys) ? initialData.keys : []
+);
 const bannedHwids = new Set(initialData.bans || []);
 const pendingHwids = new Map();
 
 function saveData() {
     try {
         const dataToSave = {
-            keys: Array.from(keysDb.entries()),
-            bans: Array.from(bannedHwids)
+            keys: Array.from(keysDb.entries()), // Превращаем Map в массив [[key, data], ...]
+            bans: Array.from(bannedHwids)       // Превращаем Set в массив [hwid1, hwid2, ...]
         };
         fs.writeFileSync(DB_FILE, JSON.stringify(dataToSave, null, 2), 'utf8');
     } catch (e) {
@@ -179,7 +183,7 @@ bot.on('message', (msg) => {
         const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
 
         keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
-        saveData(); // <--- Сохраняем изменение
+        saveData(); // Сохраняем в файл
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
@@ -204,7 +208,7 @@ bot.on('message', (msg) => {
             if (v.hwid === hwid) keysDb.delete(k);
         }
         pendingHwids.delete(hwid);
-        saveData(); // <--- Сохраняем изменение
+        saveData(); // Сохраняем в файл
 
         return bot.sendMessage(chatId, `🚫 HWID \`${hwid}\` успешно заблокирован.`, { parse_mode: 'Markdown' });
     }
@@ -214,7 +218,7 @@ bot.on('message', (msg) => {
         if (!hwid) return bot.sendMessage(chatId, '❌ Использование: `/unban HWID`', { parse_mode: 'Markdown' });
 
         bannedHwids.delete(hwid);
-        saveData(); // <--- Сохраняем изменение
+        saveData(); // Сохраняем в файл
 
         return bot.sendMessage(chatId, `🟢 HWID \`${hwid}\` разблокирован.`, { parse_mode: 'Markdown' });
     }
@@ -245,7 +249,7 @@ bot.on('callback_query', (query) => {
         const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
 
         keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
-        saveData(); // <--- Сохраняем изменение
+        saveData(); // Сохраняем в файл
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
@@ -263,7 +267,7 @@ bot.on('callback_query', (query) => {
             if (v.hwid === hwid) keysDb.delete(k);
         }
         pendingHwids.delete(hwid);
-        saveData(); // <--- Сохраняем изменение
+        saveData(); // Сохраняем в файл
 
         bot.editMessageText(`🚫 HWID \`${hwid}\` заблокирован.`, { chat_id: chatId, message_id: query.message.message_id, parse_mode: 'Markdown' });
         bot.answerCallbackQuery(query.id, { text: 'Забанено!' });
