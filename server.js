@@ -12,7 +12,7 @@ const ADMIN_ID = Number(process.env.ADMIN_ID || 5773841673);
 
 const DB_FILE = path.join(__dirname, 'db.json');
 
-// --- ЗАГРУЗКА И СОХРАНЕНИЕ ДАННЫХ ---
+// --- ЗАГРУЗКА И СОХРАНЕНИЕ ДАННЫХ В ФАЙЛ ---
 function loadData() {
     if (!fs.existsSync(DB_FILE)) {
         return { keys: [], bans: [] };
@@ -28,6 +28,7 @@ function loadData() {
 
 const initialData = loadData();
 
+// Корректное восстановление Map из массива пар
 const keysDb = new Map(
     Array.isArray(initialData.keys) ? initialData.keys : []
 );
@@ -37,8 +38,8 @@ const pendingHwids = new Map();
 function saveData() {
     try {
         const dataToSave = {
-            keys: Array.from(keysDb.entries()),
-            bans: Array.from(bannedHwids)
+            keys: Array.from(keysDb.entries()), 
+            bans: Array.from(bannedHwids)       
         };
         fs.writeFileSync(DB_FILE, JSON.stringify(dataToSave, null, 2), 'utf8');
     } catch (e) {
@@ -94,8 +95,29 @@ app.get('/start', (req, res) => {
         }
     }).catch(() => {});
 
-    const targetBot = botUsername || 'lelyahackbot';
-    return res.redirect(`https://t.me/${targetBot}?start=auth_${hwid}`);
+    if (botUsername) {
+        return res.redirect(`https://t.me/${botUsername}?start=auth_${hwid}`);
+    }
+
+    res.send(`
+        <html>
+            <head>
+                <title>Lelya Hack Client - Получение ключа</title>
+                <meta charset="utf-8">
+                <style>
+                    body { background: #0c0c10; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+                    .card { background: rgba(20,20,25,0.95); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); text-align: center; max-width: 400px; width: 100%; box-shadow: 0 0 30px rgba(0,0,0,0.9); }
+                    p { font-size: 13px; color: #aaa; }
+                </style>
+            </head>
+            <body>
+                <div class="card">
+                    <h2>Перенаправление в Telegram...</h2>
+                    <p>Твой HWID: <code>${hwid}</code></p>
+                </div>
+            </body>
+        </html>
+    `);
 });
 
 // --- ROUTE /verify ---
@@ -123,6 +145,37 @@ app.get('/verify', (req, res) => {
         return res.json({ status: 'success' });
     } else {
         return res.json({ status: 'invalid', message: 'Ключ недействителен или привязан к другому устройству!' });
+    }
+});
+
+// --- ROUTE /load-script (ДОБАВЛЕННЫЙ ЭНДПОИНТ) ---
+app.get('/load-script', (req, res) => {
+    const { hwid, key } = req.query;
+
+    if (!hwid || !key) {
+        return res.status(400).send('// Ошибка: Не указан HWID или ключ');
+    }
+
+    if (bannedHwids.has(hwid)) {
+        return res.status(403).send('// Ошибка: Устройство заблокировано!');
+    }
+
+    const keyData = keysDb.get(key);
+
+    // Проверяем валидность ключа
+    if (keyData && keyData.hwid === hwid && isKeyValid(keyData)) {
+        
+        // Отправка JS-кода из файла payload.js
+        const scriptPath = path.join(__dirname, 'payload.js');
+        if (fs.existsSync(scriptPath)) {
+            res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+            return res.sendFile(scriptPath);
+        } else {
+            return res.status(500).send('// Ошибка: Файл чита не найден на сервере');
+        }
+
+    } else {
+        return res.status(401).send('// Ошибка: Недействительный или истекший ключ');
     }
 });
 
@@ -161,7 +214,7 @@ bot.on('message', (msg) => {
         const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
 
         keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
-        saveData();
+        saveData(); 
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
@@ -186,7 +239,7 @@ bot.on('message', (msg) => {
             if (v.hwid === hwid) keysDb.delete(k);
         }
         pendingHwids.delete(hwid);
-        saveData();
+        saveData(); 
 
         return bot.sendMessage(chatId, `🚫 HWID \`${hwid}\` успешно заблокирован.`, { parse_mode: 'Markdown' });
     }
@@ -196,7 +249,7 @@ bot.on('message', (msg) => {
         if (!hwid) return bot.sendMessage(chatId, '❌ Использование: `/unban HWID`', { parse_mode: 'Markdown' });
 
         bannedHwids.delete(hwid);
-        saveData();
+        saveData(); 
 
         return bot.sendMessage(chatId, `🟢 HWID \`${hwid}\` разблокирован.`, { parse_mode: 'Markdown' });
     }
@@ -227,7 +280,7 @@ bot.on('callback_query', (query) => {
         const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
 
         keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
-        saveData();
+        saveData(); 
         
         const targetTgId = pendingHwids.get(hwid);
         if (targetTgId) {
@@ -245,7 +298,7 @@ bot.on('callback_query', (query) => {
             if (v.hwid === hwid) keysDb.delete(k);
         }
         pendingHwids.delete(hwid);
-        saveData();
+        saveData(); 
 
         bot.editMessageText(`🚫 HWID \`${hwid}\` заблокирован.`, { chat_id: chatId, message_id: query.message.message_id, parse_mode: 'Markdown' });
         bot.answerCallbackQuery(query.id, { text: 'Забанено!' });
