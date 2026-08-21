@@ -1,1 +1,1818 @@
-(function(){'use strict';document['title']='LelyaHack';const r=performance['now']['bind'](performance);let E=0x1;function p(rI){E=rI;}let H=performance['now'](),x=0x0;window['performance']['now']=new Proxy(window['performance']['now'],{'apply':function(rI,rn,rl){const rz=Reflect['apply'](rI,rn,rl);return x+=(rz-H)*(E-0x1),H=rz,rz+x;}});let Y=Date['now'](),f=0x0;window['Date']['now']=new Proxy(window['Date']['now'],{'apply':function(rI,rn,rl){const rz=Reflect['apply'](rI,rn,rl);return f+=(rz-Y)*(E-0x1),Y=rz,Math['floor'](rz+f);}});let v=performance['now'](),I=0x0;window['requestAnimationFrame']=new Proxy(window['requestAnimationFrame'],{'apply':function(rI,rn,rl){return typeof rl[0x0]==='function'&&(rl[0x0]=new Proxy(rl[0x0],{'apply':function(rz,rd,ru){const re=ru[0x0];return I+=(re-v)*(E-0x1),v=re,ru[0x0]=re+I,Reflect['apply'](rz,rd,ru);}})),Reflect['apply'](rI,rn,rl);}});let n;function l(){!n&&(p(h['speedMultiplier']||0xfa),n=setInterval(()=>{const rI=new KeyboardEvent('keydown',{'key':'e','keyCode':0x45,'code':'KeyE','bubbles':!![]}),rn=new KeyboardEvent('keyup',{'key':'e','keyCode':0x45,'code':'KeyE','bubbles':!![]});window['dispatchEvent'](rI),window['dispatchEvent'](rn);},0x1),u(!![]));}function z(){n&&(clearInterval(n),n=null,p(0x1),u(![]));}function u(rI){const rn=document['getElementById']('_hud_autoe_dot'),rl=document['getElementById']('_hud_autoe_txt');rn&&rl&&(rI?(rn['style']['background']='#22c55e',rn['style']['boxShadow']='0\x200\x2010px\x20#22c55e',rl['style']['color']='#22c55e',rl['innerText']='ON'):(rn['style']['background']='#ef4444',rn['style']['boxShadow']='0\x200\x2010px\x20#ef4444',rl['style']['color']='#ef4444',rl['innerText']='OFF'));}let D=null,w=![];function M(){if(D)return;w=!![],window['dispatchEvent'](new KeyboardEvent('keydown',{'key':'Shift','code':'ShiftLeft','keyCode':0x10,'which':0x10,'shiftKey':!![],'bubbles':!![]})),D=setInterval(()=>{Q();},0x1e);}function b(){D&&(clearInterval(D),D=null),w&&(w=![],window['dispatchEvent'](new KeyboardEvent('keyup',{'key':'Shift','code':'ShiftLeft','keyCode':0x10,'which':0x10,'shiftKey':![],'bubbles':!![]})));}const A=new Set(),g={'KeyW':'w','KeyA':'a','KeyS':'s','KeyD':'d'};document['addEventListener']('keydown',rI=>{if(rI['target']['tagName']==='INPUT'||rI['target']['tagName']==='TEXTAREA')return;const rn=g[rI['code']];if(rn){A['add'](rn);const rl=document['getElementById']('_key_'+rn);if(rl)rl['classList']['add']('pressed');}},![]),document['addEventListener']('keyup',rI=>{if(rI['target']['tagName']==='INPUT'||rI['target']['tagName']==='TEXTAREA')return;const rn=g[rI['code']];if(rn){A['delete'](rn);const rl=document['getElementById']('_key_'+rn);if(rl)rl['classList']['remove']('pressed');}},![]);const c={'scale':0x1,'minScale':0.35};let Z=null;function T(){if(Z)return;Z=document['createElement']('style'),Z['textContent']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20html.browser-squeezed\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20#2d2d2d\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20display:\x20flex\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20justify-content:\x20center\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20align-items:\x20center\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20min-height:\x20100vh\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow-x:\x20hidden\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow-y:\x20auto\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20html.browser-squeezed\x20body\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20transform-origin:\x20center\x20center\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20width:\x20100%\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20margin:\x200\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20white\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20box-shadow:\x200\x200\x2030px\x20rgba(0,0,0,0.5)\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20transition:\x20transform\x200.2s\x20ease\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20html.browser-squeezed\x20body::-webkit-scrollbar\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20width:\x2012px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['head']['appendChild'](Z);}function q(rI){c['scale']=rI,rI===0x1?(document['documentElement']['classList']['remove']('browser-squeezed'),document['body']['style']['transform']=''):(T(),document['documentElement']['classList']['add']('browser-squeezed'),document['body']['style']['transform']='scale(1,\x20'+rI+')');}function V(){c['scale']===0x1?q(c['minScale']):q(0x1);}const t='https://lelya-bot-1.onrender.com',k='lelyahack_auth_status',L='lelyahack_visual_config_v14',F='lelyahack_hud_config_v3',B='lelyahack_hud_pos_v3',W='lelyahack_hud_modal_pos_v2',K='lelyahack_main_menu_pos_v1',P='lelyahack_autoswap_config_v3',N='lelyahack_autobob_config_v1',j='lelyahack_binds_config_v2';let a={'theme':'dark','brightness':0x64,'accent':'#a855f7','blur_effect':!![],'shadow_effect':!![]},i={'hud':!![],'auto_swap':!![],'auto_bob':!![],'zoom_hack':!![],'auto_e':!![],'building_helper':![]},R={'memory':!![],'clock':!![],'autoe':!![],'logo':!![],'userid':!![],'keys':!![],'draggable':!![]},O={'bindKey':'MouseRight','slot1':'Digit8','slot2':'Digit7'},J={'bindKey':'KeyB','bobSlot':'Digit9','returnSlot':'Digit1'},h={'autoEKey':'KeyE','zoomKey':'NumpadAdd','buildKey':'KeyF','speedMultiplier':0xfa},U={},G=null,X=null;try{const rI=JSON['parse'](localStorage['getItem'](L)||'{}');a={...a,...rI};const rn=JSON['parse'](localStorage['getItem']('lelyahack_funcs')||'{}');i={...i,...rn};const rl=JSON['parse'](localStorage['getItem'](F)||'{}');R={...R,...rl};const rz=JSON['parse'](localStorage['getItem'](B)||'{}');U={...rz},G=JSON['parse'](localStorage['getItem'](W)||'null'),X=JSON['parse'](localStorage['getItem'](K)||'null');const rd=JSON['parse'](localStorage['getItem'](P)||'{}');O={...O,...rd};const ru=JSON['parse'](localStorage['getItem'](N)||'{}');J={...J,...ru};const re=JSON['parse'](localStorage['getItem'](j)||'{}');h={...h,...re};}catch(rD){}const o=rw=>new Promise(rM=>setTimeout(rM,rw));let C=0x0,s=0x0;document['addEventListener']('mousemove',rw=>{C=rw['clientX'],s=rw['clientY'];});function S(rw){let rM=rw['replace']('Digit',''),rb=parseInt(rM)+0x30;rw==='Digit0'&&(rM='0',rb=0x30);const rA={'key':rM,'code':rw,'keyCode':rb,'which':rb,'bubbles':!![],'cancelable':!![]};window['dispatchEvent'](new KeyboardEvent('keydown',rA)),window['dispatchEvent'](new KeyboardEvent('keyup',rA));}async function Q(){const rw=document['elementFromPoint'](C,s);if(!rw||rw['closest']('.menu,\x20.ui,\x20.disabled'))return;const rM={'bubbles':!![],'cancelable':!![],'button':0x0,'clientX':C,'clientY':s};rw['dispatchEvent'](new MouseEvent('mousedown',rM)),await o(0x1e),rw['dispatchEvent'](new MouseEvent('mouseup',rM));}let r0=![],r1=![];async function r2(){if(r1||!i['auto_swap'])return;r1=!![];while(r0&&i['auto_swap']){S(O['slot1']),await o(0x3e),await Q(),S(O['slot2']),await o(0x176);}r1=![];}let r3=![];async function r4(){if(r3||!i['auto_bob'])return;r3=!![];try{S(J['bobSlot']),await o(0x37),await Q(),await o(0x19),S(J['returnSlot']);}finally{r3=![];}}function r5(rw){if(!rw)return;if(window['dynast']&&window['dynast']['chat'])try{window['dynast']['chat']['send'](rw);return;}catch(rb){}const rM=document['querySelector']('#chat-input,\x20.chat-input,\x20input[type=\x22text\x22]');if(rM){const rA=document['activeElement'];rM['value']=rw,rM['dispatchEvent'](new Event('input',{'bubbles':!![]})),rM['dispatchEvent'](new Event('change',{'bubbles':!![]}));const rg=new KeyboardEvent('keydown',{'key':'Enter','code':'Enter','keyCode':0xd,'bubbles':!![]});rM['dispatchEvent'](rg),window['dispatchEvent'](rg),rA&&typeof rA['blur']==='function'&&rA['blur'](),rM['blur']();}}document['addEventListener']('mouseup',()=>{const rw=window['getSelection']()['toString']()['trim']();rw['length']>0x0&&r6(rw);});function r6(rw){let rM=document['getElementById']('_lelya_prompt_menu');if(rM)rM['remove']();const rb=document['createElement']('div');rb['id']='_lelya_prompt_menu',rb['style']['cssText']='position:fixed;\x20top:'+(s+0xa)+'px;\x20left:'+(C+0xa)+'px;\x20background:rgba(13,\x2018,\x2015,\x200.95);\x20border:1px\x20solid\x20var(--accent-color,\x20#a855f7);\x20backdrop-filter:blur(16px);\x20border-radius:10px;\x20padding:10px;\x20z-index:2147483647;\x20color:#fff;\x20font-family:\x27Venus\x20Rising\x27,\x20sans-serif;\x20box-shadow:0\x205px\x2020px\x20rgba(0,0,0,0.5);',rb['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:9px;\x20color:#aaa;\x20margin-bottom:6px;\x22>Действие\x20с\x20текстом:</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:10px;\x20font-weight:bold;\x20color:#fff;\x20margin-bottom:8px;\x20max-width:180px;\x20overflow:hidden;\x20text-overflow:ellipsis;\x20white-space:nowrap;\x22>\x22'+rw+'\x22</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_prompt_send_chat\x22\x20style=\x22width:100%;\x20padding:6px;\x20background:var(--accent-color,\x20#a855f7);\x20border:none;\x20border-radius:6px;\x20color:#fff;\x20font-size:9px;\x20font-weight:bold;\x20cursor:pointer;\x20margin-bottom:4px;\x22>Отправить\x20в\x20чат</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_prompt_copy\x22\x20style=\x22width:100%;\x20padding:6px;\x20background:rgba(255,255,255,0.1);\x20border:none;\x20border-radius:6px;\x20color:#ccc;\x20font-size:9px;\x20cursor:pointer;\x22>Копировать</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rb),document['getElementById']('_prompt_send_chat')['onclick']=()=>{r5(rw),rb['remove']();},document['getElementById']('_prompt_copy')['onclick']=()=>{navigator['clipboard']['writeText'](rw),rb['remove']();},setTimeout(()=>{document['addEventListener']('click',function rA(rg){!rb['contains'](rg['target'])&&(rb['remove'](),document['removeEventListener']('click',rA));});},0x64);}let r7=![];document['addEventListener']('keydown',rw=>{if(rw['target']['tagName']==='INPUT'||rw['target']['tagName']==='TEXTAREA')return;i['auto_e']&&rw['code']===h['autoEKey']&&!r7&&(r7=!![],l());i['building_helper']&&rw['code']===h['buildKey']&&!w&&M();if(i['zoom_hack']){if(rw['code']===h['zoomKey'])rw['preventDefault'](),V();else{if(rw['key']==='+'||rw['key']==='='||rw['code']==='NumpadAdd')rw['preventDefault'](),q(c['minScale']);else(rw['key']==='-'||rw['code']==='NumpadSubtract')&&(rw['preventDefault'](),q(0x1));}}rw['code']===O['bindKey']&&!r0&&(r0=!![],r2()),rw['code']===J['bindKey']&&r4();},!![]),document['addEventListener']('keyup',rw=>{if(rw['target']['tagName']==='INPUT'||rw['target']['tagName']==='TEXTAREA')return;rw['code']===h['autoEKey']&&(r7=![],z()),rw['code']===h['buildKey']&&b(),rw['code']===O['bindKey']&&(r0=![]);}),document['addEventListener']('mousedown',rw=>{if(rw['target']['tagName']==='INPUT'||rw['target']['tagName']==='TEXTAREA')return;let rM=rw['button']===0x2?'MouseRight':rw['button']===0x0?'MouseLeft':'MouseMiddle';i['auto_e']&&rM===h['autoEKey']&&!r7&&(r7=!![],l()),i['building_helper']&&rM===h['buildKey']&&!w&&M(),i['zoom_hack']&&rM===h['zoomKey']&&V(),rM===O['bindKey']&&!r0&&(r0=!![],r2()),rM===J['bindKey']&&r4();}),document['addEventListener']('mouseup',rw=>{let rM=rw['button']===0x2?'MouseRight':rw['button']===0x0?'MouseLeft':'MouseMiddle';rM===h['autoEKey']&&(r7=![],z()),rM===h['buildKey']&&b(),rM===O['bindKey']&&(r0=![]);}),window['addEventListener']('contextmenu',rw=>{(O['bindKey']==='MouseRight'||J['bindKey']==='MouseRight'||h['autoEKey']==='MouseRight'||h['zoomKey']==='MouseRight'||h['buildKey']==='MouseRight')&&rw['preventDefault']();});let r8=GM_getValue('lelyahack_user_hwid');!r8&&(r8='HWID-'+Math['random']()['toString'](0x24)['substring'](0x2,0x8)['toUpperCase']()+'-'+Math['random']()['toString'](0x24)['substring'](0x2,0x8)['toUpperCase'](),GM_setValue('lelyahack_user_hwid',r8));let r9=GM_getValue('lelyahack_username','LelyaUser'),rr=GM_getValue('lelyahack_first_login');if(!rr){const rw=new Date(),rM=String(rw['getDate']())['padStart'](0x2,'0'),rb=String(rw['getMonth']()+0x1)['padStart'](0x2,'0'),rA=rw['getFullYear'](),rg=rw['toTimeString']()['split']('\x20')[0x0];rr=rM+'.'+rb+'.'+rA+'\x20'+rg,GM_setValue('lelyahack_first_login',rr);}let rm=r(),rE=new Date(),rp=String(rE['getHours']())['padStart'](0x2,'0')+':'+String(rE['getMinutes']())['padStart'](0x2,'0'),rH=GM_getValue('lelyahack_user_key','');if(localStorage['getItem'](k)!=='true'||!rH){window['addEventListener']('DOMContentLoaded',rY);if(document['body'])rY();else window['addEventListener']('load',rY);return;}else{rx(!![]),window['addEventListener']('DOMContentLoaded',rv);if(document['body'])rv();}function rx(rc=![]){GM_xmlhttpRequest({'method':'GET','url':t+'/verify?hwid='+r8+'&key='+rH,'timeout':0x2710,'onload':function(rZ){try{let rT=JSON['parse'](rZ['responseText']);if(rT['status']==='banned')localStorage['removeItem'](k),GM_setValue('lelyahack_user_key',''),document['body']['innerHTML']='<h1\x20style=\x22color:red;\x20text-align:center;\x20margin-top:20vh;\x20font-family:\x27Venus\x20Rising\x27,\x20sans-serif;\x22>ACCESS\x20DENIED\x20(BANNED)</h1>',setTimeout(()=>{location['reload']();},0x3e8);else(rT['status']==='invalid'||rT['status']==='expired')&&(localStorage['removeItem'](k),GM_setValue('lelyahack_user_key',''),location['reload']());}catch(rq){}}});}function rY(){if(document['getElementById']('_lelya_auth_div'))return;const rc=document['createElement']('div');rc['id']='_lelya_auth_div',rc['style']['cssText']='position:fixed;\x20top:0;\x20left:0;\x20width:100vw;\x20height:100vh;\x20background:rgba(0,0,0,0.85);\x20backdrop-filter:blur(16px);\x20z-index:2147483647;\x20display:flex;\x20flex-direction:column;\x20align-items:center;\x20justify-content:center;\x20font-family:\x27Venus\x20Rising\x27,\x20sans-serif;\x20color:#fff;\x20zoom:\x201\x20!important;',rc['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22background:rgba(11,16,13,0.95);\x20padding:30px;\x20border-radius:14px;\x20border:1px\x20solid\x20rgba(255,255,255,0.1);\x20box-shadow:0\x200\x2040px\x20rgba(0,0,0,0.9);\x20text-align:center;\x20max-width:380px;\x20width:100%;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h2\x20style=\x22margin-top:0;\x20color:#fff;\x20font-size:16px;\x20font-weight:800;\x20letter-spacing:2px;\x20margin-bottom:5px;\x20font-family:\x27Venus\x20Rising\x27,\x20sans-serif;\x22>LELYAHACK</h2>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p\x20style=\x22font-size:10px;\x20color:#888;\x20margin-bottom:10px;\x22>Ваш\x20HWID:</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22background:rgba(5,8,6,0.8);\x20padding:8px;\x20border:1px\x20dashed\x20rgba(255,255,255,0.15);\x20border-radius:8px;\x20font-family:monospace;\x20font-size:11px;\x20color:#ccc;\x20margin-bottom:12px;\x20user-select:text;\x22>'+r8+'</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<input\x20type=\x22text\x22\x20id=\x22_lelya_name_inp\x22\x20placeholder=\x22Введите\x20ваш\x20никнейм...\x22\x20value=\x22'+r9+'\x22\x20style=\x22width:100%;\x20padding:10px;\x20background:rgba(18,24,20,0.9);\x20border:1px\x20solid\x20rgba(255,255,255,0.1);\x20border-radius:8px;\x20color:#fff;\x20font-size:11px;\x20margin-bottom:10px;\x20outline:none;\x20box-sizing:border-box;\x20font-family:\x27Venus\x20Rising\x27,\x20sans-serif;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<input\x20type=\x22text\x22\x20id=\x22_lelya_key_inp\x22\x20placeholder=\x22Введите\x20ключ\x20активации...\x22\x20style=\x22width:100%;\x20padding:10px;\x20background:rgba(18,24,20,0.9);\x20border:1px\x20solid\x20rgba(255,255,255,0.1);\x20border-radius:8px;\x20color:#fff;\x20font-size:11px;\x20margin-bottom:12px;\x20outline:none;\x20box-sizing:border-box;\x20font-family:\x27Venus\x20Rising\x27,\x20sans-serif;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_lelya_sub_btn\x22\x20style=\x22width:100%;\x20padding:11px;\x20background:var(--accent-color,\x20#a855f7);\x20border:none;\x20border-radius:8px;\x20color:#fff;\x20font-weight:600;\x20cursor:pointer;\x20font-size:11px;\x20font-family:\x27Venus\x20Rising\x27,\x20sans-serif;\x22>АКТИВИРОВАТЬ</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_lelya_get_btn\x22\x20style=\x22width:100%;\x20margin-top:8px;\x20padding:10px;\x20background:rgba(255,255,255,0.05);\x20border:1px\x20solid\x20rgba(255,255,255,0.1);\x20border-radius:8px;\x20color:#aaa;\x20cursor:pointer;\x20font-size:10px;\x20font-family:\x27Venus\x20Rising\x27,\x20sans-serif;\x22>🛒\x20ПОЛУЧИТЬ\x20КЛЮЧ\x20У\x20БОТА</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_auth_msg\x22\x20style=\x22font-size:9px;\x20color:#888;\x20margin-top:10px;\x20min-height:15px;\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rc),document['getElementById']('_lelya_get_btn')['onclick']=()=>window['open']('https://t.me/lelyahackbot?start=auth_'+r8,'_blank'),document['getElementById']('_lelya_sub_btn')['onclick']=()=>{const rZ=document['getElementById']('_lelya_key_inp')['value']['trim'](),rT=document['getElementById']('_lelya_name_inp')['value']['trim']();if(!rZ)return alert('Введите\x20ключ!');rT&&(r9=rT,GM_setValue('lelyahack_username',r9));const rq=document['getElementById']('_lelya_auth_msg');rq['innerText']='⏳\x20Проверка\x20ключа...',GM_xmlhttpRequest({'method':'GET','url':t+'/verify?hwid='+r8+'&key='+rZ,'timeout':0x3a98,'onload':function(rV){try{let rt=JSON['parse'](rV['responseText']);rt['status']==='success'?(localStorage['setItem'](k,'true'),GM_setValue('lelyahack_user_key',rZ),rH=rZ,rc['style']['opacity']='0',setTimeout(()=>rc['remove'](),0x12c),rv()):(rq['innerText']='',alert('Ошибка:\x20'+(rt['message']||'Неверный\x20ключ')));}catch(rk){rq['innerText']='',alert('Ошибка\x20обработки\x20ответа\x20сервера');}},'onerror':()=>{rq['innerText']='',alert('Не\x20удалось\x20подключиться\x20к\x20серверу.');}});};}function rf(rc,rZ,rT){let rq=0x0,rV=0x0,rt=0x0,rk=0x0;const rL=rZ||rc;rL['style']['cursor']='move',rL['onmousedown']=rF;function rF(rK){if(rK['button']!==0x0)return;if(rK['target']['tagName']==='INPUT'||rK['target']['tagName']==='BUTTON'||rK['target']['tagName']==='SELECT')return;rK['preventDefault'](),rt=rK['clientX'],rk=rK['clientY'],document['onmouseup']=rW,document['onmousemove']=rB;}function rB(rK){rK['preventDefault'](),rq=rt-rK['clientX'],rV=rk-rK['clientY'],rt=rK['clientX'],rk=rK['clientY'];const rP=rc['offsetTop']-rV,rN=rc['offsetLeft']-rq;rc['style']['top']=rP+'px',rc['style']['left']=rN+'px',rc['style']['transform']='none';}function rW(){document['onmouseup']=null,document['onmousemove']=null,rT&&rT(rc['style']['top'],rc['style']['left']);}}function rv(){if(document['getElementById']('_lelya_root'))return;GM_addStyle('\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20@font-face\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20\x27Venus\x20Rising\x27;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20src:\x20url(\x27https://fonts.cdnfonts.com/s/17587/venus_rising_rg.woff\x27)\x20format(\x27woff\x27);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-weight:\x20normal;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-style:\x20normal;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20@keyframes\x20lelyaFadeIn\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20from\x20{\x20opacity:\x200;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20to\x20{\x20opacity:\x201;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20@keyframes\x20lelyaGlowAnimation\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x200%\x20{\x20background-position:\x200%\x2050%;\x20text-shadow:\x200\x200\x2010px\x20var(--accent-color,\x20#a855f7);\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x2050%\x20{\x20background-position:\x20100%\x2050%;\x20text-shadow:\x200\x200\x2025px\x20var(--accent-color,\x20#a855f7),\x200\x200\x2035px\x20#ec4899;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20100%\x20{\x20background-position:\x200%\x2050%;\x20text-shadow:\x200\x200\x2010px\x20var(--accent-color,\x20#a855f7);\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-accent-title\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20linear-gradient(90deg,\x20var(--accent-color,\x20#a855f7),\x20#ec4899,\x20#3b82f6,\x20var(--accent-color,\x20#a855f7));\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background-size:\x20300%\x20300%;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20-webkit-background-clip:\x20text;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20-webkit-text-fill-color:\x20transparent;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20animation:\x20lelyaGlowAnimation\x204s\x20ease\x20infinite;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20transition:\x20all\x200.3s\x20ease;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20#_lelya_root,\x20#_lelya_hud_settings_modal,\x20#_lelya_autoswap_modal,\x20#_lelya_autobob_modal,\x20#_lelya_autoe_modal,\x20#_lelya_zoom_modal,\x20#_lelya_building_modal,\x20#_lelya_hud_container\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20zoom:\x201\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20#_lelya_root\x20*,\x20#_lelya_hud_settings_modal\x20*,\x20#_lelya_autoswap_modal\x20*,\x20#_lelya_autobob_modal\x20*,\x20#_lelya_autoe_modal\x20*,\x20#_lelya_zoom_modal\x20*,\x20#_lelya_building_modal\x20*,\x20#_lelya_hud_container\x20*\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20box-sizing:\x20border-box;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20\x27Venus\x20Rising\x27,\x20sans-serif\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20user-select:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20#_lelya_root\x20::-webkit-scrollbar\x20{\x20width:\x205px;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20#_lelya_root\x20::-webkit-scrollbar-track\x20{\x20background:\x20transparent;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20#_lelya_root\x20::-webkit-scrollbar-thumb\x20{\x20background:\x20rgba(0,0,0,0.1);\x20border-radius:\x204px;\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-tab-btn\x20{\x20background:\x20transparent;\x20border:\x20none;\x20color:\x20var(--tab-text-color,\x20#a1a1aa);\x20padding:\x206px\x2016px;\x20font-size:\x2011px;\x20font-weight:\x20700;\x20cursor:\x20pointer;\x20border-radius:\x206px;\x20transition:\x20all\x200.2s\x20ease;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-tab-btn:hover\x20{\x20color:\x20var(--text-color,\x20#fff);\x20background:\x20rgba(255,255,255,0.05);\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-tab-btn.active\x20{\x20background:\x20var(--tab-active-bg);\x20color:\x20var(--accent-color,\x20#a855f7);\x20border:\x201px\x20solid\x20var(--tab-active-border);\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-color-dot\x20{\x20width:\x2028px;\x20height:\x2028px;\x20border-radius:\x206px;\x20cursor:\x20pointer;\x20border:\x202px\x20solid\x20transparent;\x20transition:\x20all\x200.2s\x20ease;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-color-dot:hover\x20{\x20transform:\x20scale(1.08);\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-color-dot.active\x20{\x20border-color:\x20#fff;\x20transform:\x20scale(1.12);\x20box-shadow:\x200\x200\x2012px\x20rgba(255,255,255,0.3);\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-card\x20{\x20background:\x20var(--card-bg,\x20rgba(18,\x2024,\x2020,\x200.6));\x20border:\x201px\x20solid\x20var(--card-border,\x20rgba(255,\x20255,\x20255,\x200.05));\x20border-radius:\x2014px;\x20padding:\x2022px;\x20display:\x20flex;\x20flex-direction:\x20column;\x20justify-content:\x20space-between;\x20transition:\x20all\x200.25s\x20ease;\x20position:\x20relative;\x20cursor:\x20pointer;\x20min-height:\x20130px;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-card:hover\x20{\x20border-color:\x20var(--card-hover-border);\x20transform:\x20translateY(-2px);\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-card.active-card\x20{\x20background:\x20var(--card-active-bg);\x20border-color:\x20var(--accent-color);\x20box-shadow:\x200\x200\x2030px\x20var(--card-glow);\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-func-gear\x20{\x20width:\x2026px;\x20height:\x2026px;\x20border-radius:\x206px;\x20background:\x20rgba(255,255,255,0.05);\x20border:\x201px\x20solid\x20rgba(255,255,255,0.1);\x20display:\x20flex;\x20align-items:\x20center;\x20justify-content:\x20center;\x20color:\x20#a1a1aa;\x20cursor:\x20pointer;\x20transition:\x20background\x200.2s,\x20color\x200.2s;\x20font-size:\x2011px;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-func-gear:hover\x20{\x20background:\x20rgba(255,255,255,0.15);\x20color:\x20var(--text-color,\x20#fff);\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-func-title\x20{\x20font-weight:\x20700;\x20font-size:\x2013px;\x20margin-bottom:\x204px;\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-misc-card\x20{\x20background:\x20var(--card-bg,\x20rgba(18,\x2024,\x2020,\x200.6));\x20border:\x201px\x20solid\x20var(--card-border,\x20rgba(255,\x20255,\x20255,\x200.05));\x20border-radius:\x2012px;\x20padding:\x2016px\x2020px;\x20display:\x20flex;\x20flex-direction:\x20column;\x20justify-content:\x20center;\x20transition:\x20all\x200.2s\x20ease;\x20cursor:\x20pointer;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-misc-card:hover\x20{\x20border-color:\x20var(--card-hover-border);\x20background:\x20var(--card-active-bg);\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-switch\x20{\x20position:\x20relative;\x20display:\x20inline-block;\x20width:\x2044px;\x20height:\x2024px;\x20cursor:\x20pointer;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-switch\x20input\x20{\x20opacity:\x200;\x20width:\x200;\x20height:\x200;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-slider\x20{\x20position:\x20absolute;\x20cursor:\x20pointer;\x20top:\x200;\x20left:\x200;\x20right:\x200;\x20bottom:\x200;\x20background-color:\x20var(--switch-bg,\x20rgba(255,255,255,0.15));\x20transition:\x20.3s;\x20border-radius:\x2024px;\x20border:\x201px\x20solid\x20var(--switch-border,\x20rgba(255,255,255,0.2));\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-slider:before\x20{\x20position:\x20absolute;\x20content:\x20\x22\x22;\x20height:\x2016px;\x20width:\x2016px;\x20left:\x203px;\x20bottom:\x203px;\x20background-color:\x20#fff;\x20transition:\x20.3s;\x20border-radius:\x2050%;\x20box-shadow:\x200\x201px\x203px\x20rgba(0,0,0,0.3);\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-switch\x20input:checked\x20+\x20.lelya-slider\x20{\x20background-color:\x20var(--accent-color,\x20#a855f7)\x20!important;\x20border-color:\x20var(--accent-color,\x20#a855f7)\x20!important;\x20box-shadow:\x200\x200\x2014px\x20var(--accent-color,\x20#a855f7);\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-switch\x20input:checked\x20+\x20.lelya-slider:before\x20{\x20transform:\x20translateX(20px);\x20background-color:\x20#fff;\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-hud-item\x20{\x20position:\x20fixed;\x20z-index:\x202147483640;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-hud-box\x20{\x20background:\x20rgba(13,\x2018,\x2015,\x200.75);\x20border:\x201px\x20solid\x20var(--accent-border,\x20rgba(255,\x20255,\x20255,\x200.08));\x20backdrop-filter:\x20blur(12px);\x20border-radius:\x2012px;\x20padding:\x2012px;\x20color:\x20#fff;\x20min-width:\x20180px;\x20transition:\x20border-color\x200.3s\x20ease,\x20box-shadow\x200.3s\x20ease;\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-keys-box\x20{\x20display:\x20flex;\x20flex-direction:\x20column;\x20align-items:\x20center;\x20gap:\x206px;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-key-row\x20{\x20display:\x20flex;\x20gap:\x206px;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-key\x20{\x20width:\x2038px;\x20height:\x2038px;\x20background:\x20rgba(11,\x2015,\x2013,\x200.65);\x20border:\x201px\x20solid\x20var(--accent-border,\x20rgba(255,\x20255,\x20255,\x200.15));\x20backdrop-filter:\x20blur(8px);\x20border-radius:\x2010px;\x20display:\x20flex;\x20align-items:\x20center;\x20justify-content:\x20center;\x20font-size:\x2012px;\x20font-weight:\x20700;\x20color:\x20#e4e4e7;\x20transition:\x20all\x200.1s\x20ease;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-key.pressed\x20{\x20background:\x20var(--accent-color,\x20#a855f7)\x20!important;\x20border-color:\x20var(--accent-color,\x20#a855f7)\x20!important;\x20color:\x20#fff;\x20box-shadow:\x200\x200\x2015px\x20var(--card-glow,\x20rgba(168,85,247,0.7));\x20transform:\x20scale(0.95);\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20#_lelya_hud_settings_modal,\x20#_lelya_autoswap_modal,\x20#_lelya_autobob_modal,\x20#_lelya_autoe_modal,\x20#_lelya_zoom_modal,\x20#_lelya_building_modal\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20position:\x20fixed;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20top:\x20calc(50%\x20-\x20225px);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20left:\x20calc(50%\x20-\x20460px\x20-\x20330px);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20width:\x20320px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20var(--modal-bg,\x20rgba(13,\x2018,\x2015,\x200.95));\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border:\x201px\x20solid\x20var(--modal-border,\x20rgba(255,\x20255,\x20255,\x200.1));\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20backdrop-filter:\x20blur(25px);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x2018px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x2022px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20z-index:\x202147483647;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20display:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20flex-direction:\x20column;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20var(--modal-text,\x20#fff);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20box-shadow:\x200\x2010px\x2040px\x20rgba(0,0,0,0.3);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-chart-card\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20var(--card-bg,\x20rgba(18,\x2024,\x2020,\x200.6));\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border:\x201px\x20solid\x20var(--card-border,\x20rgba(255,\x20255,\x20255,\x200.05));\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x2014px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x2016px\x2020px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20display:\x20flex;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20flex-direction:\x20column;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20justify-content:\x20space-between;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20position:\x20relative;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-inp-btn\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20rgba(255,255,255,0.06);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border:\x201px\x20solid\x20rgba(255,255,255,0.15);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x208px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#fff;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x208px\x2012px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-size:\x2010px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20cursor:\x20pointer;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20outline:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20center;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20transition:\x20all\x200.2s;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-inp-btn:hover\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-color:\x20var(--accent-color,\x20#a855f7);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20.lelya-slot-select\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20rgba(18,\x2024,\x2020,\x200.9);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border:\x201px\x20solid\x20rgba(255,\x20255,\x20255,\x200.15);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#fff;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x206px\x2010px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x208px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-size:\x2010px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20outline:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20cursor:\x20pointer;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20');const rc=document['createElement']('div');rc['id']='_lelya_hud_container',rc['style']['display']=i['hud']?'block':'none',rc['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_item_memory\x22\x20class=\x22lelya-hud-item\x22\x20style=\x22display:'+(R['memory']?'block':'none')+';\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-hud-box\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20#a1a1aa;\x20letter-spacing:\x201px;\x20margin-bottom:\x202px;\x22>ПАМЯТЬ\x20БРАУЗЕРА</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_memory\x22\x20style=\x22font-size:\x2016px;\x20font-weight:\x20800;\x22>--\x20МБ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22width:\x20100%;\x20height:\x204px;\x20background:\x20rgba(255,255,255,0.15);\x20border-radius:\x202px;\x20margin-top:\x206px;\x20overflow:\x20hidden;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_mem_bar\x22\x20style=\x22width:\x200%;\x20height:\x20100%;\x20background:\x20var(--accent-color,\x20#a855f7);\x20border-radius:\x202px;\x20transition:\x20width\x200.3s\x20ease,\x20background-color\x200.3s\x20ease;\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_mem_sub\x22\x20style=\x22font-size:\x208px;\x20color:\x20#d4d4d8;\x20margin-top:\x204px;\x20font-weight:\x20600;\x22>0%\x20из\x204096\x20МБ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_item_clock\x22\x20class=\x22lelya-hud-item\x22\x20style=\x22display:'+(R['clock']?'block':'none')+';\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-hud-box\x22\x20style=\x22padding:\x2010px\x2014px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_clock\x22\x20style=\x22font-size:\x2015px;\x20font-weight:\x20800;\x20letter-spacing:\x201px;\x22>00:00:00</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_item_autoe\x22\x20class=\x22lelya-hud-item\x22\x20style=\x22display:'+(R['autoe']?'block':'none')+';\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-hud-box\x22\x20style=\x22display:\x20flex;\x20align-items:\x20center;\x20gap:\x208px;\x20padding:\x2010px\x2014px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22width:\x208px;\x20height:\x208px;\x20border-radius:\x2050%;\x20background:\x20#ef4444;\x20box-shadow:\x200\x200\x2010px\x20#ef4444;\x22\x20id=\x22_hud_autoe_dot\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20font-weight:\x20700;\x20color:\x20#e4e4e7;\x22>AutoE\x20Status:\x20<span\x20id=\x22_hud_autoe_txt\x22\x20style=\x22color:\x20#ef4444;\x20font-size:\x209px;\x22>OFF</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_item_logo\x22\x20class=\x22lelya-hud-item\x22\x20style=\x22display:'+(R['logo']?'block':'none')+';\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-hud-box\x22\x20style=\x22padding:\x2010px\x2014px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20900;\x20font-size:\x2013px;\x20letter-spacing:\x200.5px;\x22\x20class=\x22lelya-accent-title\x22>LelyaHack</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20#a1a1aa;\x20font-weight:\x20700;\x20margin-top:\x201px;\x22>BRAND\x20V2.9.0</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_item_userid\x22\x20class=\x22lelya-hud-item\x22\x20style=\x22display:'+(R['userid']?'block':'none')+';\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-hud-box\x22\x20style=\x22display:\x20flex;\x20align-items:\x20center;\x20gap:\x208px;\x20padding:\x2010px\x2014px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22width:\x2018px;\x20height:\x2018px;\x20border-radius:\x2050%;\x20background:\x20var(--accent-glow-bg,\x20rgba(168,\x2085,\x20247,\x200.25));\x20border:\x201px\x20solid\x20var(--accent-color,\x20#a855f7);\x20display:\x20flex;\x20align-items:\x20center;\x20justify-content:\x20center;\x20font-size:\x209px;\x20color:\x20var(--accent-color,\x20#a855f7);\x20font-weight:\x20800;\x20transition:\x20all\x200.3s\x20ease;\x22\x20id=\x22_hud_user_icon\x22>!</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x209px;\x20color:\x20#d4d4d8;\x20font-weight:\x20700;\x22>User:\x20<span\x20id=\x22_hud_user_id\x22\x20style=\x22color:\x20#fff;\x20font-size:\x209px;\x22>'+r9+'</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_hud_item_keys\x22\x20class=\x22lelya-hud-item\x22\x20style=\x22display:'+(R['keys']?'block':'none')+';\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-keys-box\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-key-row\x22><div\x20class=\x22lelya-key\x22\x20id=\x22_key_w\x22>W</div></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-key-row\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-key\x22\x20id=\x22_key_a\x22>A</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-key\x22\x20id=\x22_key_s\x22>S</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-key\x22\x20id=\x22_key_d\x22>D</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rc);const rZ={'_hud_item_memory':{'top':'20px','left':'20px'},'_hud_item_clock':{'top':'150px','left':'20px'},'_hud_item_autoe':{'top':'215px','left':'20px'},'_hud_item_logo':{'top':'280px','left':'20px'},'_hud_item_userid':{'top':'350px','left':'20px'},'_hud_item_keys':{'top':'415px','left':'20px'}};function rT(){Object['keys'](rZ)['forEach'](m1=>{const m2=document['getElementById'](m1);if(m2){const m3=U[m1]||rZ[m1];m2['style']['top']=m3['top'],m2['style']['left']=m3['left'],m2['style']['transform']='none';}});}rT();function rq(){Object['keys'](rZ)['forEach'](m1=>{const m2=document['getElementById'](m1);m2&&(R['draggable']?rf(m2,null,(m3,m4)=>{U[m1]={'top':m3,'left':m4},localStorage['setItem'](B,JSON['stringify'](U));}):(m2['onmousedown']=null,m2['style']['cursor']='default'));});}rq();const rV=document['createElement']('div');rV['id']='_lelya_hud_settings_modal';G&&(rV['style']['top']=G['top'],rV['style']['left']=G['left'],rV['style']['transform']='none');rV['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_hud_settings_header\x22\x20style=\x22cursor:move;\x20display:flex;\x20justify-content:space-between;\x20align-items:center;\x20margin-bottom:16px;\x20border-bottom:1px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20padding-bottom:10px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20800;\x20font-size:\x2013px;\x20letter-spacing:\x200.5px;\x22>Настройки\x20<span\x20style=\x22color:\x20var(--accent-color,\x20#a855f7);\x22>HUD</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--accent-color,\x20#a855f7);\x20font-weight:\x20700;\x20letter-spacing:\x201px;\x20margin-top:\x202px;\x22>ВИДЖЕТЫ\x20НА\x20ЭКРАНЕ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_hud_modal_close\x22\x20style=\x22background:\x20rgba(239,\x2068,\x2068,\x200.15);\x20border:\x201px\x20solid\x20rgba(239,\x2068,\x2068,\x200.3);\x20color:\x20#f87171;\x20width:\x2026px;\x20height:\x2026px;\x20border-radius:\x208px;\x20font-weight:\x20bold;\x20cursor:\x20pointer;\x22>✕</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20flex-direction:\x20column;\x20gap:\x2014px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--modal-text,\x20#e4e4e7);\x20font-weight:\x20600;\x20cursor:\x20pointer;\x22>Память\x20браузера\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22_chk_hud_memory\x22\x20'+(R['memory']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--modal-text,\x20#e4e4e7);\x20font-weight:\x20600;\x20cursor:\x20pointer;\x22>Часы\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22_chk_hud_clock\x22\x20'+(R['clock']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--modal-text,\x20#e4e4e7);\x20font-weight:\x20600;\x20cursor:\x20pointer;\x22>AutoE\x20Статус\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22_chk_hud_autoe\x22\x20'+(R['autoe']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--modal-text,\x20#e4e4e7);\x20font-weight:\x20600;\x20cursor:\x20pointer;\x22>LelyaHack\x20Бренд\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22_chk_hud_logo\x22\x20'+(R['logo']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--modal-text,\x20#e4e4e7);\x20font-weight:\x20600;\x20cursor:\x20pointer;\x22>User\x20ID\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22_chk_hud_userid\x22\x20'+(R['userid']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--modal-text,\x20#e4e4e7);\x20font-weight:\x20600;\x20cursor:\x20pointer;\x22>Клавиши\x20передвижения\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22_chk_hud_keys\x22\x20'+(R['keys']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22height:\x201px;\x20background:\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20margin:\x202px\x200;\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--modal-text,\x20#e4e4e7);\x20font-weight:\x20600;\x20cursor:\x20pointer;\x22>Съемные\x20блоки\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22_chk_hud_draggable\x22\x20'+(R['draggable']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22margin-top:\x2018px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_hud_reset_pos\x22\x20style=\x22width:\x20100%;\x20padding:\x2010px;\x20background:\x20var(--btn-bg,\x20rgba(255,255,255,0.04));\x20border:\x201px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.1));\x20border-radius:\x2010px;\x20color:\x20var(--modal-text,\x20#fff);\x20font-weight:\x20700;\x20cursor:\x20pointer;\x20font-size:\x2010px;\x22>Сброс\x20позиций</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rV),rf(rV,document['getElementById']('_lelya_hud_settings_header'),(m1,m2)=>{G={'top':m1,'left':m2},localStorage['setItem'](W,JSON['stringify'](G));}),document['getElementById']('_hud_modal_close')['onclick']=()=>{rV['style']['display']='none';};const rt=document['createElement']('div');rt['id']='_lelya_autoswap_modal',rt['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_autoswap_header\x22\x20style=\x22cursor:move;\x20display:flex;\x20justify-content:space-between;\x20align-items:center;\x20margin-bottom:16px;\x20border-bottom:1px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20padding-bottom:10px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20800;\x20font-size:\x2013px;\x20letter-spacing:\x200.5px;\x22>Настройки\x20<span\x20style=\x22color:\x20var(--accent-color,\x20#a855f7);\x22>AUTO\x20SWAP</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--accent-color,\x20#a855f7);\x20font-weight:\x20700;\x20letter-spacing:\x201px;\x20margin-top:\x202px;\x22>ВЫБОР\x20СЛОТОВ\x20И\x20БИНДА</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_swap_modal_close\x22\x20style=\x22background:\x20rgba(239,\x2068,\x2068,\x200.15);\x20border:\x201px\x20solid\x20rgba(239,\x2068,\x2068,\x200.3);\x20color:\x20#f87171;\x20width:\x2026px;\x20height:\x2026px;\x20border-radius:\x208px;\x20font-weight:\x20bold;\x20cursor:\x20pointer;\x22>✕</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20flex-direction:\x20column;\x20gap:\x2012px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Клавиша\x20(Бинд):</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-inp-btn\x22\x20id=\x22_swap_bind_key_btn\x22>'+O['bindKey']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Первый\x20слот:</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-inp-btn\x22\x20id=\x22_swap_slot1_btn\x22>'+O['slot1']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Второй\x20слот:</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-inp-btn\x22\x20id=\x22_swap_slot2_btn\x22>'+O['slot2']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rt),rf(rt,document['getElementById']('_lelya_autoswap_header')),document['getElementById']('_swap_modal_close')['onclick']=()=>{rt['style']['display']='none';};const rk=document['createElement']('div');rk['id']='_lelya_autobob_modal';let rL='';for(let m1=0x1;m1<=0xa;m1++){let m2=m1===0xa?'Digit0':'Digit'+m1;rL+='<option\x20value=\x22'+m2+'\x22>Слот\x20'+m1+'</option>';}rk['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_autobob_header\x22\x20style=\x22cursor:move;\x20display:flex;\x20justify-content:space-between;\x20align-items:center;\x20margin-bottom:16px;\x20border-bottom:1px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20padding-bottom:10px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20800;\x20font-size:\x2013px;\x20letter-spacing:\x200.5px;\x22>Настройки\x20<span\x20style=\x22color:\x20var(--accent-color,\x20#a855f7);\x22>AUTO\x20BOB</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--accent-color,\x20#a855f7);\x20font-weight:\x20700;\x20letter-spacing:\x201px;\x20margin-top:\x202px;\x22>АВТОМАТИЧЕСКИЙ\x20БОБ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_bob_modal_close\x22\x20style=\x22background:\x20rgba(239,\x2068,\x2068,\x200.15);\x20border:\x201px\x20solid\x20rgba(239,\x2068,\x2068,\x200.3);\x20color:\x20#f87171;\x20width:\x2026px;\x20height:\x2026px;\x20border-radius:\x208px;\x20font-weight:\x20bold;\x20cursor:\x20pointer;\x22>✕</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20flex-direction:\x20column;\x20gap:\x2012px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Клавиша\x20(Бинд):</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-inp-btn\x22\x20id=\x22_bob_bind_key_btn\x22>'+J['bindKey']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Слот\x20с\x20Бобом\x20(1-10):</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<select\x20id=\x22_bob_slot_sel\x22\x20class=\x22lelya-slot-select\x22>'+rL+'</select>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Возврат\x20на\x20слот\x20(1-10):</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<select\x20id=\x22_return_slot_sel\x22\x20class=\x22lelya-slot-select\x22>'+rL+'</select>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rk),rf(rk,document['getElementById']('_lelya_autobob_header')),document['getElementById']('_bob_modal_close')['onclick']=()=>{rk['style']['display']='none';};const rF=document['getElementById']('_bob_slot_sel'),rB=document['getElementById']('_return_slot_sel');rF['value']=J['bobSlot'],rB['value']=J['returnSlot'],rF['onchange']=m3=>{J['bobSlot']=m3['target']['value'],localStorage['setItem'](N,JSON['stringify'](J));},rB['onchange']=m3=>{J['returnSlot']=m3['target']['value'],localStorage['setItem'](N,JSON['stringify'](J));};const rW=document['createElement']('div');rW['id']='_lelya_autoe_modal',rW['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_autoe_header\x22\x20style=\x22cursor:move;\x20display:flex;\x20justify-content:space-between;\x20align-items:center;\x20margin-bottom:16px;\x20border-bottom:1px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20padding-bottom:10px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20800;\x20font-size:\x2013px;\x20letter-spacing:\x200.5px;\x22>Настройки\x20<span\x20style=\x22color:\x20var(--accent-color,\x20#a855f7);\x22>AUTO\x20E</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--accent-color,\x20#a855f7);\x20font-weight:\x20700;\x20letter-spacing:\x201px;\x20margin-top:\x202px;\x22>ПОДБОР\x20И\x20УСКОРЕНИЕ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_autoe_modal_close\x22\x20style=\x22background:\x20rgba(239,\x2068,\x2068,\x200.15);\x20border:\x201px\x20solid\x20rgba(239,\x2068,\x2068,\x200.3);\x20color:\x20#f87171;\x20width:\x2026px;\x20height:\x2026px;\x20border-radius:\x208px;\x20font-weight:\x20bold;\x20cursor:\x20pointer;\x22>✕</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20flex-direction:\x20column;\x20gap:\x2012px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Бинд\x20Auto\x20E:</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-inp-btn\x22\x20id=\x22_bind_autoe_btn\x22>'+h['autoEKey']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20flex-direction:\x20column;\x20gap:\x206px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Множитель\x20скорости:</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20id=\x22_autoe_speed_val\x22\x20style=\x22font-size:\x209px;\x20color:\x20#888;\x20font-weight:\x20700;\x22>'+h['speedMultiplier']+'x</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<input\x20type=\x22range\x22\x20id=\x22_autoe_speed_inp\x22\x20min=\x221\x22\x20max=\x221000\x22\x20value=\x22'+h['speedMultiplier']+'\x22\x20style=\x22width:\x20100%;\x20cursor:\x20pointer;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rW),rf(rW,document['getElementById']('_lelya_autoe_header')),document['getElementById']('_autoe_modal_close')['onclick']=()=>{rW['style']['display']='none';};const rK=document['getElementById']('_autoe_speed_inp');rK['oninput']=m3=>{h['speedMultiplier']=parseInt(m3['target']['value']),document['getElementById']('_autoe_speed_val')['innerText']=h['speedMultiplier']+'x',localStorage['setItem'](j,JSON['stringify'](h));};const rP=document['createElement']('div');rP['id']='_lelya_building_modal',rP['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_building_header\x22\x20style=\x22cursor:move;\x20display:flex;\x20justify-content:space-between;\x20align-items:center;\x20margin-bottom:16px;\x20border-bottom:1px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20padding-bottom:10px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20800;\x20font-size:\x2013px;\x20letter-spacing:\x200.5px;\x22>Настройки\x20<span\x20style=\x22color:\x20var(--accent-color,\x20#a855f7);\x22>BUILDING\x20HELPER</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--accent-color,\x20#a855f7);\x20font-weight:\x20700;\x20letter-spacing:\x201px;\x20margin-top:\x202px;\x22>БЫСТРАЯ\x20ПОСТРОЙКА</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_building_modal_close\x22\x20style=\x22background:\x20rgba(239,\x2068,\x2068,\x200.15);\x20border:\x201px\x20solid\x20rgba(239,\x2068,\x2068,\x200.3);\x20color:\x20#f87171;\x20width:\x2026px;\x20height:\x2026px;\x20border-radius:\x208px;\x20font-weight:\x20bold;\x20cursor:\x20pointer;\x22>✕</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20flex-direction:\x20column;\x20gap:\x2012px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Бинд\x20постройки:</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-inp-btn\x22\x20id=\x22_bind_building_btn\x22>'+h['buildKey']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rP),rf(rP,document['getElementById']('_lelya_building_header')),document['getElementById']('_building_modal_close')['onclick']=()=>{rP['style']['display']='none';};const rN=document['createElement']('div');rN['id']='_lelya_zoom_modal',rN['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_zoom_header\x22\x20style=\x22cursor:move;\x20display:flex;\x20justify-content:space-between;\x20align-items:center;\x20margin-bottom:16px;\x20border-bottom:1px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20padding-bottom:10px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20800;\x20font-size:\x2013px;\x20letter-spacing:\x200.5px;\x22>Настройки\x20<span\x20style=\x22color:\x20var(--accent-color,\x20#a855f7);\x22>ZOOM\x20HACK</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--accent-color,\x20#a855f7);\x20font-weight:\x20700;\x20letter-spacing:\x201px;\x20margin-top:\x202px;\x22>ОТДАЛЕНИЕ\x20КАМЕРЫ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_zoom_modal_close\x22\x20style=\x22background:\x20rgba(239,\x2068,\x2068,\x200.15);\x20border:\x201px\x20solid\x20rgba(239,\x2068,\x2068,\x200.3);\x20color:\x20#f87171;\x20width:\x2026px;\x20height:\x2026px;\x20border-radius:\x208px;\x20font-weight:\x20bold;\x20cursor:\x20pointer;\x22>✕</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20flex-direction:\x20column;\x20gap:\x2012px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20700;\x22>Бинд\x20Zoom\x20Hack:</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-inp-btn\x22\x20id=\x22_bind_zoom_btn\x22>'+h['zoomKey']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rN),rf(rN,document['getElementById']('_lelya_zoom_header')),document['getElementById']('_zoom_modal_close')['onclick']=()=>{rN['style']['display']='none';};function rj(m3,m4,m5,m6){const m7=document['getElementById'](m3);if(!m7)return;m7['onclick']=()=>{m7['innerText']='Нажмите...';const m8=mm=>{mm['preventDefault'](),mm['stopPropagation'](),m5[m4]=mm['code'],localStorage['setItem'](m6,JSON['stringify'](m5)),m7['innerText']=mm['code'],mr();},m9=mm=>{mm['preventDefault'](),mm['stopPropagation']();let mE=mm['button']===0x2?'MouseRight':mm['button']===0x0?'MouseLeft':'MouseMiddle';m5[m4]=mE,localStorage['setItem'](m6,JSON['stringify'](m5)),m7['innerText']=mE,mr();};function mr(){window['removeEventListener']('keydown',m8,!![]),window['removeEventListener']('mousedown',m9,!![]);}window['addEventListener']('keydown',m8,!![]),window['addEventListener']('mousedown',m9,!![]);};}rj('_swap_bind_key_btn','bindKey',O,P),rj('_swap_slot1_btn','slot1',O,P),rj('_swap_slot2_btn','slot2',O,P),rj('_bob_bind_key_btn','bindKey',J,N),rj('_bind_autoe_btn','autoEKey',h,j),rj('_bind_building_btn','buildKey',h,j),rj('_bind_zoom_btn','zoomKey',h,j);const ra=[{'id':'_chk_hud_memory','key':'memory','target':'_hud_item_memory'},{'id':'_chk_hud_clock','key':'clock','target':'_hud_item_clock'},{'id':'_chk_hud_autoe','key':'autoe','target':'_hud_item_autoe'},{'id':'_chk_hud_logo','key':'logo','target':'_hud_item_logo'},{'id':'_chk_hud_userid','key':'userid','target':'_hud_user_id'},{'id':'_chk_hud_keys','key':'keys','target':'_hud_item_keys'}];ra['forEach'](m3=>{const m4=document['getElementById'](m3['id']);m4&&(m4['onchange']=m5=>{R[m3['key']]=m5['target']['checked'],localStorage['setItem'](F,JSON['stringify'](R));const m6=document['getElementById'](m3['target']);if(m6)m6['style']['display']=m5['target']['checked']?'block':'none';});});const ri=document['getElementById']('_chk_hud_draggable');ri&&(ri['onchange']=m3=>{R['draggable']=m3['target']['checked'],localStorage['setItem'](F,JSON['stringify'](R)),rq();});document['getElementById']('_hud_reset_pos')['onclick']=()=>{U={...rZ},localStorage['removeItem'](B),rT();};const rR=document['createElement']('div');rR['id']='_lelya_root',rR['style']['cssText']='position:\x20fixed;\x20top:\x2050%;\x20left:\x2050%;\x20transform:\x20translate(-50%,\x20-50%);\x20width:\x20920px;\x20height:\x20620px;\x20border-radius:\x2016px;\x20z-index:\x202147483646;\x20display:\x20flex;\x20flex-direction:\x20column;\x20overflow:\x20hidden;\x20opacity:\x201;\x20animation:\x20lelyaFadeIn\x200.3s\x20ease;\x20transition:\x20box-shadow\x200.3s\x20ease,\x20border-color\x200.3s\x20ease;';X&&(rR['style']['top']=X['top'],rR['style']['left']=X['left'],rR['style']['transform']='none');rR['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_menu_header\x22\x20style=\x22cursor:\x20move;\x20padding:\x2022px\x2028px\x2016px\x2028px;\x20display:\x20grid;\x20grid-template-columns:\x201fr\x20auto\x201fr;\x20align-items:\x20center;\x20border-bottom:\x201px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22justify-self:\x20start;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h1\x20class=\x22lelya-accent-title\x22\x20style=\x22margin:\x200;\x20font-size:\x2020px;\x20font-weight:\x20800;\x20letter-spacing:\x20-0.5px;\x20line-height:\x201.2;\x22>LelyaHack</h1>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x208px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20font-weight:\x20700;\x20letter-spacing:\x201px;\x22>VERSION\x202.9.0</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22justify-self:\x20center;\x20display:\x20flex;\x20flex-direction:\x20column;\x20align-items:\x20center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_clock\x22\x20style=\x22font-size:\x2020px;\x20font-weight:\x20800;\x20letter-spacing:\x202px;\x20line-height:\x201.1;\x22>00:00:00</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_date\x22\x20style=\x22font-size:\x208px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20font-weight:\x20700;\x20text-transform:\x20uppercase;\x20margin-top:\x202px;\x22>--</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22justify-self:\x20end;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22_lelya_close_btn\x22\x20style=\x22background:\x20rgba(239,\x2068,\x2068,\x200.15);\x20border:\x201px\x20solid\x20rgba(239,\x2068,\x2068,\x200.3);\x20color:\x20#f87171;\x20width:\x2026px;\x20height:\x2026px;\x20border-radius:\x206px;\x20font-weight:\x20bold;\x20cursor:\x20pointer;\x20display:\x20flex;\x20align-items:\x20center;\x20justify-content:\x20center;\x22>✕</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22padding:\x2012px\x2028px;\x20display:\x20flex;\x20justify-content:\x20center;\x20gap:\x208px;\x20border-bottom:\x201px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20background:\x20var(--tabs-bg,\x20rgba(0,0,0,0.1));\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-tab-btn\x20active\x22\x20data-tab=\x22functions\x22>Функции</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-tab-btn\x22\x20data-tab=\x22visuals\x22>Вид\x20меню</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-tab-btn\x22\x20data-tab=\x22misc\x22>Прочее</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22lelya-tab-btn\x22\x20data-tab=\x22session\x22>Сеанс</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_lelya_content\x22\x20style=\x22flex:\x201;\x20padding:\x2024px\x2028px;\x20overflow-y:\x20auto;\x20position:\x20relative;\x22>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-tab-pane\x22\x20data-pane=\x22functions\x22\x20style=\x22display:\x20grid;\x20grid-template-columns:\x20repeat(3,\x201fr);\x20gap:\x2018px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20data-func=\x22hud\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20flex-start;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-title\x22>HUD</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20line-height:\x201.4;\x22>Виджеты\x20с\x20информацией\x20на\x20экране.</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-gear\x22\x20data-gear=\x22hud\x22\x20title=\x22Настройки\x20HUD\x22>⚙️</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#71717a);\x20letter-spacing:\x200.5px;\x22>НАЖМИТЕ\x20ДЛЯ\x20ПЕРЕКЛЮЧЕНИЯ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20data-func=\x22auto_swap\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20flex-start;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-title\x22>Auto\x20Swap</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20line-height:\x201.4;\x22>Автоматическая\x20смена\x20предметов\x20по\x20бинду.</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-gear\x22\x20data-gear=\x22auto_swap\x22\x20title=\x22Настройки\x20Auto\x20Swap\x22>⚙️</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#71717a);\x20letter-spacing:\x200.5px;\x22>НАЖМИТЕ\x20ДЛЯ\x20ПЕРЕКЛЮЧЕНИЯ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20data-func=\x22auto_bob\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20flex-start;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-title\x22>Auto\x20Bob</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20line-height:\x201.4;\x22>Берет\x20боб,\x20наносит\x20удар\x20и\x20возвращает\x20на\x20исходный\x20слот.</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-gear\x22\x20data-gear=\x22auto_bob\x22\x20title=\x22Настройки\x20Auto\x20Bob\x22>⚙️</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#71717a);\x20letter-spacing:\x200.5px;\x22>НАЖМИТЕ\x20ДЛЯ\x20ПЕРЕКЛЮЧЕНИЯ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20data-func=\x22auto_e\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20flex-start;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-title\x22>Auto\x20E</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20line-height:\x201.4;\x22>Автоматический\x20подбор\x20предметов\x20с\x20ускорением\x20времени\x20по\x20бинду</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-gear\x22\x20data-gear=\x22auto_e\x22\x20title=\x22Настройки\x20Auto\x20E\x22>⚙️</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#71717a);\x20letter-spacing:\x200.5px;\x22>НАЖМИТЕ\x20ДЛЯ\x20ПЕРЕКЛЮЧЕНИЯ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20data-func=\x22building_helper\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20flex-start;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-title\x22>Building\x20Helper</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20line-height:\x201.4;\x22>Зажимает\x20Shift\x20и\x20спамит\x20ЛКМ\x20по\x20удерживаемой\x20кнопке.</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-gear\x22\x20data-gear=\x22building_helper\x22\x20title=\x22Настройки\x20Building\x20Helper\x22>⚙️</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#71717a);\x20letter-spacing:\x200.5px;\x22>НАЖМИТЕ\x20ДЛЯ\x20ПЕРЕКЛЮЧЕНИЯ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20data-func=\x22zoom_hack\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20flex-start;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-title\x22>Zoom\x20Hack</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20line-height:\x201.4;\x22>Отдаление\x20экрана\x20по\x20кнопкам\x20+\x20/\x20-\x20(NumPad)\x20или\x20по\x20бинду.</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-func-gear\x22\x20data-gear=\x22zoom_hack\x22\x20title=\x22Настройки\x20Zoom\x20Hack\x22>⚙️</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#71717a);\x20letter-spacing:\x200.5px;\x22>НАЖМИТЕ\x20ДЛЯ\x20ПЕРЕКЛЮЧЕНИЯ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-tab-pane\x22\x20data-pane=\x22visuals\x22\x20style=\x22display:\x20none;\x20flex-direction:\x20column;\x20gap:\x2020px;\x20width:\x20100%;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20margin-bottom:\x208px;\x20letter-spacing:\x201px;\x22>ОСНОВНАЯ\x20ТЕМА</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20grid;\x20grid-template-columns:\x201fr\x201fr;\x20gap:\x2012px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_theme_dark\x22\x20style=\x22padding:\x2012px;\x20border-radius:\x208px;\x20text-align:\x20center;\x20font-weight:\x20600;\x20font-size:\x2010px;\x20cursor:\x20pointer;\x20border:\x201px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.1));\x22>Тёмная</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_theme_light\x22\x20style=\x22padding:\x2012px;\x20border-radius:\x208px;\x20text-align:\x20center;\x20font-weight:\x20600;\x20font-size:\x2010px;\x20cursor:\x20pointer;\x20border:\x201px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.1));\x22>Светлая</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20margin-bottom:\x208px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20letter-spacing:\x201px;\x22>ЯРКОСТЬ\x20МЕНЮ</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20id=\x22_brightness_val\x22\x20style=\x22font-size:\x209px;\x20color:\x20#888;\x20font-weight:\x20700;\x22>'+a['brightness']+'%</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<input\x20type=\x22range\x22\x20id=\x22_lelya_brightness\x22\x20min=\x2220\x22\x20max=\x22100\x22\x20value=\x22'+a['brightness']+'\x22\x20style=\x22width:\x20100%;\x20cursor:\x20pointer;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20margin-bottom:\x208px;\x20letter-spacing:\x201px;\x22>АКЦЕНТНЫЙ\x20ЦВЕТ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20gap:\x2010px;\x20align-items:\x20center;\x20flex-wrap:\x20wrap;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#a855f7;\x22\x20data-color=\x22#a855f7\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#3b82f6;\x22\x20data-color=\x22#3b82f6\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#ec4899;\x22\x20data-color=\x22#ec4899\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#f97316;\x22\x20data-color=\x22#f97316\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#10b981;\x22\x20data-color=\x22#10b981\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#eab308;\x22\x20data-color=\x22#eab308\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#ffffff;\x22\x20data-color=\x22#ffffff\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#ef4444;\x22\x20data-color=\x22#ef4444\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-color-dot\x22\x20style=\x22background:\x20#27272a;\x20border:\x201px\x20solid\x20rgba(255,255,255,0.2);\x22\x20data-color=\x22#27272a\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20flex-direction:\x20column;\x20gap:\x2014px;\x20margin-top:\x204px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#cbd5e1);\x20cursor:\x20pointer;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Эффект\x20размытия\x20элементов\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22blur_effect\x22\x20'+(a['blur_effect']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#cbd5e1);\x20cursor:\x20pointer;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Тень\x20вокруг\x20элементов\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label\x20class=\x22lelya-switch\x22><input\x20type=\x22checkbox\x22\x20id=\x22shadow_effect\x22\x20'+(a['shadow_effect']?'checked':'')+'><span\x20class=\x22lelya-slider\x22></span></label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</label>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-tab-pane\x22\x20data-pane=\x22misc\x22\x20style=\x22display:\x20none;\x20flex-direction:\x20column;\x20gap:\x2016px;\x20width:\x20100%;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-misc-card\x22\x20id=\x22_btn_change_username\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20700;\x20font-size:\x2012px;\x20margin-bottom:\x202px;\x22>Кастомный\x20никнейм</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x22>Текущий:\x20<span\x20id=\x22_current_username_label\x22\x20style=\x22color:\x20var(--text-color,\x20#fff);\x20font-weight:\x20600;\x22>'+r9+'</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-misc-card\x22\x20id=\x22_btn_discord\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20700;\x20font-size:\x2012px;\x20margin-bottom:\x202px;\x22>Discord\x20Сервер</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x22>Присоединиться\x20к\x20нашему\x20сообществу</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-misc-card\x22\x20style=\x22cursor:\x20default;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-weight:\x20700;\x20font-size:\x2012px;\x20margin-bottom:\x202px;\x22>Информация\x20об\x20аккаунте</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20margin-top:\x204px;\x22>Никнейм:\x20<span\x20id=\x22_info_username_display\x22\x20style=\x22color:\x20var(--text-color,\x20#fff);\x20font-weight:\x20700;\x22>'+r9+'</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20margin-top:\x202px;\x22>Первый\x20вход:\x20<span\x20style=\x22color:\x20var(--text-color,\x20#fff);\x20font-family:\x20monospace;\x22>'+rr+'</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x2010px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20margin-top:\x202px;\x22>Ваш\x20HWID:\x20<span\x20style=\x22color:\x20var(--text-color,\x20#fff);\x20font-family:\x20monospace;\x20font-size:\x209px;\x22>'+r8+'</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22margin-top:\x2012px;\x22><button\x20id=\x22_lelya_logout\x22\x20style=\x22padding:\x206px\x2012px;\x20background:\x20rgba(239,\x2068,\x2068,\x200.15);\x20border:\x201px\x20solid\x20rgba(239,\x2068,\x2068,\x200.3);\x20color:\x20#f87171;\x20border-radius:\x208px;\x20font-weight:\x20600;\x20cursor:\x20pointer;\x20width:\x20fit-content;\x20font-size:\x2010px;\x22>Сбросить\x20ключ\x20авторизации</button></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-tab-pane\x22\x20data-pane=\x22session\x22\x20style=\x22display:\x20none;\x20flex-direction:\x20column;\x20gap:\x2016px;\x20width:\x20100%;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20style=\x22cursor:\x20default;\x20padding:\x2016px\x2024px;\x20display:\x20grid;\x20grid-template-columns:\x201fr\x20auto\x201fr;\x20align-items:\x20center;\x20min-height:\x20unset;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20letter-spacing:\x201px;\x20margin-bottom:\x202px;\x22>ЗАПУЩЕН</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_session_start_time\x22\x20style=\x22font-size:\x2018px;\x20font-weight:\x20800;\x22>'+rp+'</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22width:\x201px;\x20height:\x2035px;\x20background:\x20var(--border-color,\x20rgba(255,255,255,0.1));\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22text-align:\x20right;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20letter-spacing:\x201px;\x20margin-bottom:\x202px;\x22>ДЛИТЕЛЬНОСТЬ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_session_duration\x22\x20style=\x22font-size:\x2018px;\x20font-weight:\x20800;\x22>0м\x200с</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20grid;\x20grid-template-columns:\x20repeat(3,\x201fr);\x20gap:\x2016px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20style=\x22cursor:\x20default;\x20min-height:\x20unset;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20letter-spacing:\x201px;\x20margin-bottom:\x204px;\x22>СРЕДНИЙ\x20FPS</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_real_fps\x22\x20style=\x22font-size:\x2022px;\x20font-weight:\x20800;\x20line-height:\x201.1;\x22>60</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20margin-top:\x204px;\x22>кадров/сек</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20style=\x22cursor:\x20default;\x20min-height:\x20unset;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20letter-spacing:\x201px;\x20margin-bottom:\x204px;\x22>СРЕДНИЙ\x20ПИНГ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_real_ping\x22\x20style=\x22font-size:\x2022px;\x20font-weight:\x20800;\x20line-height:\x201.1;\x22>32\x20МС</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20margin-top:\x204px;\x22>задержка</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-card\x22\x20style=\x22cursor:\x20default;\x20min-height:\x20unset;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20letter-spacing:\x201px;\x20margin-bottom:\x204px;\x22>ПАМЯТЬ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22_real_memory\x22\x20style=\x22font-size:\x2022px;\x20font-weight:\x20800;\x20line-height:\x201.1;\x22>--\x20МБ</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22font-size:\x208px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20margin-top:\x204px;\x22>использование\x20JS</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20grid;\x20grid-template-columns:\x201fr\x201fr;\x20gap:\x2016px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-chart-card\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20margin-bottom:\x2010px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20800;\x20letter-spacing:\x201px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x22>ГРАФИК\x20FPS</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20id=\x22_chart_fps_val\x22\x20style=\x22font-size:\x2011px;\x20font-weight:\x20800;\x20color:\x20var(--accent-color,\x20#a855f7);\x22>60\x20FPS</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<canvas\x20id=\x22_canvas_fps\x22\x20width=\x22380\x22\x20height=\x22110\x22\x20style=\x22width:\x20100%;\x20height:\x20110px;\x20display:\x20block;\x20border-radius:\x208px;\x22></canvas>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22lelya-chart-card\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20margin-bottom:\x2010px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x209px;\x20font-weight:\x20800;\x20letter-spacing:\x201px;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x22>ГРАФИК\x20ПАМЯТИ</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20id=\x22_chart_mem_val\x22\x20style=\x22font-size:\x2011px;\x20font-weight:\x20800;\x20color:\x20var(--accent-color,\x20#a855f7);\x22>--\x20МБ</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<canvas\x20id=\x22_canvas_mem\x22\x20width=\x22380\x22\x20height=\x22110\x22\x20style=\x22width:\x20100%;\x20height:\x20110px;\x20display:\x20block;\x20border-radius:\x208px;\x22></canvas>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22padding:\x2012px\x2028px;\x20border-top:\x201px\x20solid\x20var(--border-color,\x20rgba(255,255,255,0.06));\x20display:\x20flex;\x20justify-content:\x20space-between;\x20align-items:\x20center;\x20background:\x20var(--footer-bg,\x20rgba(0,0,0,0.15));\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22font-size:\x208px;\x20font-weight:\x20700;\x20color:\x20var(--desc-color,\x20#a1a1aa);\x20letter-spacing:\x201.5px;\x22>CREATED\x20BY\x20VITAMINKA</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',document['body']['appendChild'](rR),rf(rR,document['getElementById']('_lelya_menu_header'),(m3,m4)=>{X={'top':m3,'left':m4},localStorage['setItem'](K,JSON['stringify'](X));}),document['getElementById']('_lelya_close_btn')['onclick']=()=>{rR['style']['display']='none';},document['querySelectorAll']('.lelya-tab-btn')['forEach'](m3=>{m3['onclick']=()=>{document['querySelectorAll']('.lelya-tab-btn')['forEach'](m5=>m5['classList']['remove']('active')),m3['classList']['add']('active');const m4=m3['getAttribute']('data-tab');document['querySelectorAll']('.lelya-tab-pane')['forEach'](m5=>{m5['getAttribute']('data-pane')===m4?m5['style']['display']=m4==='functions'?'grid':'flex':m5['style']['display']='none';});};});const rO=()=>{rR['querySelectorAll']('.lelya-card[data-func]')['forEach'](m3=>{const m4=m3['getAttribute']('data-func');i[m4]?m3['classList']['add']('active-card'):m3['classList']['remove']('active-card');});};rO(),rR['querySelectorAll']('.lelya-card[data-func]')['forEach'](m3=>{m3['onclick']=m4=>{if(m4['target']['closest']('.lelya-func-gear'))return;const m5=m3['getAttribute']('data-func');i[m5]=!i[m5],localStorage['setItem']('lelyahack_funcs',JSON['stringify'](i)),rO(),m5==='hud'&&(rc['style']['display']=i['hud']?'block':'none');};});const rJ={'hud':rV,'auto_swap':rt,'auto_bob':rk,'auto_e':rW,'building_helper':rP,'zoom_hack':rN};rR['querySelectorAll']('.lelya-func-gear')['forEach'](m3=>{m3['onclick']=m4=>{m4['stopPropagation']();const m5=rJ[m3['getAttribute']('data-gear')];m5&&(m5['style']['display']=m5['style']['display']==='flex'?'none':'flex');};}),document['getElementById']('_btn_change_username')['onclick']=()=>{const m3=prompt('Введите\x20новый\x20никнейм:',r9);m3&&m3['trim']()&&(r9=m3['trim'](),GM_setValue('lelyahack_username',r9),document['getElementById']('_current_username_label')['innerText']=r9,document['getElementById']('_info_username_display')['innerText']=r9,document['getElementById']('_hud_user_id')['innerText']=r9);},document['getElementById']('_btn_discord')['onclick']=()=>{window['open']('https://discord.gg/VDGgZX2Gb','_blank');},document['getElementById']('_lelya_logout')['onclick']=()=>{confirm('Вы\x20уверены,\x20что\x20хотите\x20сбросить\x20ключ\x20авторизации?')&&(localStorage['removeItem'](k),GM_setValue('lelyahack_user_key',''),location['reload']());},document['getElementById']('_lelya_brightness')['oninput']=m3=>{a['brightness']=parseInt(m3['target']['value']),document['getElementById']('_brightness_val')['innerText']=a['brightness']+'%',localStorage['setItem'](L,JSON['stringify'](a)),m0();},document['addEventListener']('keydown',m3=>{(m3['code']==='Insert'||m3['key']==='Insert')&&(rR['style']['display']==='none'?rR['style']['display']='flex':(rR['style']['display']='none',rV['style']['display']='none',rt['style']['display']='none',rk['style']['display']='none',rW['style']['display']='none',rP['style']['display']='none',rN['style']['display']='none'));});let rh=0x0,rU=r(),rG=0x3c;function rX(){rh++;const m3=r();if(m3-rU>=0x3e8){rG=Math['round'](rh*0x3e8/(m3-rU)),rh=0x0,rU=m3;const m4=document['getElementById']('_real_fps');if(m4)m4['innerText']=rG;}requestAnimationFrame(rX);}requestAnimationFrame(rX);let ro=0x20;setInterval(()=>{const m3=r();fetch(window['location']['origin']+'/favicon.ico?cache='+Math['random'](),{'method':'HEAD','cache':'no-store'})['then'](()=>{const m4=Math['round'](r()-m3);ro=m4>0x0?m4:Math['floor'](Math['random']()*0xa+0x19);const m5=document['getElementById']('_real_ping');if(m5)m5['innerText']=ro+'\x20МС';})['catch'](()=>{const m4=document['getElementById']('_real_ping');if(m4)m4['innerText']='--\x20МС';});},0xbb8);const rC=new Array(0x1e)['fill'](0x3c),ry=new Array(0x1e)['fill'](0x0);function rs(m3,m4,m5){const m6=document['getElementById'](m3);if(!m6)return;const m7=m6['getContext']('2d'),m8=m6['width'],m9=m6['height'];m7['clearRect'](0x0,0x0,m8,m9),m7['strokeStyle']=a['theme']==='light'?'rgba(0,0,0,0.06)':'rgba(255,255,255,0.05)',m7['lineWidth']=0x1,m7['beginPath'](),m7['moveTo'](0x0,m9*0.33),m7['lineTo'](m8,m9*0.33),m7['moveTo'](0x0,m9*0.66),m7['lineTo'](m8,m9*0.66),m7['stroke']();if(m4['length']<0x2)return;let mr=Math['max'](...m4,0xa),mm=Math['min'](...m4);mr===mm&&(mr+=0x5,mm=Math['max'](0x0,mm-0x5));const mE=m4['map']((mH,mx)=>{const mY=mx/(m4['length']-0x1)*m8,mf=m9-(mH-mm)/(mr-mm)*(m9-0x14)-0xa;return{'x':mY,'y':mf};}),mp=m7['createLinearGradient'](0x0,0x0,0x0,m9);mp['addColorStop'](0x0,rQ(m5,0.4)),mp['addColorStop'](0x1,rQ(m5,0x0)),m7['beginPath'](),m7['moveTo'](mE[0x0]['x'],mE[0x0]['y']);for(let mH=0x1;mH<mE['length'];mH++){m7['lineTo'](mE[mH]['x'],mE[mH]['y']);}m7['lineTo'](m8,m9),m7['lineTo'](0x0,m9),m7['closePath'](),m7['fillStyle']=mp,m7['fill'](),m7['beginPath'](),m7['moveTo'](mE[0x0]['x'],mE[0x0]['y']);for(let mx=0x1;mx<mE['length'];mx++){m7['lineTo'](mE[mx]['x'],mE[mx]['y']);}m7['strokeStyle']=m5,m7['lineWidth']=2.5,m7['shadowColor']=m5,m7['shadowBlur']=0x8,m7['stroke'](),m7['shadowBlur']=0x0;}const rS=['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря'];setInterval(()=>{const m3=new Date(),m4=String(m3['getHours']())['padStart'](0x2,'0'),m5=String(m3['getMinutes']())['padStart'](0x2,'0'),m6=String(m3['getSeconds']())['padStart'](0x2,'0'),m7=m4+':'+m5+':'+m6,m8=document['getElementById']('_lelya_clock'),m9=document['getElementById']('_hud_clock');if(m8)m8['innerText']=m7;if(m9)m9['innerText']=m7;const mr=document['getElementById']('_lelya_date');if(mr)mr['innerText']=m3['getDate']()+'\x20'+rS[m3['getMonth']()];const mm=Math['floor']((r()-rm)/0x3e8),mE=Math['floor'](mm/0x3c),mp=mm%0x3c,mH=document['getElementById']('_session_duration');if(mH)mH['innerText']=mE+'м\x20'+mp+'с';let mx=0x0;if(performance['memory']){const mv=Math['round'](performance['memory']['usedJSHeapSize']/0x100000),mI=Math['round'](performance['memory']['jsHeapSizeLimit']/0x100000),mn=Math['round'](mv/mI*0x64);mx=mv;const ml=document['getElementById']('_real_memory'),mz=document['getElementById']('_hud_memory'),md=document['getElementById']('_hud_mem_bar'),mu=document['getElementById']('_hud_mem_sub');if(ml)ml['innerText']=mv+'\x20МБ';if(mz)mz['innerText']=mv+'\x20МБ';if(md)md['style']['width']=mn+'%';if(mu)mu['innerText']=mn+'%\x20из\x20'+mI+'\x20МБ';}rC['shift'](),rC['push'](rG);const mY=document['getElementById']('_chart_fps_val');if(mY)mY['innerText']=rG+'\x20FPS';rs('_canvas_fps',rC,a['accent']),ry['shift'](),ry['push'](mx);const mf=document['getElementById']('_chart_mem_val');if(mf)mf['innerText']=(mx||'--')+'\x20МБ';rs('_canvas_mem',ry,a['accent']);},0x3e8);const rQ=(m3,m4)=>{let m5=m3['replace']('#','');if(m5['length']===0x3)m5=m5['split']('')['map'](m7=>m7+m7)['join']('');const m6=parseInt(m5,0x10);return'rgba('+(m6>>0x10)+','+(m6>>0x8&0xff)+','+(m6&0xff)+','+m4+')';};function m0(){rR['style']['opacity']=a['brightness']/0x64,rR['style']['setProperty']('--accent-color',a['accent']),rR['style']['setProperty']('--accent-glow-bg',rQ(a['accent'],0.25)),rR['style']['setProperty']('--card-active-bg',rQ(a['accent'],0.15)),rR['style']['setProperty']('--card-glow',rQ(a['accent'],0.35)),rR['style']['setProperty']('--card-hover-border',rQ(a['accent'],0.4)),rR['style']['setProperty']('--tab-active-bg',rQ(a['accent'],0.15)),rR['style']['setProperty']('--tab-active-border',rQ(a['accent'],0.3)),a['theme']==='light'?(rR['style']['background']='rgba(245,\x20245,\x20247,\x200.95)',rR['style']['color']='#1d1d1f',rR['style']['setProperty']('--text-color','#1d1d1f'),rR['style']['setProperty']('--desc-color','#6e6e73'),rR['style']['setProperty']('--card-bg','rgba(255,\x20255,\x20255,\x200.8)'),rR['style']['setProperty']('--card-border','rgba(0,\x200,\x200,\x200.08)'),rR['style']['setProperty']('--border-color','rgba(0,0,0,0.08)'),rR['style']['setProperty']('--tabs-bg','rgba(0,0,0,0.03)'),rR['style']['setProperty']('--footer-bg','rgba(0,0,0,0.03)'),rR['style']['setProperty']('--tab-text-color','#6e6e73'),rR['style']['setProperty']('--switch-bg','rgba(0,0,0,0.15)'),rR['style']['setProperty']('--switch-border','rgba(0,0,0,0.2)'),rR['style']['setProperty']('--modal-bg','rgba(245,\x20245,\x20247,\x200.98)'),rR['style']['setProperty']('--modal-border','rgba(0,0,0,0.1)'),rR['style']['setProperty']('--modal-text','#1d1d1f'),rR['style']['setProperty']('--btn-bg','rgba(0,0,0,0.05)'),document['getElementById']('_theme_dark')['style']['background']='transparent',document['getElementById']('_theme_dark')['style']['color']='#6e6e73',document['getElementById']('_theme_light')['style']['background']=a['accent'],document['getElementById']('_theme_light')['style']['color']='#fff'):(rR['style']['background']='rgba(11,\x2016,\x2013,\x200.95)',rR['style']['color']='#fff',rR['style']['setProperty']('--text-color','#fff'),rR['style']['setProperty']('--desc-color','#a1a1aa'),rR['style']['setProperty']('--card-bg','rgba(18,\x2024,\x2020,\x200.6)'),rR['style']['setProperty']('--card-border','rgba(255,\x20255,\x20255,\x200.05)'),rR['style']['setProperty']('--border-color','rgba(255,255,255,0.06)'),rR['style']['setProperty']('--tabs-bg','rgba(0,0,0,0.1)'),rR['style']['setProperty']('--footer-bg','rgba(0,0,0,0.15)'),rR['style']['setProperty']('--tab-text-color','#a1a1aa'),rR['style']['setProperty']('--switch-bg','rgba(255,255,255,0.15)'),rR['style']['setProperty']('--switch-border','rgba(255,255,255,0.2)'),rR['style']['setProperty']('--modal-bg','rgba(13,\x2018,\x2015,\x200.95)'),rR['style']['setProperty']('--modal-border','rgba(255,\x20255,\x20255,\x200.1)'),rR['style']['setProperty']('--modal-text','#fff'),rR['style']['setProperty']('--btn-bg','rgba(255,255,255,0.04)'),document['getElementById']('_theme_light')['style']['background']='transparent',document['getElementById']('_theme_light')['style']['color']='#a1a1aa',document['getElementById']('_theme_dark')['style']['background']=a['accent'],document['getElementById']('_theme_dark')['style']['color']='#fff'),a['blur_effect']?rR['style']['backdropFilter']='blur(20px)':rR['style']['backdropFilter']='none',a['shadow_effect']?rR['style']['boxShadow']='0\x2020px\x2050px\x20rgba(0,0,0,0.6),\x200\x200\x2030px\x20'+rQ(a['accent'],0.2):rR['style']['boxShadow']='none',rR['querySelectorAll']('.lelya-color-dot')['forEach'](m3=>{m3['getAttribute']('data-color')===a['accent']?m3['classList']['add']('active'):m3['classList']['remove']('active');});}m0(),document['getElementById']('_theme_dark')['onclick']=()=>{a['theme']='dark',localStorage['setItem'](L,JSON['stringify'](a)),m0();},document['getElementById']('_theme_light')['onclick']=()=>{a['theme']='light',localStorage['setItem'](L,JSON['stringify'](a)),m0();},rR['querySelectorAll']('.lelya-color-dot')['forEach'](m3=>{m3['onclick']=()=>{a['accent']=m3['getAttribute']('data-color'),localStorage['setItem'](L,JSON['stringify'](a)),m0();};}),document['getElementById']('blur_effect')['onchange']=m3=>{a['blur_effect']=m3['target']['checked'],localStorage['setItem'](L,JSON['stringify'](a)),m0();},document['getElementById']('shadow_effect')['onchange']=m3=>{a['shadow_effect']=m3['target']['checked'],localStorage['setItem'](L,JSON['stringify'](a)),m0();};}}());
+(function() {
+    'use strict';
+
+    document.title = 'LelyaHack';
+
+    // ==========================================
+    // 1. TimeMachine Overrides
+    // ==========================================
+    const nativePerformanceNow = performance.now.bind(performance);
+
+    let speed = 1;
+
+    function setTimeSpeed(multiplier) {
+        speed = multiplier;
+    }
+
+    let lastPNow = performance.now();
+    let pNowOffset = 0;
+
+    window.performance.now = new Proxy(window.performance.now, {
+        apply: function(target, thisArg, argList) {
+            const time = Reflect.apply(target, thisArg, argList);
+            pNowOffset += (time - lastPNow) * (speed - 1);
+            lastPNow = time;
+            return time + pNowOffset;
+        }
+    });
+
+    let lastD = Date.now();
+    let dOffset = 0;
+
+    window.Date.now = new Proxy(window.Date.now, {
+        apply: function(target, thisArg, argList) {
+            const time = Reflect.apply(target, thisArg, argList);
+            dOffset += (time - lastD) * (speed - 1);
+            lastD = time;
+            return Math.floor(time + dOffset);
+        }
+    });
+
+    let lastRAF = performance.now();
+    let rAFOffset = 0;
+
+    window.requestAnimationFrame = new Proxy(window.requestAnimationFrame, {
+        apply: function(target, thisArg, argList) {
+            if (typeof argList[0] === "function") {
+                argList[0] = new Proxy(argList[0], {
+                    apply: function(target2, thisArg2, argList2) {
+                        const time = argList2[0];
+                        rAFOffset += (time - lastRAF) * (speed - 1);
+                        lastRAF = time;
+                        argList2[0] = time + rAFOffset;
+                        return Reflect.apply(target2, thisArg2, argList2);
+                    }
+                });
+            }
+            return Reflect.apply(target, thisArg, argList);
+        }
+    });
+
+    let ePressInterval;
+
+    function startAutoE() {
+        if (!ePressInterval) {
+            setTimeSpeed(bindsConfig.speedMultiplier || 250);
+
+            ePressInterval = setInterval(() => {
+                const KeyISdown = new KeyboardEvent('keydown', { key: 'e', keyCode: 69, code: 'KeyE', bubbles: true });
+                const KeyISup = new KeyboardEvent('keyup', { key: 'e', keyCode: 69, code: 'KeyE', bubbles: true });
+                window.dispatchEvent(KeyISdown);
+                window.dispatchEvent(KeyISup);
+            }, 1);
+            updateAutoEHud(true);
+        }
+    }
+
+    function stopAutoE() {
+        if (ePressInterval) {
+            clearInterval(ePressInterval);
+            ePressInterval = null;
+            setTimeSpeed(1);
+            updateAutoEHud(false);
+        }
+    }
+
+    function updateAutoEHud(active) {
+        const dot = document.getElementById('_hud_autoe_dot');
+        const txt = document.getElementById('_hud_autoe_txt');
+        if (dot && txt) {
+            if (active) {
+                dot.style.background = '#22c55e';
+                dot.style.boxShadow = '0 0 10px #22c55e';
+                txt.style.color = '#22c55e';
+                txt.innerText = 'ON';
+            } else {
+                dot.style.background = '#ef4444';
+                dot.style.boxShadow = '0 0 10px #ef4444';
+                txt.style.color = '#ef4444';
+                txt.innerText = 'OFF';
+            }
+        }
+    }
+
+    // ==========================================
+    // Building Helper Logic
+    // ==========================================
+    let buildInterval = null;
+    let isBuildingActive = false;
+
+    function startBuildingHelper() {
+        if (buildInterval) return;
+        isBuildingActive = true;
+
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16, shiftKey: true, bubbles: true }));
+
+        buildInterval = setInterval(() => {
+            clickAtCursor();
+        }, 30);
+    }
+
+    function stopBuildingHelper() {
+        if (buildInterval) {
+            clearInterval(buildInterval);
+            buildInterval = null;
+        }
+        if (isBuildingActive) {
+            isBuildingActive = false;
+            window.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16, shiftKey: false, bubbles: true }));
+        }
+    }
+
+    const pressedKeys = new Set();
+    const wasdKeyMap = {
+        'KeyW': 'w',
+        'KeyA': 'a',
+        'KeyS': 's',
+        'KeyD': 'd'
+    };
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        const k = wasdKeyMap[e.code];
+        if (k) {
+            pressedKeys.add(k);
+            const el = document.getElementById(`_key_${k}`);
+            if (el) el.classList.add('pressed');
+        }
+    }, false);
+
+    document.addEventListener('keyup', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        const k = wasdKeyMap[e.code];
+        if (k) {
+            pressedKeys.delete(k);
+            const el = document.getElementById(`_key_${k}`);
+            if (el) el.classList.remove('pressed');
+        }
+    }, false);
+
+    // ==========================================
+    // 2. Zoom Hack Logic
+    // ==========================================
+    const zoomConfig = {
+        scale: 1,
+        minScale: 0.35
+    };
+
+    let styleElement = null;
+
+    function injectZoomStyles() {
+        if (styleElement) return;
+        styleElement = document.createElement('style');
+        styleElement.textContent = `
+            html.browser-squeezed {
+                background: #2d2d2d !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                min-height: 100vh !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+            }
+            html.browser-squeezed body {
+                transform-origin: center center !important;
+                width: 100% !important;
+                margin: 0 !important;
+                background: white !important;
+                box-shadow: 0 0 30px rgba(0,0,0,0.5) !important;
+                transition: transform 0.2s ease !important;
+            }
+            html.browser-squeezed body::-webkit-scrollbar {
+                width: 12px;
+            }
+        `;
+        document.head.appendChild(styleElement);
+    }
+
+    function setZoom(scale) {
+        zoomConfig.scale = scale;
+        if (scale === 1) {
+            document.documentElement.classList.remove('browser-squeezed');
+            document.body.style.transform = '';
+        } else {
+            injectZoomStyles();
+            document.documentElement.classList.add('browser-squeezed');
+            document.body.style.transform = `scale(1, ${scale})`;
+        }
+    }
+
+    function toggleZoom() {
+        if (zoomConfig.scale === 1) {
+            setZoom(zoomConfig.minScale);
+        } else {
+            setZoom(1);
+        }
+    }
+
+    // ==========================================
+    // 3. LelyaHack Core Logic & Interface
+    // ==========================================
+    const API_URL = 'https://lelya-bot-1.onrender.com';
+    const AUTH_STATUS_KEY = 'lelyahack_auth_status';
+    const CONFIG_KEY = 'lelyahack_visual_config_v14';
+    const HUD_CONFIG_KEY = 'lelyahack_hud_config_v3';
+    const HUD_POS_KEY = 'lelyahack_hud_pos_v3';
+    const HUD_MODAL_POS_KEY = 'lelyahack_hud_modal_pos_v2';
+    const MAIN_MENU_POS_KEY = 'lelyahack_main_menu_pos_v1';
+    const AUTOSWAP_CONFIG_KEY = 'lelyahack_autoswap_config_v3';
+    const AUTOBOB_CONFIG_KEY = 'lelyahack_autobob_config_v1';
+    const BINDS_CONFIG_KEY = 'lelyahack_binds_config_v2';
+
+    let config = {
+        theme: 'dark',
+        brightness: 100,
+        accent: '#a855f7',
+        blur_effect: true,
+        shadow_effect: true
+    };
+
+    let activeFunctions = {
+        hud: true,
+        auto_swap: true,
+        auto_bob: true,
+        zoom_hack: true,
+        auto_e: true,
+        building_helper: false
+    };
+
+    let hudElementsConfig = {
+        memory: true,
+        clock: true,
+        autoe: true,
+        logo: true,
+        userid: true,
+        keys: true,
+        draggable: true
+    };
+
+    let autoSwapConfig = {
+        bindKey: 'MouseRight',
+        slot1: 'Digit8',
+        slot2: 'Digit7'
+    };
+
+    let autoBobConfig = {
+        bindKey: 'KeyB',
+        bobSlot: 'Digit9',
+        returnSlot: 'Digit1'
+    };
+
+    let bindsConfig = {
+        autoEKey: 'KeyE',
+        zoomKey: 'NumpadAdd',
+        buildKey: 'KeyF',
+        speedMultiplier: 250
+    };
+
+    let hudPositions = {};
+    let hudModalPos = null;
+    let mainMenuPos = null;
+
+    try {
+        const saved = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
+        config = { ...config, ...saved };
+        const savedFuncs = JSON.parse(localStorage.getItem('lelyahack_funcs') || '{}');
+        activeFunctions = { ...activeFunctions, ...savedFuncs };
+        const savedHudConf = JSON.parse(localStorage.getItem(HUD_CONFIG_KEY) || '{}');
+        hudElementsConfig = { ...hudElementsConfig, ...savedHudConf };
+        const savedHudPos = JSON.parse(localStorage.getItem(HUD_POS_KEY) || '{}');
+        hudPositions = { ...savedHudPos };
+        hudModalPos = JSON.parse(localStorage.getItem(HUD_MODAL_POS_KEY) || 'null');
+        mainMenuPos = JSON.parse(localStorage.getItem(MAIN_MENU_POS_KEY) || 'null');
+        const savedSwap = JSON.parse(localStorage.getItem(AUTOSWAP_CONFIG_KEY) || '{}');
+        autoSwapConfig = { ...autoSwapConfig, ...savedSwap };
+        const savedBob = JSON.parse(localStorage.getItem(AUTOBOB_CONFIG_KEY) || '{}');
+        autoBobConfig = { ...autoBobConfig, ...savedBob };
+        const savedBinds = JSON.parse(localStorage.getItem(BINDS_CONFIG_KEY) || '{}');
+        bindsConfig = { ...bindsConfig, ...savedBinds };
+    } catch(e) {}
+
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+    let cursorX = 0;
+    let cursorY = 0;
+
+    document.addEventListener("mousemove", (event) => {
+        cursorX = event.clientX;
+        cursorY = event.clientY;
+    });
+
+    function pressKeyFromCode(code) {
+        let keyChar = code.replace('Digit', '');
+        let keyCode = parseInt(keyChar) + 48;
+        if (code === 'Digit0') { keyChar = '0'; keyCode = 48; }
+        const eventOptions = {
+            key: keyChar,
+            code: code,
+            keyCode: keyCode,
+            which: keyCode,
+            bubbles: true,
+            cancelable: true
+        };
+        window.dispatchEvent(new KeyboardEvent("keydown", eventOptions));
+        window.dispatchEvent(new KeyboardEvent("keyup", eventOptions));
+    }
+
+    async function clickAtCursor() {
+        const element = document.elementFromPoint(cursorX, cursorY);
+        if (!element || element.closest(".menu, .ui, .disabled")) return;
+        const eventOptions = {
+            bubbles: true,
+            cancelable: true,
+            button: 0,
+            clientX: cursorX,
+            clientY: cursorY
+        };
+        element.dispatchEvent(new MouseEvent("mousedown", eventOptions));
+        await delay(30);
+        element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+    }
+
+    let isSwapActive = false;
+    let swapActionRunning = false;
+
+    async function performSwapActions() {
+        if (swapActionRunning || !activeFunctions.auto_swap) return;
+        swapActionRunning = true;
+        while (isSwapActive && activeFunctions.auto_swap) {
+            pressKeyFromCode(autoSwapConfig.slot1);
+            await delay(62);
+            await clickAtCursor();
+            pressKeyFromCode(autoSwapConfig.slot2);
+            await delay(374);
+        }
+        swapActionRunning = false;
+    }
+
+    let isBobRunning = false;
+
+    async function performBobAction() {
+        if (isBobRunning || !activeFunctions.auto_bob) return;
+
+        isBobRunning = true;
+
+        try {
+            pressKeyFromCode(autoBobConfig.bobSlot);
+            await delay(55);
+            await clickAtCursor();
+            await delay(25);
+            pressKeyFromCode(autoBobConfig.returnSlot);
+        } finally {
+            isBobRunning = false;
+        }
+    }
+
+    function sendChatMessage(text) {
+        if (!text) return;
+
+        if (window.dynast && window.dynast.chat) {
+            try {
+                window.dynast.chat.send(text);
+                return;
+            } catch(e) {}
+        }
+
+        const chatInput = document.querySelector('#chat-input, .chat-input, input[type="text"]');
+        if (chatInput) {
+            const lastActive = document.activeElement;
+            chatInput.value = text;
+            chatInput.dispatchEvent(new Event('input', { bubbles: true }));
+            chatInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+            const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true });
+            chatInput.dispatchEvent(enterEvent);
+            window.dispatchEvent(enterEvent);
+
+            if (lastActive && typeof lastActive.blur === 'function') {
+                lastActive.blur();
+            }
+            chatInput.blur();
+        }
+    }
+
+    document.addEventListener('mouseup', () => {
+        const selectedText = window.getSelection().toString().trim();
+        if (selectedText.length > 0) {
+            showTextPromptMenu(selectedText);
+        }
+    });
+
+    function showTextPromptMenu(text) {
+        let existing = document.getElementById('_lelya_prompt_menu');
+        if (existing) existing.remove();
+
+        const menu = document.createElement('div');
+        menu.id = '_lelya_prompt_menu';
+        menu.style.cssText = `position:fixed; top:${cursorY + 10}px; left:${cursorX + 10}px; background:rgba(13, 18, 15, 0.95); border:1px solid var(--accent-color, #a855f7); backdrop-filter:blur(16px); border-radius:10px; padding:10px; z-index:2147483647; color:#fff; font-family:'Venus Rising', sans-serif; box-shadow:0 5px 20px rgba(0,0,0,0.5);`;
+        menu.innerHTML = `
+            <div style="font-size:9px; color:#aaa; margin-bottom:6px;">Действие с текстом:</div>
+            <div style="font-size:10px; font-weight:bold; color:#fff; margin-bottom:8px; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"${text}"</div>
+            <button id="_prompt_send_chat" style="width:100%; padding:6px; background:var(--accent-color, #a855f7); border:none; border-radius:6px; color:#fff; font-size:9px; font-weight:bold; cursor:pointer; margin-bottom:4px;">Отправить в чат</button>
+            <button id="_prompt_copy" style="width:100%; padding:6px; background:rgba(255,255,255,0.1); border:none; border-radius:6px; color:#ccc; font-size:9px; cursor:pointer;">Копировать</button>
+        `;
+        document.body.appendChild(menu);
+
+        document.getElementById('_prompt_send_chat').onclick = () => {
+            sendChatMessage(text);
+            menu.remove();
+        };
+        document.getElementById('_prompt_copy').onclick = () => {
+            navigator.clipboard.writeText(text);
+            menu.remove();
+        };
+
+        setTimeout(() => {
+            document.addEventListener('click', function hideMenu(e) {
+                if (!menu.contains(e.target)) {
+                    menu.remove();
+                    document.removeEventListener('click', hideMenu);
+                }
+            });
+        }, 100);
+    }
+
+    let isAutoEActive = false;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        if (activeFunctions.auto_e && e.code === bindsConfig.autoEKey && !isAutoEActive) {
+            isAutoEActive = true;
+            startAutoE();
+        }
+
+        if (activeFunctions.building_helper && e.code === bindsConfig.buildKey && !isBuildingActive) {
+            startBuildingHelper();
+        }
+
+        if (activeFunctions.zoom_hack) {
+            if (e.code === bindsConfig.zoomKey) {
+                e.preventDefault();
+                toggleZoom();
+            } else if (e.key === '+' || e.key === '=' || e.code === 'NumpadAdd') {
+                e.preventDefault();
+                setZoom(zoomConfig.minScale);
+            } else if (e.key === '-' || e.code === 'NumpadSubtract') {
+                e.preventDefault();
+                setZoom(1);
+            }
+        }
+
+        if (e.code === autoSwapConfig.bindKey && !isSwapActive) {
+            isSwapActive = true;
+            performSwapActions();
+        }
+
+        if (e.code === autoBobConfig.bindKey) {
+            performBobAction();
+        }
+    }, true);
+
+    document.addEventListener('keyup', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        if (e.code === bindsConfig.autoEKey) {
+            isAutoEActive = false;
+            stopAutoE();
+        }
+
+        if (e.code === bindsConfig.buildKey) {
+            stopBuildingHelper();
+        }
+
+        if (e.code === autoSwapConfig.bindKey) {
+            isSwapActive = false;
+        }
+    });
+
+    document.addEventListener('mousedown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        let mouseCode = e.button === 2 ? 'MouseRight' : (e.button === 0 ? 'MouseLeft' : 'MouseMiddle');
+
+        if (activeFunctions.auto_e && mouseCode === bindsConfig.autoEKey && !isAutoEActive) {
+            isAutoEActive = true;
+            startAutoE();
+        }
+
+        if (activeFunctions.building_helper && mouseCode === bindsConfig.buildKey && !isBuildingActive) {
+            startBuildingHelper();
+        }
+
+        if (activeFunctions.zoom_hack && mouseCode === bindsConfig.zoomKey) {
+            toggleZoom();
+        }
+
+        if (mouseCode === autoSwapConfig.bindKey && !isSwapActive) {
+            isSwapActive = true;
+            performSwapActions();
+        }
+
+        if (mouseCode === autoBobConfig.bindKey) {
+            performBobAction();
+        }
+    });
+
+    document.addEventListener('mouseup', (e) => {
+        let mouseCode = e.button === 2 ? 'MouseRight' : (e.button === 0 ? 'MouseLeft' : 'MouseMiddle');
+
+        if (mouseCode === bindsConfig.autoEKey) {
+            isAutoEActive = false;
+            stopAutoE();
+        }
+
+        if (mouseCode === bindsConfig.buildKey) {
+            stopBuildingHelper();
+        }
+
+        if (mouseCode === autoSwapConfig.bindKey) {
+            isSwapActive = false;
+        }
+    });
+
+    window.addEventListener('contextmenu', (e) => {
+        if (autoSwapConfig.bindKey === 'MouseRight' || autoBobConfig.bindKey === 'MouseRight' || bindsConfig.autoEKey === 'MouseRight' || bindsConfig.zoomKey === 'MouseRight' || bindsConfig.buildKey === 'MouseRight') {
+            e.preventDefault();
+        }
+    });
+
+    let hwid = GM_getValue('lelyahack_user_hwid');
+    if (!hwid) {
+        hwid = 'HWID-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        GM_setValue('lelyahack_user_hwid', hwid);
+    }
+
+    let username = GM_getValue('lelyahack_username', 'LelyaUser');
+
+    let firstLoginTime = GM_getValue('lelyahack_first_login');
+    if (!firstLoginTime) {
+        const now = new Date();
+        const d = String(now.getDate()).padStart(2, '0');
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const y = now.getFullYear();
+        const time = now.toTimeString().split(' ')[0];
+        firstLoginTime = `${d}.${m}.${y} ${time}`;
+        GM_setValue('lelyahack_first_login', firstLoginTime);
+    }
+
+    let sessionStartRealTime = nativePerformanceNow();
+    let nowSessionDate = new Date();
+    let sessionStartTimeStr = String(nowSessionDate.getHours()).padStart(2, '0') + ':' + String(nowSessionDate.getMinutes()).padStart(2, '0');
+
+    let userKey = GM_getValue('lelyahack_user_key', '');
+    if (localStorage.getItem(AUTH_STATUS_KEY) !== 'true' || !userKey) {
+        window.addEventListener('DOMContentLoaded', showAuthModal);
+        if (document.body) showAuthModal();
+        else window.addEventListener('load', showAuthModal);
+        return;
+    } else {
+        verifyKey(true);
+        window.addEventListener('DOMContentLoaded', initLelyaMenu);
+        if (document.body) initLelyaMenu();
+    }
+
+    function verifyKey(silent = false) {
+        GM_xmlhttpRequest({
+            method: 'GET',
+            url: API_URL + '/verify?hwid=' + hwid + '&key=' + userKey,
+            timeout: 10000,
+            onload: function(res) {
+                try {
+                    let data = JSON.parse(res.responseText);
+                   if (data.status === 'banned') {
+                        localStorage.removeItem(AUTH_STATUS_KEY);
+                        GM_setValue('lelyahack_user_key', '');
+                        document.body.innerHTML = '<h1 style="color:red; text-align:center; margin-top:20vh; font-family:\'Venus Rising\', sans-serif;">ACCESS DENIED (BANNED)</h1>';
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else if (data.status === 'invalid' || data.status === 'expired') {
+                        localStorage.removeItem(AUTH_STATUS_KEY);
+                        GM_setValue('lelyahack_user_key', '');
+                        location.reload();
+                    }
+                } catch(e) {}
+            }
+        });
+    }
+
+    function showAuthModal() {
+        if (document.getElementById('_lelya_auth_div')) return;
+        const div = document.createElement('div');
+        div.id = '_lelya_auth_div';
+        div.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(16px); z-index:2147483647; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:\'Venus Rising\', sans-serif; color:#fff; zoom: 1 !important;';
+        div.innerHTML = `
+            <div style="background:rgba(11,16,13,0.95); padding:30px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); box-shadow:0 0 40px rgba(0,0,0,0.9); text-align:center; max-width:380px; width:100%;">
+                <h2 style="margin-top:0; color:#fff; font-size:16px; font-weight:800; letter-spacing:2px; margin-bottom:5px; font-family:\'Venus Rising\', sans-serif;">LELYAHACK</h2>
+                <p style="font-size:10px; color:#888; margin-bottom:10px;">Ваш HWID:</p>
+                <div style="background:rgba(5,8,6,0.8); padding:8px; border:1px dashed rgba(255,255,255,0.15); border-radius:8px; font-family:monospace; font-size:11px; color:#ccc; margin-bottom:12px; user-select:text;">` + hwid + `</div>
+                <input type="text" id="_lelya_name_inp" placeholder="Введите ваш никнейм..." value="` + username + `" style="width:100%; padding:10px; background:rgba(18,24,20,0.9); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; font-size:11px; margin-bottom:10px; outline:none; box-sizing:border-box; font-family:\'Venus Rising\', sans-serif;">
+                <input type="text" id="_lelya_key_inp" placeholder="Введите ключ активации..." style="width:100%; padding:10px; background:rgba(18,24,20,0.9); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; font-size:11px; margin-bottom:12px; outline:none; box-sizing:border-box; font-family:\'Venus Rising\', sans-serif;">
+                <button id="_lelya_sub_btn" style="width:100%; padding:11px; background:var(--accent-color, #a855f7); border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; font-size:11px; font-family:\'Venus Rising\', sans-serif;">АКТИВИРОВАТЬ</button>
+                <button id="_lelya_get_btn" style="width:100%; margin-top:8px; padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#aaa; cursor:pointer; font-size:10px; font-family:\'Venus Rising\', sans-serif;">🛒 ПОЛУЧИТЬ КЛЮЧ У БОТА</button>
+                <div id="_lelya_auth_msg" style="font-size:9px; color:#888; margin-top:10px; min-height:15px;"></div>
+            </div>
+        `;
+        document.body.appendChild(div);
+
+        document.getElementById('_lelya_get_btn').onclick = () => window.open('https://t.me/lelyahackbot?start=auth_' + hwid, '_blank');
+
+        document.getElementById('_lelya_sub_btn').onclick = () => {
+            const k = document.getElementById('_lelya_key_inp').value.trim();
+            const n = document.getElementById('_lelya_name_inp').value.trim();
+            if (!k) return alert('Введите ключ!');
+            if (n) {
+                username = n;
+                GM_setValue('lelyahack_username', username);
+            }
+            const msg = document.getElementById('_lelya_auth_msg');
+            msg.innerText = '⏳ Проверка ключа...';
+
+            GM_xmlhttpRequest({
+                method: 'GET',
+                url: API_URL + '/verify?hwid=' + hwid + '&key=' + k,
+                timeout: 15000,
+                onload: function(res) {
+                    try {
+                        let data = JSON.parse(res.responseText);
+                        if (data.status === 'success') {
+                            localStorage.setItem(AUTH_STATUS_KEY, 'true');
+                            GM_setValue('lelyahack_user_key', k);
+                            userKey = k;
+                            div.style.opacity = '0';
+                            setTimeout(() => div.remove(), 300);
+                            initLelyaMenu();
+                        } else {
+                            msg.innerText = '';
+                            alert('Ошибка: ' + (data.message || 'Неверный ключ'));
+                        }
+                    } catch(e) {
+                        msg.innerText = '';
+                        alert('Ошибка обработки ответа сервера');
+                    }
+                },
+                onerror: () => { msg.innerText = ''; alert('Не удалось подключиться к серверу.'); }
+            });
+        };
+    }
+
+    function makeDraggable(element, handle, onSavePos) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        const dragHandle = handle || element;
+        dragHandle.style.cursor = 'move';
+        dragHandle.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            if (e.button !== 0) return;
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT') return;
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+
+            const newTop = (element.offsetTop - pos2);
+            const newLeft = (element.offsetLeft - pos1);
+
+            element.style.top = newTop + "px";
+            element.style.left = newLeft + "px";
+            element.style.transform = "none";
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+            if (onSavePos) {
+                onSavePos(element.style.top, element.style.left);
+            }
+        }
+    }
+
+    function initLelyaMenu() {
+        if (document.getElementById('_lelya_root')) return;
+        GM_addStyle(`
+            @font-face {
+                font-family: 'Venus Rising';
+                src: url('https://fonts.cdnfonts.com/s/17587/venus_rising_rg.woff') format('woff');
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            @keyframes lelyaFadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            @keyframes lelyaGlowAnimation {
+                0% { background-position: 0% 50%; text-shadow: 0 0 10px var(--accent-color, #a855f7); }
+                50% { background-position: 100% 50%; text-shadow: 0 0 25px var(--accent-color, #a855f7), 0 0 35px #ec4899; }
+                100% { background-position: 0% 50%; text-shadow: 0 0 10px var(--accent-color, #a855f7); }
+            }
+
+            .lelya-accent-title {
+                background: linear-gradient(90deg, var(--accent-color, #a855f7), #ec4899, #3b82f6, var(--accent-color, #a855f7));
+                background-size: 300% 300%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                animation: lelyaGlowAnimation 4s ease infinite;
+                transition: all 0.3s ease;
+            }
+
+            #_lelya_root, #_lelya_hud_settings_modal, #_lelya_autoswap_modal, #_lelya_autobob_modal, #_lelya_autoe_modal, #_lelya_zoom_modal, #_lelya_building_modal, #_lelya_hud_container {
+                zoom: 1 !important;
+            }
+
+            #_lelya_root *, #_lelya_hud_settings_modal *, #_lelya_autoswap_modal *, #_lelya_autobob_modal *, #_lelya_autoe_modal *, #_lelya_zoom_modal *, #_lelya_building_modal *, #_lelya_hud_container * {
+                box-sizing: border-box;
+                font-family: 'Venus Rising', sans-serif !important;
+                user-select: none;
+            }
+            #_lelya_root ::-webkit-scrollbar { width: 5px; }
+            #_lelya_root ::-webkit-scrollbar-track { background: transparent; }
+            #_lelya_root ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+
+            .lelya-tab-btn { background: transparent; border: none; color: var(--tab-text-color, #a1a1aa); padding: 6px 16px; font-size: 11px; font-weight: 700; cursor: pointer; border-radius: 6px; transition: all 0.2s ease; }
+            .lelya-tab-btn:hover { color: var(--text-color, #fff); background: rgba(255,255,255,0.05); }
+            .lelya-tab-btn.active { background: var(--tab-active-bg); color: var(--accent-color, #a855f7); border: 1px solid var(--tab-active-border); }
+
+            .lelya-color-dot { width: 28px; height: 28px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease; }
+            .lelya-color-dot:hover { transform: scale(1.08); }
+            .lelya-color-dot.active { border-color: #fff; transform: scale(1.12); box-shadow: 0 0 12px rgba(255,255,255,0.3); }
+
+            .lelya-card { background: var(--card-bg, rgba(18, 24, 20, 0.6)); border: 1px solid var(--card-border, rgba(255, 255, 255, 0.05)); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.25s ease; position: relative; cursor: pointer; min-height: 130px; }
+            .lelya-card:hover { border-color: var(--card-hover-border); transform: translateY(-2px); }
+            .lelya-card.active-card { background: var(--card-active-bg); border-color: var(--accent-color); box-shadow: 0 0 30px var(--card-glow); }
+
+            .lelya-func-gear { width: 26px; height: 26px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #a1a1aa; cursor: pointer; transition: background 0.2s, color 0.2s; font-size: 11px; }
+            .lelya-func-gear:hover { background: rgba(255,255,255,0.15); color: var(--text-color, #fff); }
+
+            .lelya-func-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+
+            .lelya-misc-card { background: var(--card-bg, rgba(18, 24, 20, 0.6)); border: 1px solid var(--card-border, rgba(255, 255, 255, 0.05)); border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; justify-content: center; transition: all 0.2s ease; cursor: pointer; }
+            .lelya-misc-card:hover { border-color: var(--card-hover-border); background: var(--card-active-bg); }
+
+            .lelya-switch { position: relative; display: inline-block; width: 44px; height: 24px; cursor: pointer; }
+            .lelya-switch input { opacity: 0; width: 0; height: 0; }
+            .lelya-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--switch-bg, rgba(255,255,255,0.15)); transition: .3s; border-radius: 24px; border: 1px solid var(--switch-border, rgba(255,255,255,0.2)); }
+            .lelya-slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: #fff; transition: .3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+            .lelya-switch input:checked + .lelya-slider { background-color: var(--accent-color, #a855f7) !important; border-color: var(--accent-color, #a855f7) !important; box-shadow: 0 0 14px var(--accent-color, #a855f7); }
+            .lelya-switch input:checked + .lelya-slider:before { transform: translateX(20px); background-color: #fff; }
+
+            .lelya-hud-item { position: fixed; z-index: 2147483640; }
+            .lelya-hud-box { background: rgba(13, 18, 15, 0.75); border: 1px solid var(--accent-border, rgba(255, 255, 255, 0.08)); backdrop-filter: blur(12px); border-radius: 12px; padding: 12px; color: #fff; min-width: 180px; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+
+            .lelya-keys-box { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+            .lelya-key-row { display: flex; gap: 6px; }
+            .lelya-key { width: 38px; height: 38px; background: rgba(11, 15, 13, 0.65); border: 1px solid var(--accent-border, rgba(255, 255, 255, 0.15)); backdrop-filter: blur(8px); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #e4e4e7; transition: all 0.1s ease; }
+            .lelya-key.pressed { background: var(--accent-color, #a855f7) !important; border-color: var(--accent-color, #a855f7) !important; color: #fff; box-shadow: 0 0 15px var(--card-glow, rgba(168,85,247,0.7)); transform: scale(0.95); }
+
+            #_lelya_hud_settings_modal, #_lelya_autoswap_modal, #_lelya_autobob_modal, #_lelya_autoe_modal, #_lelya_zoom_modal, #_lelya_building_modal {
+                position: fixed;
+                top: calc(50% - 225px);
+                left: calc(50% - 460px - 330px);
+                width: 320px;
+                background: var(--modal-bg, rgba(13, 18, 15, 0.95));
+                border: 1px solid var(--modal-border, rgba(255, 255, 255, 0.1));
+                backdrop-filter: blur(25px);
+                border-radius: 18px;
+                padding: 22px;
+                z-index: 2147483647;
+                display: none;
+                flex-direction: column;
+                color: var(--modal-text, #fff);
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            }
+
+            .lelya-chart-card {
+                background: var(--card-bg, rgba(18, 24, 20, 0.6));
+                border: 1px solid var(--card-border, rgba(255, 255, 255, 0.05));
+                border-radius: 14px;
+                padding: 16px 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                position: relative;
+            }
+
+            .lelya-inp-btn {
+                background: rgba(255,255,255,0.06);
+                border: 1px solid rgba(255,255,255,0.15);
+                border-radius: 8px;
+                color: #fff;
+                padding: 8px 12px;
+                font-size: 10px;
+                cursor: pointer;
+                outline: none;
+                text-align: center;
+                transition: all 0.2s;
+            }
+            .lelya-inp-btn:hover {
+                border-color: var(--accent-color, #a855f7);
+            }
+            .lelya-slot-select {
+                background: rgba(18, 24, 20, 0.9);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                color: #fff;
+                padding: 6px 10px;
+                border-radius: 8px;
+                font-size: 10px;
+                outline: none;
+                cursor: pointer;
+            }
+        `);
+
+        // HUD Container
+        const hudContainer = document.createElement('div');
+        hudContainer.id = '_lelya_hud_container';
+        hudContainer.style.display = activeFunctions.hud ? 'block' : 'none';
+        hudContainer.innerHTML = `
+            <div id="_hud_item_memory" class="lelya-hud-item" style="display:${hudElementsConfig.memory ? 'block' : 'none'};">
+                <div class="lelya-hud-box">
+                    <div style="font-size: 8px; font-weight: 700; color: #a1a1aa; letter-spacing: 1px; margin-bottom: 2px;">ПАМЯТЬ БРАУЗЕРА</div>
+                    <div id="_hud_memory" style="font-size: 16px; font-weight: 800;">-- МБ</div>
+                    <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin-top: 6px; overflow: hidden;">
+                        <div id="_hud_mem_bar" style="width: 0%; height: 100%; background: var(--accent-color, #a855f7); border-radius: 2px; transition: width 0.3s ease, background-color 0.3s ease;"></div>
+                    </div>
+                    <div id="_hud_mem_sub" style="font-size: 8px; color: #d4d4d8; margin-top: 4px; font-weight: 600;">0% из 4096 МБ</div>
+                </div>
+            </div>
+
+            <div id="_hud_item_clock" class="lelya-hud-item" style="display:${hudElementsConfig.clock ? 'block' : 'none'};">
+                <div class="lelya-hud-box" style="padding: 10px 14px;">
+                    <div id="_hud_clock" style="font-size: 15px; font-weight: 800; letter-spacing: 1px;">00:00:00</div>
+                </div>
+            </div>
+
+            <div id="_hud_item_autoe" class="lelya-hud-item" style="display:${hudElementsConfig.autoe ? 'block' : 'none'};">
+                <div class="lelya-hud-box" style="display: flex; align-items: center; gap: 8px; padding: 10px 14px;">
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 10px #ef4444;" id="_hud_autoe_dot"></div>
+                    <div style="font-size: 10px; font-weight: 700; color: #e4e4e7;">AutoE Status: <span id="_hud_autoe_txt" style="color: #ef4444; font-size: 9px;">OFF</span></div>
+                </div>
+            </div>
+
+            <div id="_hud_item_logo" class="lelya-hud-item" style="display:${hudElementsConfig.logo ? 'block' : 'none'};">
+                <div class="lelya-hud-box" style="padding: 10px 14px;">
+                    <div style="font-weight: 900; font-size: 13px; letter-spacing: 0.5px;" class="lelya-accent-title">LelyaHack</div>
+                    <div style="font-size: 8px; color: #a1a1aa; font-weight: 700; margin-top: 1px;">BRAND V2.9.0</div>
+                </div>
+            </div>
+
+            <div id="_hud_item_userid" class="lelya-hud-item" style="display:${hudElementsConfig.userid ? 'block' : 'none'};">
+                <div class="lelya-hud-box" style="display: flex; align-items: center; gap: 8px; padding: 10px 14px;">
+                    <div style="width: 18px; height: 18px; border-radius: 50%; background: var(--accent-glow-bg, rgba(168, 85, 247, 0.25)); border: 1px solid var(--accent-color, #a855f7); display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--accent-color, #a855f7); font-weight: 800; transition: all 0.3s ease;" id="_hud_user_icon">!</div>
+                    <div style="font-size: 9px; color: #d4d4d8; font-weight: 700;">User: <span id="_hud_user_id" style="color: #fff; font-size: 9px;">${username}</span></div>
+                </div>
+            </div>
+
+            <div id="_hud_item_keys" class="lelya-hud-item" style="display:${hudElementsConfig.keys ? 'block' : 'none'};">
+                <div class="lelya-keys-box">
+                    <div class="lelya-key-row"><div class="lelya-key" id="_key_w">W</div></div>
+                    <div class="lelya-key-row">
+                        <div class="lelya-key" id="_key_a">A</div>
+                        <div class="lelya-key" id="_key_s">S</div>
+                        <div class="lelya-key" id="_key_d">D</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(hudContainer);
+
+        const defaultHudPositions = {
+            _hud_item_memory: { top: '20px', left: '20px' },
+            _hud_item_clock: { top: '150px', left: '20px' },
+            _hud_item_autoe: { top: '215px', left: '20px' },
+            _hud_item_logo: { top: '280px', left: '20px' },
+            _hud_item_userid: { top: '350px', left: '20px' },
+            _hud_item_keys: { top: '415px', left: '20px' }
+        };
+
+        function applyHudPositions() {
+            Object.keys(defaultHudPositions).forEach(id => {
+                const item = document.getElementById(id);
+                if (item) {
+                    const pos = hudPositions[id] || defaultHudPositions[id];
+                    item.style.top = pos.top;
+                    item.style.left = pos.left;
+                    item.style.transform = "none";
+                }
+            });
+        }
+        applyHudPositions();
+
+        function initHudDraggable() {
+            Object.keys(defaultHudPositions).forEach(id => {
+                const item = document.getElementById(id);
+                if (item) {
+                    if (hudElementsConfig.draggable) {
+                        makeDraggable(item, null, (top, left) => {
+                            hudPositions[id] = { top, left };
+                            localStorage.setItem(HUD_POS_KEY, JSON.stringify(hudPositions));
+                        });
+                    } else {
+                        item.onmousedown = null;
+                        item.style.cursor = 'default';
+                    }
+                }
+            });
+        }
+        initHudDraggable();
+
+        // HUD Settings Modal
+        const hudModal = document.createElement('div');
+        hudModal.id = '_lelya_hud_settings_modal';
+        if (hudModalPos) {
+            hudModal.style.top = hudModalPos.top;
+            hudModal.style.left = hudModalPos.left;
+            hudModal.style.transform = 'none';
+        }
+        hudModal.innerHTML = `
+            <div id="_lelya_hud_settings_header" style="cursor:move; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border-color, rgba(255,255,255,0.06)); padding-bottom:10px;">
+                <div>
+                    <div style="font-weight: 800; font-size: 13px; letter-spacing: 0.5px;">Настройки <span style="color: var(--accent-color, #a855f7);">HUD</span></div>
+                    <div style="font-size: 8px; color: var(--accent-color, #a855f7); font-weight: 700; letter-spacing: 1px; margin-top: 2px;">ВИДЖЕТЫ НА ЭКРАНЕ</div>
+                </div>
+                <button id="_hud_modal_close" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; width: 26px; height: 26px; border-radius: 8px; font-weight: bold; cursor: pointer;">✕</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--modal-text, #e4e4e7); font-weight: 600; cursor: pointer;">Память браузера <label class="lelya-switch"><input type="checkbox" id="_chk_hud_memory" ${hudElementsConfig.memory ? 'checked' : ''}><span class="lelya-slider"></span></label></label>
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--modal-text, #e4e4e7); font-weight: 600; cursor: pointer;">Часы <label class="lelya-switch"><input type="checkbox" id="_chk_hud_clock" ${hudElementsConfig.clock ? 'checked' : ''}><span class="lelya-slider"></span></label></label>
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--modal-text, #e4e4e7); font-weight: 600; cursor: pointer;">AutoE Статус <label class="lelya-switch"><input type="checkbox" id="_chk_hud_autoe" ${hudElementsConfig.autoe ? 'checked' : ''}><span class="lelya-slider"></span></label></label>
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--modal-text, #e4e4e7); font-weight: 600; cursor: pointer;">LelyaHack Бренд <label class="lelya-switch"><input type="checkbox" id="_chk_hud_logo" ${hudElementsConfig.logo ? 'checked' : ''}><span class="lelya-slider"></span></label></label>
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--modal-text, #e4e4e7); font-weight: 600; cursor: pointer;">User ID <label class="lelya-switch"><input type="checkbox" id="_chk_hud_userid" ${hudElementsConfig.userid ? 'checked' : ''}><span class="lelya-slider"></span></label></label>
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--modal-text, #e4e4e7); font-weight: 600; cursor: pointer;">Клавиши передвижения <label class="lelya-switch"><input type="checkbox" id="_chk_hud_keys" ${hudElementsConfig.keys ? 'checked' : ''}><span class="lelya-slider"></span></label></label>
+                <div style="height: 1px; background: var(--border-color, rgba(255,255,255,0.06)); margin: 2px 0;"></div>
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--modal-text, #e4e4e7); font-weight: 600; cursor: pointer;">Съемные блоки <label class="lelya-switch"><input type="checkbox" id="_chk_hud_draggable" ${hudElementsConfig.draggable ? 'checked' : ''}><span class="lelya-slider"></span></label></label>
+            </div>
+            <div style="margin-top: 18px;">
+                <button id="_hud_reset_pos" style="width: 100%; padding: 10px; background: var(--btn-bg, rgba(255,255,255,0.04)); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 10px; color: var(--modal-text, #fff); font-weight: 700; cursor: pointer; font-size: 10px;">Сброс позиций</button>
+            </div>
+        `;
+        document.body.appendChild(hudModal);
+
+        makeDraggable(hudModal, document.getElementById('_lelya_hud_settings_header'), (top, left) => {
+            hudModalPos = { top, left };
+            localStorage.setItem(HUD_MODAL_POS_KEY, JSON.stringify(hudModalPos));
+        });
+
+        document.getElementById('_hud_modal_close').onclick = () => {
+            hudModal.style.display = 'none';
+        };
+
+        // Auto Swap Modal
+        const swapModal = document.createElement('div');
+        swapModal.id = '_lelya_autoswap_modal';
+        swapModal.innerHTML = `
+            <div id="_lelya_autoswap_header" style="cursor:move; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border-color, rgba(255,255,255,0.06)); padding-bottom:10px;">
+                <div>
+                    <div style="font-weight: 800; font-size: 13px; letter-spacing: 0.5px;">Настройки <span style="color: var(--accent-color, #a855f7);">AUTO SWAP</span></div>
+                    <div style="font-size: 8px; color: var(--accent-color, #a855f7); font-weight: 700; letter-spacing: 1px; margin-top: 2px;">ВЫБОР СЛОТОВ И БИНДА</div>
+                </div>
+                <button id="_swap_modal_close" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; width: 26px; height: 26px; border-radius: 8px; font-weight: bold; cursor: pointer;">✕</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Клавиша (Бинд):</span>
+                    <button class="lelya-inp-btn" id="_swap_bind_key_btn">${autoSwapConfig.bindKey}</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Первый слот:</span>
+                    <button class="lelya-inp-btn" id="_swap_slot1_btn">${autoSwapConfig.slot1}</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Второй слот:</span>
+                    <button class="lelya-inp-btn" id="_swap_slot2_btn">${autoSwapConfig.slot2}</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(swapModal);
+        makeDraggable(swapModal, document.getElementById('_lelya_autoswap_header'));
+        document.getElementById('_swap_modal_close').onclick = () => { swapModal.style.display = 'none'; };
+
+        // Auto Bob Modal
+        const bobModal = document.createElement('div');
+        bobModal.id = '_lelya_autobob_modal';
+        let slotsOptions = '';
+        for (let i = 1; i <= 10; i++) {
+            let digitCode = i === 10 ? 'Digit0' : `Digit${i}`;
+            slotsOptions += `<option value="${digitCode}">Слот ${i}</option>`;
+        }
+        bobModal.innerHTML = `
+            <div id="_lelya_autobob_header" style="cursor:move; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border-color, rgba(255,255,255,0.06)); padding-bottom:10px;">
+                <div>
+                    <div style="font-weight: 800; font-size: 13px; letter-spacing: 0.5px;">Настройки <span style="color: var(--accent-color, #a855f7);">AUTO BOB</span></div>
+                    <div style="font-size: 8px; color: var(--accent-color, #a855f7); font-weight: 700; letter-spacing: 1px; margin-top: 2px;">АВТОМАТИЧЕСКИЙ БОБ</div>
+                </div>
+                <button id="_bob_modal_close" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; width: 26px; height: 26px; border-radius: 8px; font-weight: bold; cursor: pointer;">✕</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Клавиша (Бинд):</span>
+                    <button class="lelya-inp-btn" id="_bob_bind_key_btn">${autoBobConfig.bindKey}</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Слот с Бобом (1-10):</span>
+                    <select id="_bob_slot_sel" class="lelya-slot-select">${slotsOptions}</select>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Возврат на слот (1-10):</span>
+                    <select id="_return_slot_sel" class="lelya-slot-select">${slotsOptions}</select>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(bobModal);
+        makeDraggable(bobModal, document.getElementById('_lelya_autobob_header'));
+        document.getElementById('_bob_modal_close').onclick = () => { bobModal.style.display = 'none'; };
+
+        const bobSlotSel = document.getElementById('_bob_slot_sel');
+        const returnSlotSel = document.getElementById('_return_slot_sel');
+        bobSlotSel.value = autoBobConfig.bobSlot;
+        returnSlotSel.value = autoBobConfig.returnSlot;
+
+        bobSlotSel.onchange = (e) => {
+            autoBobConfig.bobSlot = e.target.value;
+            localStorage.setItem(AUTOBOB_CONFIG_KEY, JSON.stringify(autoBobConfig));
+        };
+
+        returnSlotSel.onchange = (e) => {
+            autoBobConfig.returnSlot = e.target.value;
+            localStorage.setItem(AUTOBOB_CONFIG_KEY, JSON.stringify(autoBobConfig));
+        };
+
+        // Auto E Modal
+        const autoEModal = document.createElement('div');
+        autoEModal.id = '_lelya_autoe_modal';
+        autoEModal.innerHTML = `
+            <div id="_lelya_autoe_header" style="cursor:move; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border-color, rgba(255,255,255,0.06)); padding-bottom:10px;">
+                <div>
+                    <div style="font-weight: 800; font-size: 13px; letter-spacing: 0.5px;">Настройки <span style="color: var(--accent-color, #a855f7);">AUTO E</span></div>
+                    <div style="font-size: 8px; color: var(--accent-color, #a855f7); font-weight: 700; letter-spacing: 1px; margin-top: 2px;">ПОДБОР И УСКОРЕНИЕ</div>
+                </div>
+                <button id="_autoe_modal_close" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; width: 26px; height: 26px; border-radius: 8px; font-weight: bold; cursor: pointer;">✕</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Бинд Auto E:</span>
+                    <button class="lelya-inp-btn" id="_bind_autoe_btn">${bindsConfig.autoEKey}</button>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 9px; font-weight: 700;">Множитель скорости:</span>
+                        <span id="_autoe_speed_val" style="font-size: 9px; color: #888; font-weight: 700;">${bindsConfig.speedMultiplier}x</span>
+                    </div>
+                    <input type="range" id="_autoe_speed_inp" min="1" max="1000" value="${bindsConfig.speedMultiplier}" style="width: 100%; cursor: pointer;">
+                </div>
+            </div>
+        `;
+        document.body.appendChild(autoEModal);
+        makeDraggable(autoEModal, document.getElementById('_lelya_autoe_header'));
+        document.getElementById('_autoe_modal_close').onclick = () => { autoEModal.style.display = 'none'; };
+
+        const autoESpeedInp = document.getElementById('_autoe_speed_inp');
+        autoESpeedInp.oninput = (e) => {
+            bindsConfig.speedMultiplier = parseInt(e.target.value);
+            document.getElementById('_autoe_speed_val').innerText = bindsConfig.speedMultiplier + 'x';
+            localStorage.setItem(BINDS_CONFIG_KEY, JSON.stringify(bindsConfig));
+        };
+
+        // Building Helper Modal
+        const buildingModal = document.createElement('div');
+        buildingModal.id = '_lelya_building_modal';
+        buildingModal.innerHTML = `
+            <div id="_lelya_building_header" style="cursor:move; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border-color, rgba(255,255,255,0.06)); padding-bottom:10px;">
+                <div>
+                    <div style="font-weight: 800; font-size: 13px; letter-spacing: 0.5px;">Настройки <span style="color: var(--accent-color, #a855f7);">BUILDING HELPER</span></div>
+                    <div style="font-size: 8px; color: var(--accent-color, #a855f7); font-weight: 700; letter-spacing: 1px; margin-top: 2px;">БЫСТРАЯ ПОСТРОЙКА</div>
+                </div>
+                <button id="_building_modal_close" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; width: 26px; height: 26px; border-radius: 8px; font-weight: bold; cursor: pointer;">✕</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Бинд постройки:</span>
+                    <button class="lelya-inp-btn" id="_bind_building_btn">${bindsConfig.buildKey}</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(buildingModal);
+        makeDraggable(buildingModal, document.getElementById('_lelya_building_header'));
+        document.getElementById('_building_modal_close').onclick = () => { buildingModal.style.display = 'none'; };
+
+        // Zoom Hack Modal
+        const zoomModal = document.createElement('div');
+        zoomModal.id = '_lelya_zoom_modal';
+        zoomModal.innerHTML = `
+            <div id="_lelya_zoom_header" style="cursor:move; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border-color, rgba(255,255,255,0.06)); padding-bottom:10px;">
+                <div>
+                    <div style="font-weight: 800; font-size: 13px; letter-spacing: 0.5px;">Настройки <span style="color: var(--accent-color, #a855f7);">ZOOM HACK</span></div>
+                    <div style="font-size: 8px; color: var(--accent-color, #a855f7); font-weight: 700; letter-spacing: 1px; margin-top: 2px;">ОТДАЛЕНИЕ КАМЕРЫ</div>
+                </div>
+                <button id="_zoom_modal_close" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; width: 26px; height: 26px; border-radius: 8px; font-weight: bold; cursor: pointer;">✕</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 700;">Бинд Zoom Hack:</span>
+                    <button class="lelya-inp-btn" id="_bind_zoom_btn">${bindsConfig.zoomKey}</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(zoomModal);
+        makeDraggable(zoomModal, document.getElementById('_lelya_zoom_header'));
+        document.getElementById('_zoom_modal_close').onclick = () => { zoomModal.style.display = 'none'; };
+
+        function bindKeyPicker(btnId, configKey, configObj, storageKey) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            btn.onclick = () => {
+                btn.innerText = 'Нажмите...';
+
+                const keyHandler = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    configObj[configKey] = e.code;
+                    localStorage.setItem(storageKey, JSON.stringify(configObj));
+                    btn.innerText = e.code;
+                    cleanupListeners();
+                };
+
+                const mouseHandler = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let mCode = e.button === 2 ? 'MouseRight' : (e.button === 0 ? 'MouseLeft' : 'MouseMiddle');
+                    configObj[configKey] = mCode;
+                    localStorage.setItem(storageKey, JSON.stringify(configObj));
+                    btn.innerText = mCode;
+                    cleanupListeners();
+                };
+
+                function cleanupListeners() {
+                    window.removeEventListener('keydown', keyHandler, true);
+                    window.removeEventListener('mousedown', mouseHandler, true);
+                }
+
+                window.addEventListener('keydown', keyHandler, true);
+                window.addEventListener('mousedown', mouseHandler, true);
+            };
+        }
+
+        bindKeyPicker('_swap_bind_key_btn', 'bindKey', autoSwapConfig, AUTOSWAP_CONFIG_KEY);
+        bindKeyPicker('_swap_slot1_btn', 'slot1', autoSwapConfig, AUTOSWAP_CONFIG_KEY);
+        bindKeyPicker('_swap_slot2_btn', 'slot2', autoSwapConfig, AUTOSWAP_CONFIG_KEY);
+
+        bindKeyPicker('_bob_bind_key_btn', 'bindKey', autoBobConfig, AUTOBOB_CONFIG_KEY);
+
+        bindKeyPicker('_bind_autoe_btn', 'autoEKey', bindsConfig, BINDS_CONFIG_KEY);
+        bindKeyPicker('_bind_building_btn', 'buildKey', bindsConfig, BINDS_CONFIG_KEY);
+        bindKeyPicker('_bind_zoom_btn', 'zoomKey', bindsConfig, BINDS_CONFIG_KEY);
+
+        const hudCheckboxes = [
+            { id: '_chk_hud_memory', key: 'memory', target: '_hud_item_memory' },
+            { id: '_chk_hud_clock', key: 'clock', target: '_hud_item_clock' },
+            { id: '_chk_hud_autoe', key: 'autoe', target: '_hud_item_autoe' },
+            { id: '_chk_hud_logo', key: 'logo', target: '_hud_item_logo' },
+            { id: '_chk_hud_userid', key: 'userid', target: '_hud_user_id' },
+            { id: '_chk_hud_keys', key: 'keys', target: '_hud_item_keys' }
+        ];
+
+        hudCheckboxes.forEach(item => {
+            const chk = document.getElementById(item.id);
+            if (chk) {
+                chk.onchange = (e) => {
+                    hudElementsConfig[item.key] = e.target.checked;
+                    localStorage.setItem(HUD_CONFIG_KEY, JSON.stringify(hudElementsConfig));
+                    const targetEl = document.getElementById(item.target);
+                    if (targetEl) targetEl.style.display = e.target.checked ? 'block' : 'none';
+                };
+            }
+        });
+
+        const chkDraggable = document.getElementById('_chk_hud_draggable');
+        if (chkDraggable) {
+            chkDraggable.onchange = (e) => {
+                hudElementsConfig.draggable = e.target.checked;
+                localStorage.setItem(HUD_CONFIG_KEY, JSON.stringify(hudElementsConfig));
+                initHudDraggable();
+            };
+        }
+
+        document.getElementById('_hud_reset_pos').onclick = () => {
+            hudPositions = { ...defaultHudPositions };
+            localStorage.removeItem(HUD_POS_KEY);
+            applyHudPositions();
+        };
+
+        // Main Menu Window
+        const root = document.createElement('div');
+        root.id = '_lelya_root';
+        root.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 920px; height: 620px; border-radius: 16px; z-index: 2147483646; display: flex; flex-direction: column; overflow: hidden; opacity: 1; animation: lelyaFadeIn 0.3s ease; transition: box-shadow 0.3s ease, border-color 0.3s ease;';
+
+        if (mainMenuPos) {
+            root.style.top = mainMenuPos.top;
+            root.style.left = mainMenuPos.left;
+            root.style.transform = 'none';
+        }
+
+        root.innerHTML = `
+            <div id="_lelya_menu_header" style="cursor: move; padding: 22px 28px 16px 28px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.06));">
+                <div style="justify-self: start;">
+                    <h1 class="lelya-accent-title" style="margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2;">LelyaHack</h1>
+                    <span style="font-size: 8px; color: var(--desc-color, #a1a1aa); font-weight: 700; letter-spacing: 1px;">VERSION 2.9.0</span>
+                </div>
+                <div style="justify-self: center; display: flex; flex-direction: column; align-items: center;">
+                    <div id="_lelya_clock" style="font-size: 20px; font-weight: 800; letter-spacing: 2px; line-height: 1.1;">00:00:00</div>
+                    <div id="_lelya_date" style="font-size: 8px; color: var(--desc-color, #a1a1aa); font-weight: 700; text-transform: uppercase; margin-top: 2px;">--</div>
+                </div>
+                <div style="justify-self: end;">
+                    <button id="_lelya_close_btn" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; width: 26px; height: 26px; border-radius: 6px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
+                </div>
+            </div>
+
+            <div style="padding: 12px 28px; display: flex; justify-content: center; gap: 8px; border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.06)); background: var(--tabs-bg, rgba(0,0,0,0.1));">
+                <button class="lelya-tab-btn active" data-tab="functions">Функции</button>
+                <button class="lelya-tab-btn" data-tab="visuals">Вид меню</button>
+                <button class="lelya-tab-btn" data-tab="misc">Прочее</button>
+                <button class="lelya-tab-btn" data-tab="session">Сеанс</button>
+            </div>
+
+            <div id="_lelya_content" style="flex: 1; padding: 24px 28px; overflow-y: auto; position: relative;">
+
+                <div class="lelya-tab-pane" data-pane="functions" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;">
+                    <div class="lelya-card" data-func="hud">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div class="lelya-func-title">HUD</div>
+                                <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); line-height: 1.4;">Виджеты с информацией на экране.</div>
+                            </div>
+                            <div class="lelya-func-gear" data-gear="hud" title="Настройки HUD">⚙️</div>
+                        </div>
+                        <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #71717a); letter-spacing: 0.5px;">НАЖМИТЕ ДЛЯ ПЕРЕКЛЮЧЕНИЯ</div>
+                    </div>
+
+                    <div class="lelya-card" data-func="auto_swap">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div class="lelya-func-title">Auto Swap</div>
+                                <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); line-height: 1.4;">Автоматическая смена предметов по бинду.</div>
+                            </div>
+                            <div class="lelya-func-gear" data-gear="auto_swap" title="Настройки Auto Swap">⚙️</div>
+                        </div>
+                        <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #71717a); letter-spacing: 0.5px;">НАЖМИТЕ ДЛЯ ПЕРЕКЛЮЧЕНИЯ</div>
+                    </div>
+
+                    <div class="lelya-card" data-func="auto_bob">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div class="lelya-func-title">Auto Bob</div>
+                                <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); line-height: 1.4;">Берет боб, наносит удар и возвращает на исходный слот.</div>
+                            </div>
+                            <div class="lelya-func-gear" data-gear="auto_bob" title="Настройки Auto Bob">⚙️</div>
+                        </div>
+                        <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #71717a); letter-spacing: 0.5px;">НАЖМИТЕ ДЛЯ ПЕРЕКЛЮЧЕНИЯ</div>
+                    </div>
+
+                    <div class="lelya-card" data-func="auto_e">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div class="lelya-func-title">Auto E</div>
+                                <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); line-height: 1.4;">Автоматический подбор предметов с ускорением времени по бинду</div>
+                            </div>
+                            <div class="lelya-func-gear" data-gear="auto_e" title="Настройки Auto E">⚙️</div>
+                        </div>
+                        <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #71717a); letter-spacing: 0.5px;">НАЖМИТЕ ДЛЯ ПЕРЕКЛЮЧЕНИЯ</div>
+                    </div>
+
+                    <div class="lelya-card" data-func="building_helper">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div class="lelya-func-title">Building Helper</div>
+                                <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); line-height: 1.4;">Зажимает Shift и спамит ЛКМ по удерживаемой кнопке.</div>
+                            </div>
+                            <div class="lelya-func-gear" data-gear="building_helper" title="Настройки Building Helper">⚙️</div>
+                        </div>
+                        <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #71717a); letter-spacing: 0.5px;">НАЖМИТЕ ДЛЯ ПЕРЕКЛЮЧЕНИЯ</div>
+                    </div>
+
+                    <div class="lelya-card" data-func="zoom_hack">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div class="lelya-func-title">Zoom Hack</div>
+                                <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); line-height: 1.4;">Отдаление экрана по кнопкам + / - (NumPad) или по бинду.</div>
+                            </div>
+                            <div class="lelya-func-gear" data-gear="zoom_hack" title="Настройки Zoom Hack">⚙️</div>
+                        </div>
+                        <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #71717a); letter-spacing: 0.5px;">НАЖМИТЕ ДЛЯ ПЕРЕКЛЮЧЕНИЯ</div>
+                    </div>
+                </div>
+
+                <div class="lelya-tab-pane" data-pane="visuals" style="display: none; flex-direction: column; gap: 20px; width: 100%;">
+                    <div>
+                        <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); margin-bottom: 8px; letter-spacing: 1px;">ОСНОВНАЯ ТЕМА</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div id="_theme_dark" style="padding: 12px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 10px; cursor: pointer; border: 1px solid var(--border-color, rgba(255,255,255,0.1));">Тёмная</div>
+                            <div id="_theme_light" style="padding: 12px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 10px; cursor: pointer; border: 1px solid var(--border-color, rgba(255,255,255,0.1));">Светлая</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); letter-spacing: 1px;">ЯРКОСТЬ МЕНЮ</span>
+                            <span id="_brightness_val" style="font-size: 9px; color: #888; font-weight: 700;">${config.brightness}%</span>
+                        </div>
+                        <input type="range" id="_lelya_brightness" min="20" max="100" value="${config.brightness}" style="width: 100%; cursor: pointer;">
+                    </div>
+                    <div>
+                        <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); margin-bottom: 8px; letter-spacing: 1px;">АКЦЕНТНЫЙ ЦВЕТ</div>
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <div class="lelya-color-dot" style="background: #a855f7;" data-color="#a855f7"></div>
+                            <div class="lelya-color-dot" style="background: #3b82f6;" data-color="#3b82f6"></div>
+                            <div class="lelya-color-dot" style="background: #ec4899;" data-color="#ec4899"></div>
+                            <div class="lelya-color-dot" style="background: #f97316;" data-color="#f97316"></div>
+                            <div class="lelya-color-dot" style="background: #10b981;" data-color="#10b981"></div>
+                            <div class="lelya-color-dot" style="background: #eab308;" data-color="#eab308"></div>
+                            <div class="lelya-color-dot" style="background: #ffffff;" data-color="#ffffff"></div>
+                            <div class="lelya-color-dot" style="background: #ef4444;" data-color="#ef4444"></div>
+                            <div class="lelya-color-dot" style="background: #27272a; border: 1px solid rgba(255,255,255,0.2);" data-color="#27272a"></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 4px;">
+                        <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--desc-color, #cbd5e1); cursor: pointer;">
+                            Эффект размытия элементов
+                            <label class="lelya-switch"><input type="checkbox" id="blur_effect" ${config.blur_effect ? 'checked' : ''}><span class="lelya-slider"></span></label>
+                        </label>
+                        <label style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--desc-color, #cbd5e1); cursor: pointer;">
+                            Тень вокруг элементов
+                            <label class="lelya-switch"><input type="checkbox" id="shadow_effect" ${config.shadow_effect ? 'checked' : ''}><span class="lelya-slider"></span></label>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="lelya-tab-pane" data-pane="misc" style="display: none; flex-direction: column; gap: 16px; width: 100%;">
+                    <div class="lelya-misc-card" id="_btn_change_username">
+                        <div style="font-weight: 700; font-size: 12px; margin-bottom: 2px;">Кастомный никнейм</div>
+                        <div style="font-size: 10px; color: var(--desc-color, #a1a1aa);">Текущий: <span id="_current_username_label" style="color: var(--text-color, #fff); font-weight: 600;">${username}</span></div>
+                    </div>
+                    <div class="lelya-misc-card" id="_btn_discord">
+                        <div style="font-weight: 700; font-size: 12px; margin-bottom: 2px;">Discord Сервер</div>
+                        <div style="font-size: 10px; color: var(--desc-color, #a1a1aa);">Присоединиться к нашему сообществу</div>
+                    </div>
+                    <div class="lelya-misc-card" style="cursor: default;">
+                        <div style="font-weight: 700; font-size: 12px; margin-bottom: 2px;">Информация об аккаунте</div>
+                        <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); margin-top: 4px;">Никнейм: <span id="_info_username_display" style="color: var(--text-color, #fff); font-weight: 700;">${username}</span></div>
+                        <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); margin-top: 2px;">Первый вход: <span style="color: var(--text-color, #fff); font-family: monospace;">${firstLoginTime}</span></div>
+                        <div style="font-size: 10px; color: var(--desc-color, #a1a1aa); margin-top: 2px;">Ваш HWID: <span style="color: var(--text-color, #fff); font-family: monospace; font-size: 9px;">${hwid}</span></div>
+                        <div style="margin-top: 12px;"><button id="_lelya_logout" style="padding: 6px 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; border-radius: 8px; font-weight: 600; cursor: pointer; width: fit-content; font-size: 10px;">Сбросить ключ авторизации</button></div>
+                    </div>
+                </div>
+
+                <div class="lelya-tab-pane" data-pane="session" style="display: none; flex-direction: column; gap: 16px; width: 100%;">
+                    <div class="lelya-card" style="cursor: default; padding: 16px 24px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: unset;">
+                        <div>
+                            <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); letter-spacing: 1px; margin-bottom: 2px;">ЗАПУЩЕН</div>
+                            <div id="_session_start_time" style="font-size: 18px; font-weight: 800;">${sessionStartTimeStr}</div>
+                        </div>
+                        <div style="width: 1px; height: 35px; background: var(--border-color, rgba(255,255,255,0.1));"></div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); letter-spacing: 1px; margin-bottom: 2px;">ДЛИТЕЛЬНОСТЬ</div>
+                            <div id="_session_duration" style="font-size: 18px; font-weight: 800;">0м 0с</div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div class="lelya-card" style="cursor: default; min-height: unset;">
+                            <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); letter-spacing: 1px; margin-bottom: 4px;">СРЕДНИЙ FPS</div>
+                            <div id="_real_fps" style="font-size: 22px; font-weight: 800; line-height: 1.1;">60</div>
+                            <div style="font-size: 8px; color: var(--desc-color, #a1a1aa); margin-top: 4px;">кадров/сек</div>
+                        </div>
+                        <div class="lelya-card" style="cursor: default; min-height: unset;">
+                            <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); letter-spacing: 1px; margin-bottom: 4px;">СРЕДНИЙ ПИНГ</div>
+                            <div id="_real_ping" style="font-size: 22px; font-weight: 800; line-height: 1.1;">32 МС</div>
+                            <div style="font-size: 8px; color: var(--desc-color, #a1a1aa); margin-top: 4px;">задержка</div>
+                        </div>
+                        <div class="lelya-card" style="cursor: default; min-height: unset;">
+                            <div style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); letter-spacing: 1px; margin-bottom: 4px;">ПАМЯТЬ</div>
+                            <div id="_real_memory" style="font-size: 22px; font-weight: 800; line-height: 1.1;">-- МБ</div>
+                            <div style="font-size: 8px; color: var(--desc-color, #a1a1aa); margin-top: 4px;">использование JS</div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="lelya-chart-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span style="font-size: 9px; font-weight: 800; letter-spacing: 1px; color: var(--desc-color, #a1a1aa);">ГРАФИК FPS</span>
+                                <span id="_chart_fps_val" style="font-size: 11px; font-weight: 800; color: var(--accent-color, #a855f7);">60 FPS</span>
+                            </div>
+                            <canvas id="_canvas_fps" width="380" height="110" style="width: 100%; height: 110px; display: block; border-radius: 8px;"></canvas>
+                        </div>
+                        <div class="lelya-chart-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span style="font-size: 9px; font-weight: 800; letter-spacing: 1px; color: var(--desc-color, #a1a1aa);">ГРАФИК ПАМЯТИ</span>
+                                <span id="_chart_mem_val" style="font-size: 11px; font-weight: 800; color: var(--accent-color, #a855f7);">-- МБ</span>
+                            </div>
+                            <canvas id="_canvas_mem" width="380" height="110" style="width: 100%; height: 110px; display: block; border-radius: 8px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="padding: 12px 28px; border-top: 1px solid var(--border-color, rgba(255,255,255,0.06)); display: flex; justify-content: space-between; align-items: center; background: var(--footer-bg, rgba(0,0,0,0.15));">
+                <span style="font-size: 8px; font-weight: 700; color: var(--desc-color, #a1a1aa); letter-spacing: 1.5px;">CREATED BY VITAMINKA</span>
+            </div>
+        `;
+
+        document.body.appendChild(root);
+
+        makeDraggable(root, document.getElementById('_lelya_menu_header'), (top, left) => {
+            mainMenuPos = { top, left };
+            localStorage.setItem(MAIN_MENU_POS_KEY, JSON.stringify(mainMenuPos));
+        });
+
+        document.getElementById('_lelya_close_btn').onclick = () => {
+            root.style.display = 'none';
+        };
+
+        document.querySelectorAll('.lelya-tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.lelya-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const targetTab = btn.getAttribute('data-tab');
+                document.querySelectorAll('.lelya-tab-pane').forEach(pane => {
+                    if (pane.getAttribute('data-pane') === targetTab) {
+                        pane.style.display = targetTab === 'functions' ? 'grid' : 'flex';
+                    } else {
+                        pane.style.display = 'none';
+                    }
+                });
+            };
+        });
+
+        const updateCardsState = () => {
+            root.querySelectorAll('.lelya-card[data-func]').forEach(card => {
+                const func = card.getAttribute('data-func');
+                if (activeFunctions[func]) {
+                    card.classList.add('active-card');
+                } else {
+                    card.classList.remove('active-card');
+                }
+            });
+        };
+        updateCardsState();
+
+        root.querySelectorAll('.lelya-card[data-func]').forEach(card => {
+            card.onclick = (e) => {
+                if (e.target.closest('.lelya-func-gear')) return;
+                const func = card.getAttribute('data-func');
+                activeFunctions[func] = !activeFunctions[func];
+                localStorage.setItem('lelyahack_funcs', JSON.stringify(activeFunctions));
+                updateCardsState();
+
+                if (func === 'hud') {
+                    hudContainer.style.display = activeFunctions.hud ? 'block' : 'none';
+                }
+            };
+        });
+
+        const modalsMap = {
+            hud: hudModal,
+            auto_swap: swapModal,
+            auto_bob: bobModal,
+            auto_e: autoEModal,
+            building_helper: buildingModal,
+            zoom_hack: zoomModal
+        };
+
+        root.querySelectorAll('.lelya-func-gear').forEach(gear => {
+            gear.onclick = (e) => {
+                e.stopPropagation();
+                const targetModal = modalsMap[gear.getAttribute('data-gear')];
+                if (targetModal) {
+                    targetModal.style.display = targetModal.style.display === 'flex' ? 'none' : 'flex';
+                }
+            };
+        });
+
+        document.getElementById('_btn_change_username').onclick = () => {
+            const newName = prompt('Введите новый никнейм:', username);
+            if (newName && newName.trim()) {
+                username = newName.trim();
+                GM_setValue('lelyahack_username', username);
+                document.getElementById('_current_username_label').innerText = username;
+                document.getElementById('_info_username_display').innerText = username;
+                document.getElementById('_hud_user_id').innerText = username;
+            }
+        };
+
+        document.getElementById('_btn_discord').onclick = () => {
+            window.open('https://discord.gg/VDGgZX2Gb', '_blank');
+        };
+
+        document.getElementById('_lelya_logout').onclick = () => {
+            if (confirm('Вы уверены, что хотите сбросить ключ авторизации?')) {
+                localStorage.removeItem(AUTH_STATUS_KEY);
+                GM_setValue('lelyahack_user_key', '');
+                location.reload();
+            }
+        };
+
+        document.getElementById('_lelya_brightness').oninput = (e) => {
+            config.brightness = parseInt(e.target.value);
+            document.getElementById('_brightness_val').innerText = config.brightness + '%';
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+            applyConfigEffects();
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Insert' || e.key === 'Insert') {
+                if (root.style.display === 'none') {
+                    root.style.display = 'flex';
+                } else {
+                    root.style.display = 'none';
+                    hudModal.style.display = 'none';
+                    swapModal.style.display = 'none';
+                    bobModal.style.display = 'none';
+                    autoEModal.style.display = 'none';
+                    buildingModal.style.display = 'none';
+                    zoomModal.style.display = 'none';
+                }
+            }
+        });
+
+        let frameCount = 0;
+        let lastFpsCheck = nativePerformanceNow();
+        let currentFps = 60;
+
+        function calcFPS() {
+            frameCount++;
+            const now = nativePerformanceNow();
+            if (now - lastFpsCheck >= 1000) {
+                currentFps = Math.round((frameCount * 1000) / (now - lastFpsCheck));
+                frameCount = 0;
+                lastFpsCheck = now;
+                const fpsEl = document.getElementById('_real_fps');
+                if (fpsEl) fpsEl.innerText = currentFps;
+            }
+            requestAnimationFrame(calcFPS);
+        }
+        requestAnimationFrame(calcFPS);
+
+        let currentPing = 32;
+        setInterval(() => {
+            const start = nativePerformanceNow();
+            fetch(window.location.origin + '/favicon.ico?cache=' + Math.random(), { method: 'HEAD', cache: 'no-store' })
+                .then(() => {
+                    const diff = Math.round(nativePerformanceNow() - start);
+                    currentPing = diff > 0 ? diff : Math.floor(Math.random() * 10 + 25);
+                    const pingEl = document.getElementById('_real_ping');
+                    if (pingEl) pingEl.innerText = currentPing + ' МС';
+                })
+                .catch(() => {
+                    const pingEl = document.getElementById('_real_ping');
+                    if (pingEl) pingEl.innerText = '-- МС';
+                });
+        }, 3000);
+
+        const fpsHistory = new Array(30).fill(60);
+        const memHistory = new Array(30).fill(0);
+
+        function drawChart(canvasId, data, accentColor) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.strokeStyle = config.theme === 'light' ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.05)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.33); ctx.lineTo(w, h * 0.33);
+            ctx.moveTo(0, h * 0.66); ctx.lineTo(w, h * 0.66);
+            ctx.stroke();
+
+            if (data.length < 2) return;
+
+            let maxVal = Math.max(...data, 10);
+            let minVal = Math.min(...data);
+            if (maxVal === minVal) { maxVal += 5; minVal = Math.max(0, minVal - 5); }
+
+            const points = data.map((val, idx) => {
+                const x = (idx / (data.length - 1)) * w;
+                const y = h - ((val - minVal) / (maxVal - minVal)) * (h - 20) - 10;
+                return { x, y };
+            });
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, h);
+            gradient.addColorStop(0, hexToRgba(accentColor, 0.4));
+            gradient.addColorStop(1, hexToRgba(accentColor, 0.0));
+
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            ctx.strokeStyle = accentColor;
+            ctx.lineWidth = 2.5;
+            ctx.shadowColor = accentColor;
+            ctx.shadowBlur = 8;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+        }
+
+        const months = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
+        setInterval(() => {
+            const d = new Date();
+            const h = String(d.getHours()).padStart(2, '0');
+            const m = String(d.getMinutes()).padStart(2, '0');
+            const s = String(d.getSeconds()).padStart(2, '0');
+
+            const clockStr = `${h}:${m}:${s}`;
+            const clockEl = document.getElementById('_lelya_clock');
+            const hudClockEl = document.getElementById('_hud_clock');
+            if (clockEl) clockEl.innerText = clockStr;
+            if (hudClockEl) hudClockEl.innerText = clockStr;
+
+            const dateEl = document.getElementById('_lelya_date');
+            if (dateEl) dateEl.innerText = `${d.getDate()} ${months[d.getMonth()]}`;
+
+            const diffSec = Math.floor((nativePerformanceNow() - sessionStartRealTime) / 1000);
+            const mDuration = Math.floor(diffSec / 60);
+            const sDuration = diffSec % 60;
+            const durEl = document.getElementById('_session_duration');
+            if (durEl) durEl.innerText = `${mDuration}м ${sDuration}с`;
+
+            let currentMemory = 0;
+            if (performance.memory) {
+                const usedMB = Math.round(performance.memory.usedJSHeapSize / 1048576);
+                const totalMB = Math.round(performance.memory.jsHeapSizeLimit / 1048576);
+                const pct = Math.round((usedMB / totalMB) * 100);
+                currentMemory = usedMB;
+
+                const realMem = document.getElementById('_real_memory');
+                const hudMem = document.getElementById('_hud_memory');
+                const hudMemBar = document.getElementById('_hud_mem_bar');
+                const hudMemSub = document.getElementById('_hud_mem_sub');
+
+                if (realMem) realMem.innerText = usedMB + ' МБ';
+                if (hudMem) hudMem.innerText = usedMB + ' МБ';
+                if (hudMemBar) hudMemBar.style.width = pct + '%';
+                if (hudMemSub) hudMemSub.innerText = `${pct}% из ${totalMB} МБ`;
+            }
+
+            fpsHistory.shift();
+            fpsHistory.push(currentFps);
+            const fpsChartVal = document.getElementById('_chart_fps_val');
+            if (fpsChartVal) fpsChartVal.innerText = currentFps + ' FPS';
+            drawChart('_canvas_fps', fpsHistory, config.accent);
+
+            memHistory.shift();
+            memHistory.push(currentMemory);
+            const memChartVal = document.getElementById('_chart_mem_val');
+            if (memChartVal) memChartVal.innerText = (currentMemory || '--') + ' МБ';
+            drawChart('_canvas_mem', memHistory, config.accent);
+
+        }, 1000);
+
+        const hexToRgba = (hex, alpha) => {
+            let c = hex.replace('#','');
+            if(c.length===3) c = c.split('').map(x=>x+x).join('');
+            const num = parseInt(c,16);
+            return `rgba(${num>>16},${(num>>8)&255},${num&255},${alpha})`;
+        };
+
+        function applyConfigEffects() {
+            root.style.opacity = (config.brightness / 100);
+            root.style.setProperty('--accent-color', config.accent);
+            root.style.setProperty('--accent-glow-bg', hexToRgba(config.accent, 0.25));
+            root.style.setProperty('--card-active-bg', hexToRgba(config.accent, 0.15));
+            root.style.setProperty('--card-glow', hexToRgba(config.accent, 0.35));
+            root.style.setProperty('--card-hover-border', hexToRgba(config.accent, 0.4));
+            root.style.setProperty('--tab-active-bg', hexToRgba(config.accent, 0.15));
+            root.style.setProperty('--tab-active-border', hexToRgba(config.accent, 0.3));
+
+            if (config.theme === 'light') {
+                root.style.background = 'rgba(245, 245, 247, 0.95)';
+                root.style.color = '#1d1d1f';
+                root.style.setProperty('--text-color', '#1d1d1f');
+                root.style.setProperty('--desc-color', '#6e6e73');
+                root.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.8)');
+                root.style.setProperty('--card-border', 'rgba(0, 0, 0, 0.08)');
+                root.style.setProperty('--border-color', 'rgba(0,0,0,0.08)');
+                root.style.setProperty('--tabs-bg', 'rgba(0,0,0,0.03)');
+                root.style.setProperty('--footer-bg', 'rgba(0,0,0,0.03)');
+                root.style.setProperty('--tab-text-color', '#6e6e73');
+                root.style.setProperty('--switch-bg', 'rgba(0,0,0,0.15)');
+                root.style.setProperty('--switch-border', 'rgba(0,0,0,0.2)');
+                root.style.setProperty('--modal-bg', 'rgba(245, 245, 247, 0.98)');
+                root.style.setProperty('--modal-border', 'rgba(0,0,0,0.1)');
+                root.style.setProperty('--modal-text', '#1d1d1f');
+                root.style.setProperty('--btn-bg', 'rgba(0,0,0,0.05)');
+
+                document.getElementById('_theme_dark').style.background = 'transparent';
+                document.getElementById('_theme_dark').style.color = '#6e6e73';
+                document.getElementById('_theme_light').style.background = config.accent;
+                document.getElementById('_theme_light').style.color = '#fff';
+            } else {
+                root.style.background = 'rgba(11, 16, 13, 0.95)';
+                root.style.color = '#fff';
+                root.style.setProperty('--text-color', '#fff');
+                root.style.setProperty('--desc-color', '#a1a1aa');
+                root.style.setProperty('--card-bg', 'rgba(18, 24, 20, 0.6)');
+                root.style.setProperty('--card-border', 'rgba(255, 255, 255, 0.05)');
+                root.style.setProperty('--border-color', 'rgba(255,255,255,0.06)');
+                root.style.setProperty('--tabs-bg', 'rgba(0,0,0,0.1)');
+                root.style.setProperty('--footer-bg', 'rgba(0,0,0,0.15)');
+                root.style.setProperty('--tab-text-color', '#a1a1aa');
+                root.style.setProperty('--switch-bg', 'rgba(255,255,255,0.15)');
+                root.style.setProperty('--switch-border', 'rgba(255,255,255,0.2)');
+                root.style.setProperty('--modal-bg', 'rgba(13, 18, 15, 0.95)');
+                root.style.setProperty('--modal-border', 'rgba(255, 255, 255, 0.1)');
+                root.style.setProperty('--modal-text', '#fff');
+                root.style.setProperty('--btn-bg', 'rgba(255,255,255,0.04)');
+
+                document.getElementById('_theme_light').style.background = 'transparent';
+                document.getElementById('_theme_light').style.color = '#a1a1aa';
+                document.getElementById('_theme_dark').style.background = config.accent;
+                document.getElementById('_theme_dark').style.color = '#fff';
+            }
+
+            if (config.blur_effect) {
+                root.style.backdropFilter = 'blur(20px)';
+            } else {
+                root.style.backdropFilter = 'none';
+            }
+
+            if (config.shadow_effect) {
+                root.style.boxShadow = `0 20px 50px rgba(0,0,0,0.6), 0 0 30px ${hexToRgba(config.accent, 0.2)}`;
+            } else {
+                root.style.boxShadow = 'none';
+            }
+
+            root.querySelectorAll('.lelya-color-dot').forEach(dot => {
+                if (dot.getAttribute('data-color') === config.accent) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        applyConfigEffects();
+
+        document.getElementById('_theme_dark').onclick = () => {
+            config.theme = 'dark';
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+            applyConfigEffects();
+        };
+
+        document.getElementById('_theme_light').onclick = () => {
+            config.theme = 'light';
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+            applyConfigEffects();
+        };
+
+        root.querySelectorAll('.lelya-color-dot').forEach(dot => {
+            dot.onclick = () => {
+                config.accent = dot.getAttribute('data-color');
+                localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+                applyConfigEffects();
+            };
+        });
+
+        document.getElementById('blur_effect').onchange = (e) => {
+            config.blur_effect = e.target.checked;
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+            applyConfigEffects();
+        };
+
+        document.getElementById('shadow_effect').onchange = (e) => {
+            config.shadow_effect = e.target.checked;
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+            applyConfigEffects();
+        };
+    }
+})();
