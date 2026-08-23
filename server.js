@@ -59,7 +59,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// ПИНГ ДЛЯ CRON-JOB (чтобы не засыпал Render)
+// ПИНГ ДЛЯ CRON-JOB
 app.get('/', (req, res) => {
     console.log(`[PING] Запрос от cron-job принят в ${new Date().toLocaleTimeString()}`);
     res.send('Server is alive!');
@@ -77,13 +77,14 @@ function sendAdminKeyRequest(hwid) {
         reply_markup: {
             inline_keyboard: [
                 [{ text: '🔑 Выдать на 30 дней', callback_data: `gen_30_${hwid}` }],
-                [{ text: '🚫 Забанить HWID', callback_data: `ban_${hwid}` }]
+                [{ text: '🚫 Забанить HWID', callback_data: `ban_${hwid}` }],
+                [{ text: '✅ Разбанить HWID', callback_data: `unban_${hwid}` }]
             ]
         }
     }).catch(err => console.error('Ошибка отправки админу:', err));
 }
 
-// Эндпоинт отправки запроса ключа прямо из браузера/лоадера
+// Эндпоинт отправки запроса ключа
 app.get('/request-key', (req, res) => {
     const hwid = req.query.hwid;
     if (!hwid) return res.json({ status: 'error', message: 'No HWID' });
@@ -210,6 +211,23 @@ bot.on('callback_query', (query) => {
             parse_mode: 'Markdown'
         });
         bot.answerCallbackQuery(query.id, { text: 'HWID забанен!' });
+    }
+    else if (data.startsWith('unban_')) {
+        const hwid = data.replace('unban_', '');
+
+        if (!bannedHwids.has(hwid)) {
+            return bot.answerCallbackQuery(query.id, { text: '⚠️ Этот HWID и так не забанен!', show_alert: true });
+        }
+
+        bannedHwids.delete(hwid);
+        saveData();
+
+        bot.editMessageText(`✅ **HWID \`${hwid}\` успешно разблокирован.**`, {
+            chat_id: chatId,
+            message_id: query.message.message_id,
+            parse_mode: 'Markdown'
+        });
+        bot.answerCallbackQuery(query.id, { text: 'HWID разбанен!' });
     }
 });
 
