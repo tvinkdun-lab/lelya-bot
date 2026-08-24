@@ -156,6 +156,39 @@ bot.on('message', (msg) => {
         return bot.sendMessage(chatId, `✅ **Твой HWID успешно зафиксирован!**\n\nHWID: \`${hwid}\`\n\nОжидай, пока администратор проверит запрос и выдаст тебе ключ.`, { parse_mode: 'Markdown' });
     }
 
+    // Ручная генерация ключа администратором (/gen <HWID> [дни])
+    if (text.startsWith('/gen')) {
+        if (chatId !== ADMIN_ID) {
+            return bot.sendMessage(chatId, '⛔ У вас нет прав на использование этой команды.');
+        }
+
+        const args = text.split(' ').filter(Boolean);
+        const hwid = args[1];
+        const days = parseInt(args[2]) || 30;
+
+        if (!hwid) {
+            return bot.sendMessage(chatId, '⚠️ *Использование:* `/gen <HWID> [дни]`\n*Пример:* `/gen my_hwid_123 30`', { parse_mode: 'Markdown' });
+        }
+
+        if (bannedHwids.has(hwid)) {
+            return bot.sendMessage(chatId, `❌ HWID \`${hwid}\` находится в бане! Сначала разбаньте его.`, { parse_mode: 'Markdown' });
+        }
+
+        const newKey = 'LELYA-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+        const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
+
+        keysDb.set(newKey, { hwid, tgId: chatId, expiresAt });
+        saveData();
+
+        const targetTgId = pendingHwids.get(hwid);
+        if (targetTgId) {
+            bot.sendMessage(targetTgId, `🎉 **Твой ключ успешно выдан!**\n\nКлюч: \`${newKey}\`\nСрок: ${days} дн.`, { parse_mode: 'Markdown' }).catch(() => {});
+            pendingHwids.delete(hwid);
+        }
+
+        return bot.sendMessage(chatId, `✅ **Ключ сгенерирован!**\n\n*HWID:* \`${hwid}\`\n*Ключ:* \`${newKey}\`\n*Срок:* ${days} дней`, { parse_mode: 'Markdown' });
+    }
+
     if (chatId !== ADMIN_ID) {
         return bot.sendMessage(chatId, 'Чтобы получить ключ, обратитесь к создателю.');
     }
