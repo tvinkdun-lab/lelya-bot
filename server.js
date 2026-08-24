@@ -189,6 +189,56 @@ bot.on('message', (msg) => {
         return bot.sendMessage(chatId, `✅ **Ключ сгенерирован!**\n\n*HWID:* \`${hwid}\`\n*Ключ:* \`${newKey}\`\n*Срок:* ${days} дней`, { parse_mode: 'Markdown' });
     }
 
+    // Блокировка HWID администратором (/ban <HWID>)
+    if (text.startsWith('/ban')) {
+        if (chatId !== ADMIN_ID) {
+            return bot.sendMessage(chatId, '⛔ У вас нет прав на использование этой команды.');
+        }
+
+        const args = text.split(' ').filter(Boolean);
+        const hwid = args[1];
+
+        if (!hwid) {
+            return bot.sendMessage(chatId, '⚠️ *Использование:* `/ban <HWID>`\n*Пример:* `/ban my_hwid_123`', { parse_mode: 'Markdown' });
+        }
+
+        if (bannedHwids.has(hwid)) {
+            return bot.sendMessage(chatId, `⚠️ HWID \`${hwid}\` уже заблокирован.`, { parse_mode: 'Markdown' });
+        }
+
+        bannedHwids.add(hwid);
+        for (let [k, v] of keysDb.entries()) {
+            if (v.hwid === hwid) keysDb.delete(k);
+        }
+        pendingHwids.delete(hwid);
+        saveData();
+
+        return bot.sendMessage(chatId, `🚫 **HWID \`${hwid}\` заблокирован.** Все привязанные ключи удалены.`, { parse_mode: 'Markdown' });
+    }
+
+    // Разблокировка HWID администратором (/unban <HWID>)
+    if (text.startsWith('/unban')) {
+        if (chatId !== ADMIN_ID) {
+            return bot.sendMessage(chatId, '⛔ У вас нет прав на использование этой команды.');
+        }
+
+        const args = text.split(' ').filter(Boolean);
+        const hwid = args[1];
+
+        if (!hwid) {
+            return bot.sendMessage(chatId, '⚠️ *Использование:* `/unban <HWID>`\n*Пример:* `/unban my_hwid_123`', { parse_mode: 'Markdown' });
+        }
+
+        if (!bannedHwids.has(hwid)) {
+            return bot.sendMessage(chatId, `⚠️ HWID \`${hwid}\` не находится в бан-листе.`, { parse_mode: 'Markdown' });
+        }
+
+        bannedHwids.delete(hwid);
+        saveData();
+
+        return bot.sendMessage(chatId, `✅ **HWID \`${hwid}\` успешно разблокирован.**`, { parse_mode: 'Markdown' });
+    }
+
     if (chatId !== ADMIN_ID) {
         return bot.sendMessage(chatId, 'Чтобы получить ключ, обратитесь к создателю.');
     }
