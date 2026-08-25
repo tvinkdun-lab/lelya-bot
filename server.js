@@ -7,30 +7,38 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Твои данные
+// Твои данные бота и админа
 const BOT_TOKEN = '8790088326:AAH1h0kbxX5p832XGL9R0JPDlf3-hQH63ww';
 const ADMIN_ID = 5773841673;
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 const TOKENS_FILE = './tokens.json';
 
+// Функция загрузки токенов из файла
 function loadTokens() {
     if (!fs.existsSync(TOKENS_FILE)) {
         fs.writeFileSync(TOKENS_FILE, JSON.stringify({}));
     }
-    return JSON.parse(fs.readFileSync(TOKENS_FILE, 'utf8'));
+    try {
+        return JSON.parse(fs.readFileSync(TOKENS_FILE, 'utf8'));
+    } catch (e) {
+        return {};
+    }
 }
 
+// Функция сохранения токенов в файл
 function saveTokens(tokens) {
     fs.writeFileSync(TOKENS_FILE, JSON.stringify(tokens, null, 2));
 }
 
 // Эндпоинт для проверки токена лоадером
 app.get('/verify', (req, res) => {
-    const token = req.query.token;
+    const token = req.query.token ? req.query.token.trim() : '';
     if (!token) return res.json({ status: 'error', message: 'Токен не указан' });
 
     const tokens = loadTokens();
+    console.log('Попытка входа с токеном:', token);
+
     const tokenData = tokens[token];
 
     if (!tokenData) return res.json({ status: 'error', message: 'Неверный токен' });
@@ -39,30 +47,33 @@ app.get('/verify', (req, res) => {
     return res.json({ status: 'success' });
 });
 
-// Команды бота
+// Команда /start в Telegram
 bot.onText(/\/start/, (msg) => {
     bot.sendMessage(msg.chat.id, '👋 Привет! Добро пожаловать в бота LelyaHack.');
 });
 
-bot.onText(/\/gentoken/, (msg) => {
+// Команда создания токена: /gentoken или /gentoken vitamin
+bot.onText(/\/gentoken(?:\s+(.+))?/, (msg, match) => {
     if (msg.from.id !== ADMIN_ID) return bot.sendMessage(msg.chat.id, '⛔ У тебя нет прав.');
 
     const tokens = loadTokens();
-    const newToken = 'TOK-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+    // Если указал слово после команды — используем его, иначе генерируем случайный
+    const newToken = match[1] ? match[1].trim() : ('TOK-' + Math.random().toString(36).substring(2, 10).toUpperCase());
 
     tokens[newToken] = { status: 'active', createdAt: new Date().toISOString() };
     saveTokens(tokens);
 
-    bot.sendMessage(msg.chat.id, `✅ Новый токен:\n\`${newToken}\``, { parse_mode: 'Markdown' });
+    bot.sendMessage(msg.chat.id, `✅ Токен успешно создан:\n\`${newToken}\``, { parse_mode: 'Markdown' });
 });
 
+// Команда бана токена: /bantoken vitamin
 bot.onText(/\/bantoken (.+)/, (msg, match) => {
     if (msg.from.id !== ADMIN_ID) return bot.sendMessage(msg.chat.id, '⛔ У тебя нет прав.');
 
     const tokenToBan = match[1].trim();
     const tokens = loadTokens();
 
-    if (!tokens[tokenToBan]) return bot.sendMessage(msg.chat.id, '❌ Токен не найден.');
+    if (!tokens[tokenToBan]) return bot.sendMessage(msg.chat.id, '❌ Такой токен не найден.');
 
     tokens[tokenToBan].status = 'banned';
     saveTokens(tokens);
