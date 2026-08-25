@@ -1,9 +1,11 @@
 const { Telegraf } = require('telegraf');
 const fs = require('fs');
 
-const bot = new Telegraf('8790088326:AAH1h0kbxX5p832XGL9R0JPDlf3-hQH63ww');
-const ADMIN_ID = 5773841673; // Замени на свой Telegram ID для доступа к админке
+// Твои данные
+const BOT_TOKEN = '8790088326:AAH1h0kbxX5p832XGL9R0JPDlf3-hQH63ww';
+const ADMIN_ID = 5773841673;
 
+const bot = new Telegraf(BOT_TOKEN);
 const TOKENS_FILE = './tokens.json';
 
 // Функция загрузки токенов
@@ -19,9 +21,17 @@ function saveTokens(tokens) {
     fs.writeFileSync(TOKENS_FILE, JSON.stringify(tokens, null, 2));
 }
 
-// 1. Генерация токена (Только для админа)
+// Команда /start (приветствие и кнопка получения токена)
+bot.start((ctx) => {
+    ctx.reply(
+        '👋 Привет! Добро пожаловать в бота LelyaHack.\n\n' +
+        'Чтобы получить токен доступа к скрипту, обратитесь к администратору или запросите его.'
+    );
+});
+
+// 1. Генерация токена (Только для тебя)
 bot.command('gentoken', (ctx) => {
-    if (ctx.from.id !== ADMIN_ID) return ctx.reply('⛔ У тебя нет прав.');
+    if (ctx.from.id !== ADMIN_ID) return ctx.reply('⛔ У тебя нет прав администратора.');
 
     const tokens = loadTokens();
     const newToken = 'TOK-' + Math.random().toString(36).substring(2, 10).toUpperCase();
@@ -36,14 +46,14 @@ bot.command('gentoken', (ctx) => {
     ctx.reply(`✅ Успешно создан новый токен:\n\`${newToken}\``, { parse_mode: 'Markdown' });
 });
 
-// 2. Бан / Удаление токена (Только для админа)
+// 2. Бан токена (Только для тебя)
 bot.command('bantoken', (ctx) => {
-    if (ctx.from.id !== ADMIN_ID) return ctx.reply('⛔ У тебя нет прав.');
+    if (ctx.from.id !== ADMIN_ID) return ctx.reply('⛔ У тебя нет прав администратора.');
 
     const args = ctx.message.text.split(' ');
     const tokenToBan = args[1];
 
-    if (!tokenToBan) return ctx.reply('ℹ️ Использование: /bantoken <ТОКЕН>');
+    if (!tokenToBan) return ctx.reply('ℹ️ Использование: `/bantoken TOK-XXXXXX`', { parse_mode: 'Markdown' });
 
     const tokens = loadTokens();
     if (!tokens[tokenToBan]) {
@@ -56,36 +66,10 @@ bot.command('bantoken', (ctx) => {
     ctx.reply(`🚫 Токен \`${tokenToBan}\` успешно забанен!`, { parse_mode: 'Markdown' });
 });
 
-// 3. Активация токена пользователем
-bot.command('activate', (ctx) => {
-    const args = ctx.message.text.split(' ');
-    const userToken = args[1];
-    const userId = ctx.from.id;
-
-    if (!userToken) return ctx.reply('ℹ️ Использование: /activate <ТОКЕН>');
-
-    const tokens = loadTokens();
-    const tokenData = tokens[userToken];
-
-    if (!tokenData) {
-        return ctx.reply('❌ Неверный токен.');
-    }
-
-    if (tokenData.status === 'banned') {
-        return ctx.reply('⛔ Этот токен заблокирован администратором.');
-    }
-
-    if (tokenData.status === 'used' && tokenData.userId !== userId) {
-        return ctx.reply('❌ Этот токен уже используется другим пользователем.');
-    }
-
-    // Привязываем токен к пользователю
-    tokens[userToken].status = 'used';
-    tokens[userToken].userId = userId;
-    saveTokens(tokens);
-
-    ctx.reply('🎉 Токен успешно активирован! Доступ разрешен.');
-});
-
+// Запуск бота
 bot.launch();
-console.log('Бот запущен!');
+console.log('🤖 Telegram-бот успешно запущен и готов к работе!');
+
+// Корреактная остановка
+process.once('SIGINT', () => bot.stop('SIGINT'));
+process.once('SIGTERM', () => bot.stop('SIGTERM'));
